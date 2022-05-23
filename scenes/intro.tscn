@@ -19,4 +19,6 @@ margin_left = 400.0
 margin_top = 771.0
 margin_right = -400.0
 margin_bottom = 893.0
+custom_colors/font_color = Color( 0.847059, 0.776471, 0.321569, 1 )
 text = "Click to continue"
+flat = true

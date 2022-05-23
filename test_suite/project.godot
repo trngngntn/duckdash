@@ -9,11 +9,6 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "",
-"class": "GitAPI",
-"language": "NativeScript",
-"path": "res://addons/godot-git-plugin/git_api.gdns"
-}, {
 "base": "Reference",
 "class": "NakamaAPI",
 "language": "GDScript",
@@ -85,7 +80,6 @@ _global_script_classes=[ {
 "path": "res://addons/com.heroiclabs.nakama/api/NakamaWriteStorageObject.gd"
 } ]
 _global_script_class_icons={
-"GitAPI": "",
 "NakamaAPI": "",
 "NakamaAsyncResult": "",
 "NakamaClient": "",
@@ -104,62 +98,9 @@ _global_script_class_icons={
 
 [application]
 
-config/name="DuckDash"
-config/description="Duck Souls a.k.a. DuckDash: Homecoming"
-run/main_scene="res://scenes/mock_up_in_game.tscn"
-config/icon="res://icon.png"
+run/main_scene="res://tester.tscn"
 
-[display]
+[autoload]
 
-window/size/width=1920
-window/size/height=1080
-window/size/borderless=true
-window/size/fullscreen=true
-window/vsync/vsync_via_compositor=true
-
-[gdnative]
-
-singletons=[ "res://addons/godot-git-plugin/git_api.gdnlib" ]
-
-[input]
-
-move_up={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":87,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
-}
-move_down={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":83,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
-}
-move_left={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":65,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
-}
-move_right={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":68,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
-}
-move_dash={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
-}
-attack={
-"deadzone": 0.5,
-"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
- ]
-}
-
-[physics]
-
-common/enable_pause_aware_picking=true
-
-[rendering]
-
-2d/snapping/use_gpu_pixel_snap=true
-quality/lightmapping/use_bicubic_sampling=false
-environment/default_environment="res://default_env.tres"
+Nakama="*res://addons/com.heroiclabs.nakama/Nakama.gd"
+Config="*res://utils/config.gd"

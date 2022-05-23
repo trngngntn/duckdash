@@ -20,10 +20,8 @@ margin_top = 200.0
 margin_bottom = -630.0
 bbcode_enabled = true
 bbcode_text = "[center][b]Duck Souls[/b][/center]
-
 [center]Sign in[/center]"
 text = "Duck Souls
-
 Sign in"
 
 [node name="UsernameLineEdit" type="LineEdit" parent="."]
@@ -45,6 +43,7 @@ margin_right = -600.0
 margin_bottom = -310.0
 align = 1
 secret = true
+secret_character = "•"
 placeholder_text = "Password"
 
 [node name="LoginButton" type="Button" parent="."]

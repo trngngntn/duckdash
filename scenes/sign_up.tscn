@@ -20,10 +20,8 @@ margin_top = 50.0
 margin_bottom = -780.0
 bbcode_enabled = true
 bbcode_text = "[center][b]Duck Souls[/b][/center]
-
 [center]Sign up now![/center]"
 text = "Duck Souls
-
 Sign up now!"
 
 [node name="EmailLineEdit" type="LineEdit" parent="."]
@@ -55,6 +53,7 @@ margin_right = -600.0
 margin_bottom = -360.0
 align = 1
 secret = true
+secret_character = "•"
 placeholder_text = "Password"
 
 [node name="ConfirmPasswordLineEdit" type="LineEdit" parent="."]
@@ -66,13 +65,14 @@ margin_right = -600.0
 margin_bottom = -210.0
 align = 1
 secret = true
+secret_character = "•"
 placeholder_text = "Confirm Password"
 
 [node name="RegisterButton" type="Button" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 700.0
-margin_top = 900.0
+margin_top = 910.0
 margin_right = -700.0
 margin_bottom = -60.0
 text = "Register"
