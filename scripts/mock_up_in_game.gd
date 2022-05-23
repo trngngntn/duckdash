@@ -5,13 +5,14 @@ extends Node
 # var a = 2
 # var b = "text"
 var duck
-var mob_spawn_range = 20
+var mob_spawn_range = 1200
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_initPlayer()
 	randomize()
 	$MobSpawnTimer.start()
+	#print($WallTileMap.get_cellv(Vector2(-1,0)))
 
 func _initPlayer():
 	duck = preload("res://scenes/duck.tscn").instance()
@@ -32,11 +33,12 @@ func _process(_delta):
 
 
 func _on_MobSpawnTimer_timeout():
-	var rand_point = Vector2(rand_range(-1,1), rand_range(-1,1)).normalized() * mob_spawn_range + duck.position
-	if $WallTileMap.get_cellv(rand_point) != TileMap.INVALID_CELL:
-		var mob = preload("res://scenes/enemies/enemy_slime.tscn").instance()
-		mob.position = rand_point
-		add_child(mob)
+	var rand_point = duck.position + Vector2(rand_range(-1,1), rand_range(-1,1)).normalized() * mob_spawn_range
+	while $WallTileMap.get_cell(floor((rand_point.x - 64) / 128), floor(rand_point.y / 128)) != TileMap.INVALID_CELL:
+		rand_point = duck.position + Vector2(rand_range(-1,1), rand_range(-1,1)).normalized() * mob_spawn_range
+	var mob = preload("res://scenes/enemies/enemy_slime.tscn").instance()
+	mob.position = rand_point
+	add_child(mob)
 	#randomize()
 	
 
