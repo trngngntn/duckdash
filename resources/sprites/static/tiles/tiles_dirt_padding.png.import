@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tiles_dirt_ground.png-9d271e8857c9557af46e09dff872fb86.stex"
+path="res://.import/tiles_dirt_padding.png-2de1dcf1d9a7c86016d00a5a72807d68.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/static/tiles/tiles_dirt_ground.png"
-dest_files=[ "res://.import/tiles_dirt_ground.png-9d271e8857c9557af46e09dff872fb86.stex" ]
+source_file="res://resources/sprites/static/tiles/tiles_dirt_padding.png"
+dest_files=[ "res://.import/tiles_dirt_padding.png-2de1dcf1d9a7c86016d00a5a72807d68.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

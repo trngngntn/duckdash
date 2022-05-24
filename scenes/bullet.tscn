@@ -44,4 +44,5 @@ animation = "fly"
 position = Vector2( 12, 0 )
 shape = SubResource( 6 )
 
+[connection signal="area_entered" from="." to="." method="_on_Bullet_area_entered"]
 [connection signal="body_shape_entered" from="." to="." method="_on_Bullet_body_shape_entered"]

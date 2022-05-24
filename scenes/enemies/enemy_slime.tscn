@@ -39,14 +39,23 @@ animations = [ {
 radius = 39.0
 
 [node name="Slime" type="Area2D"]
+z_as_relative = false
+collision_layer = 4
+collision_mask = 2
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0, -26 )
 scale = Vector2( 4, 4 )
 z_as_relative = false
 frames = SubResource( 7 )
 animation = "move"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -8 )
+position = Vector2( 0, -34 )
 shape = SubResource( 8 )
+
+[node name="PathfindTimer" type="Timer" parent="."]
+
+[connection signal="area_entered" from="." to="." method="_on_Slime_area_entered"]
+[connection signal="timeout" from="PathfindTimer" to="." method="_on_PathfindTimer_timeout"]

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tiles_dirt_ground.png-9d271e8857c9557af46e09dff872fb86.stex"
+path="res://.import/tiles_wall_base.png-e87cd04c106cb5556a29811a234aad99.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/static/tiles/tiles_dirt_ground.png"
-dest_files=[ "res://.import/tiles_dirt_ground.png-9d271e8857c9557af46e09dff872fb86.stex" ]
+source_file="res://resources/sprites/static/tiles/tiles_wall_base.png"
+dest_files=[ "res://.import/tiles_wall_base.png-e87cd04c106cb5556a29811a234aad99.stex" ]
 
 [params]
 

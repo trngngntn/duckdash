@@ -34,3 +34,7 @@ func set_direction(pos, dir):
 
 func _on_Bullet_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
 	queue_free()
+
+
+func _on_Bullet_area_entered(area):
+	queue_free()
