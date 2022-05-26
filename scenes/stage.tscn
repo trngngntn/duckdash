@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://resources/tileset/tileset_generic.tres" type="TileSet" id=1]
+[ext_resource path="res://scripts/stage.gd" type="Script" id=2]
+
+[node name="Stage" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Navigation" type="Navigation2D" parent="."]
+
+[node name="GroundTileMap" type="TileMap" parent="Navigation"]
+scale = Vector2( 4, 4 )
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 32, 24 )
+format = 1
+
+[node name="YSort" type="YSort" parent="."]
+
+[node name="TileMap" type="TileMap" parent="YSort"]
+position = Vector2( 64, 48 )
+scale = Vector2( 4, 4 )
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 32, 24 )
+cell_y_sort = true
+format = 1
+
+[node name="MobSpawnerTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="MobSpawnerTimer" to="YSort/TileMap" method="_on_MobSpawnerTimer_timeout"]

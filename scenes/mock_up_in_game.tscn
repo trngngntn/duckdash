@@ -1,32 +1,13 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://resources/ui_theme.tres" type="Theme" id=1]
-[ext_resource path="res://resources/sprites/static/tiles/tileset_base_wall.tres" type="TileSet" id=2]
+[ext_resource path="res://scenes/stage.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/mock_up_in_game.gd" type="Script" id=3]
-[ext_resource path="res://resources/sprites/static/tiles/test_tile_set.tres" type="TileSet" id=4]
 
 [node name="MockUpInGame" type="Node"]
 script = ExtResource( 3 )
 
-[node name="Nav" type="Navigation2D" parent="."]
-
-[node name="GroundTileMap" type="TileMap" parent="Nav"]
-scale = Vector2( 4, 4 )
-tile_set = ExtResource( 4 )
-cell_size = Vector2( 32, 32 )
-format = 1
-
-[node name="YSort" type="YSort" parent="."]
-
-[node name="WallTileMap" type="TileMap" parent="YSort"]
-position = Vector2( 64, 64 )
-scale = Vector2( 4, 4 )
-tile_set = ExtResource( 2 )
-cell_size = Vector2( 32, 32 )
-cell_custom_transform = Transform2D( 32, 0, 0, 64, 0, 0 )
-cell_y_sort = true
-collision_layer = 3
-format = 1
+[node name="Stage" parent="." instance=ExtResource( 2 )]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -60,8 +41,3 @@ margin_bottom = 105.0
 bbcode_enabled = true
 bbcode_text = "[b]HP[/b]"
 text = "HP"
-
-[node name="MobSpawnTimer" type="Timer" parent="."]
-wait_time = 0.25
-
-[connection signal="timeout" from="MobSpawnTimer" to="." method="_on_MobSpawnTimer_timeout"]
