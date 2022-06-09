@@ -34,13 +34,13 @@ func _move_along_path(distance):
 	set_process(false)
 
 func _update_path():
-	path = get_node("../../Nav").get_simple_path(position, get_parent().get_parent().duck.position)
+	path = get_node("../../Navigation").get_simple_path(position, get_tree().get_nodes_in_group("duck").front().position)
 	path.remove(0)
 	set_process(true)
 
 
 func _on_PathfindTimer_timeout():
-	if(position.distance_to(get_parent().get_parent().duck.position) < 1500):
+	if(position.distance_to(get_tree().get_nodes_in_group("duck").front().position) < 1500):
 		_update_path()
 
 

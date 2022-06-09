@@ -39,6 +39,7 @@ animations = [ {
 radius = 39.0
 
 [node name="Slime" type="Area2D"]
+scale = Vector2( 0.5, 1 )
 z_as_relative = false
 collision_layer = 4
 collision_mask = 2

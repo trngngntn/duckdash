@@ -27,7 +27,7 @@ func _physics_process(delta):
 
 func set_direction(pos, dir):
 	direction = dir.normalized()
-	rotation = dir.angle()
+	$AnimatedSprite.rotation = dir.angle() + PI / 2
 	init_position = pos
 	position = pos
 

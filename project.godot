@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "KinematicBody2D",
+"class": "Duck",
+"language": "GDScript",
+"path": "res://scripts/duck.gd"
+}, {
 "base": "",
 "class": "GitAPI",
 "language": "NativeScript",
@@ -85,6 +90,7 @@ _global_script_classes=[ {
 "path": "res://addons/com.heroiclabs.nakama/api/NakamaWriteStorageObject.gd"
 } ]
 _global_script_class_icons={
+"Duck": "",
 "GitAPI": "",
 "NakamaAPI": "",
 "NakamaAsyncResult": "",
@@ -120,6 +126,30 @@ window/vsync/vsync_via_compositor=true
 [gdnative]
 
 singletons=[ "res://addons/godot-git-plugin/git_api.gdnlib" ]
+
+[importer_defaults]
+
+texture={
+"compress/bptc_ldr": 0,
+"compress/hdr_mode": 0,
+"compress/lossy_quality": 0.7,
+"compress/mode": 0,
+"compress/normal_map": 2,
+"detect_3d": true,
+"flags/anisotropic": false,
+"flags/filter": false,
+"flags/mipmaps": false,
+"flags/repeat": 0,
+"flags/srgb": 2,
+"process/HDR_as_SRGB": false,
+"process/fix_alpha_border": true,
+"process/invert_color": false,
+"process/normal_map_invert_y": false,
+"process/premult_alpha": false,
+"size_limit": 0,
+"stream": false,
+"svg/scale": 1.0
+}
 
 [input]
 
@@ -162,4 +192,5 @@ common/enable_pause_aware_picking=true
 
 2d/snapping/use_gpu_pixel_snap=true
 quality/lightmapping/use_bicubic_sampling=false
+environment/default_clear_color=Color( 1, 1, 1, 1 )
 environment/default_environment="res://default_env.tres"

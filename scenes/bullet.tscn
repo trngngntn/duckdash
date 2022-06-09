@@ -28,20 +28,20 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=6]
-radius = 19.0
+radius = 22.0227
 
 [node name="Bullet" type="Area2D"]
+scale = Vector2( 0.5, 1 )
 collision_layer = 2
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-rotation = 1.5708
 scale = Vector2( 4, 4 )
 frames = SubResource( 5 )
 animation = "fly"
+offset = Vector2( 0, 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 12, 0 )
 shape = SubResource( 6 )
 
 [connection signal="area_entered" from="." to="." method="_on_Bullet_area_entered"]

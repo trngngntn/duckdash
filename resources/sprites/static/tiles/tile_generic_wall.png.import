@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/duck_0.png-5089f2d6e4f535e806007c8056f80d14.stex"
+path="res://.import/tile_generic_wall.png-74f6b0f358a41ccafdf76b9c3c762035.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/animated/character/duck_0.png"
-dest_files=[ "res://.import/duck_0.png-5089f2d6e4f535e806007c8056f80d14.stex" ]
+source_file="res://resources/sprites/static/tiles/tile_generic_wall.png"
+dest_files=[ "res://.import/tile_generic_wall.png-74f6b0f358a41ccafdf76b9c3c762035.stex" ]
 
 [params]
 
@@ -18,7 +18,7 @@ compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
-compress/normal_map=0
+compress/normal_map=2
 flags/repeat=0
 flags/filter=false
 flags/mipmaps=false
