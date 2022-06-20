@@ -1,1 +1,1 @@
-# ducksouls
+# Nakama server files for DuckDash
