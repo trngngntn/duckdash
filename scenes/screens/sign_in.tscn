@@ -55,4 +55,24 @@ margin_right = -700.0
 margin_bottom = -110.0
 text = "Login"
 
+[node name="QuitButton" type="Button" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1340.0
+margin_top = 850.0
+margin_right = -60.0
+margin_bottom = -110.0
+text = "Quit"
+
+[node name="RegisterButton" type="Button" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 60.0
+margin_top = 850.0
+margin_right = -1340.0
+margin_bottom = -110.0
+text = "Register"
+
 [connection signal="pressed" from="LoginButton" to="." method="_on_LoginButton_pressed"]
+[connection signal="pressed" from="QuitButton" to="." method="_on_QuitButton_pressed"]
+[connection signal="pressed" from="RegisterButton" to="." method="_on_RegisterButton_pressed"]
