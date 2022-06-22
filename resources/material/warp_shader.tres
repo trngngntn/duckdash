@@ -17,13 +17,13 @@ vec2 remap(in vec2 oldUV){
 }
 
 vec2 perspective(in vec2 oldUV){
-	return vec2(oldUV.x / (2.5 - oldUV.y) , oldUV.y / (2.5 -oldUV.y)) / 0.5;
+	return vec2(oldUV.x / (2.0 - oldUV.y) , oldUV.y / (2.0 -oldUV.y)) / 0.5;
 }
 
 void fragment() {
 	//vec2 c = decoord(perspective(recoord(SCREEN_UV)));
 	//c = SCREEN_UV;
-    COLOR = texture(SCREEN_TEXTURE, decoord(remap(recoord(SCREEN_UV))));
+    COLOR = texture(SCREEN_TEXTURE, decoord(perspective(remap(recoord(SCREEN_UV)))));
 	//COLOR.r = c.x;
 	//COLOR.b = c.y;
 	//COLOR.g = 0.0;

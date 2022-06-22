@@ -10,7 +10,7 @@
 script = ExtResource( 3 )
 
 [node name="Stage" parent="." instance=ExtResource( 2 )]
-scale = Vector2( 0.25, 0.25 )
+scale = Vector2( 1, 1 )
 map_width = 30
 map_height = 30
 map_padding = 5
