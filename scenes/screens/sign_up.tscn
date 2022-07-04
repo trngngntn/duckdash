@@ -135,7 +135,17 @@ anchor_bottom = 1.0
 margin_left = 700.0
 margin_top = 910.0
 margin_right = -700.0
-margin_bottom = -60.0
+margin_bottom = -50.0
 text = "Register"
 
+[node name="BackButton" type="Button" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 60.0
+margin_top = 50.0
+margin_right = -1600.0
+margin_bottom = -910.0
+text = "Back"
+
 [connection signal="pressed" from="RegisterButton" to="." method="_on_RegisterButton_pressed"]
+[connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]

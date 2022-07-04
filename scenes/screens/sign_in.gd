@@ -24,3 +24,10 @@ func _on_LoginButton_pressed():
 	var email: String = $UsernameLineEdit.text
 	var pwd: String = $PasswordLineEdit.text
 	_login(email, pwd)
+
+
+func _on_RegisterButton_pressed():
+	get_tree().change_scene("res://scenes/screens/sign_up.tscn")
+	
+func _on_QuitButton_pressed():
+	get_tree().quit()

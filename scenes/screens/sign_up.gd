@@ -86,3 +86,7 @@ func _on_RegisterButton_pressed():
 	var usr = $UsernameLineEdit.text
 	var pwd = $PasswordLineEdit.text
 	_register(email, usr, pwd)
+
+
+func _on_BackButton_pressed():
+	get_tree().change_scene("res://scenes/screens/sign_in.tscn")
