@@ -1,29 +1,18 @@
 extends KinematicBody2D
-
 class_name Duck
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-var direction = Vector2()
-var speed = 300
-var dash_speed = 50
-var dash_range = 400
+
+var direction : Vector2
+var speed : float = 300
+var dash_speed : float= 1200
+var dash_range : float = 400
 var is_dashing = false
-var dash_dest = Vector2()
+var dash_dest : Vector2
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass  # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta) -> void:
-	pass
-
-
-func _physics_process(delta) -> void:
-	_update_position()
 
 
 func _update_position() -> void:
@@ -44,7 +33,10 @@ func _update_position() -> void:
 		if Input.is_action_pressed("move_right"):
 			direction.x += 1
 		if direction.length() > 0:
-			$AnimatedSprite.play("run")
+			if direction.x > 0:
+				$AnimatedSprite.play("move_right")
+			else:
+				$AnimatedSprite.play("move_left")
 			direction = direction.normalized()
 			move_and_slide(direction * speed)
 		else:

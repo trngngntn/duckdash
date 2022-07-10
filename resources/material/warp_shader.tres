@@ -23,7 +23,7 @@ vec2 perspective(in vec2 oldUV){
 void fragment() {
 	//vec2 c = decoord(perspective(recoord(SCREEN_UV)));
 	//c = SCREEN_UV;
-    COLOR = texture(SCREEN_TEXTURE, decoord(perspective(remap(recoord(SCREEN_UV)))));
+    COLOR = texture(SCREEN_TEXTURE, decoord(remap(recoord(SCREEN_UV))));
 	//COLOR.r = c.x;
 	//COLOR.b = c.y;
 	//COLOR.g = 0.0;

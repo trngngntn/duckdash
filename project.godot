@@ -9,15 +9,35 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Sprite",
+"class": "DashShadow",
+"language": "GDScript",
+"path": "res://scripts/character/duck_dash_shadow.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Duck",
 "language": "GDScript",
-"path": "res://scripts/duck.gd"
+"path": "res://scripts/character/duck.gd"
+}, {
+"base": "State",
+"class": "DuckState",
+"language": "GDScript",
+"path": "res://scripts/character/duck_state.gd"
 }, {
 "base": "",
 "class": "GitAPI",
 "language": "NativeScript",
 "path": "res://addons/godot-git-plugin/git_api.gdns"
+}, {
+"base": "Node",
+"class": "MapGenStrategy",
+"language": "GDScript",
+"path": "res://scripts/map/map_gen_strategy.gd"
+}, {
+"base": "Node",
+"class": "MapGenerator",
+"language": "GDScript",
+"path": "res://scripts/map/map_generator.gd"
 }, {
 "base": "Reference",
 "class": "NakamaAPI",
@@ -88,10 +108,24 @@ _global_script_classes=[ {
 "class": "NakamaWriteStorageObject",
 "language": "GDScript",
 "path": "res://addons/com.heroiclabs.nakama/api/NakamaWriteStorageObject.gd"
+}, {
+"base": "Node",
+"class": "State",
+"language": "GDScript",
+"path": "res://scripts/character/state.gd"
+}, {
+"base": "Node",
+"class": "StateMachine",
+"language": "GDScript",
+"path": "res://scripts/character/state_machine.gd"
 } ]
 _global_script_class_icons={
+"DashShadow": "",
 "Duck": "",
+"DuckState": "",
 "GitAPI": "",
+"MapGenStrategy": "",
+"MapGenerator": "",
 "NakamaAPI": "",
 "NakamaAsyncResult": "",
 "NakamaClient": "",
@@ -105,7 +139,9 @@ _global_script_class_icons={
 "NakamaSocket": "",
 "NakamaSocketAdapter": "",
 "NakamaStorageObjectId": "",
-"NakamaWriteStorageObject": ""
+"NakamaWriteStorageObject": "",
+"State": "",
+"StateMachine": ""
 }
 
 [application]

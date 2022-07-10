@@ -13,7 +13,7 @@ func _ready():
 
 
 func _init_player():
-	duck = preload("res://scenes/duck.tscn").instance()
+	duck = preload("res://scenes/character/duck.tscn").instance()
 	camera = Camera2D.new()
 	camera.current = true
 	add_child(camera)
