@@ -18,7 +18,6 @@ func _login(email: String, pwd: String) -> void:
 func _ready():
 	pass  # Replace with function body.
 
-
 #pressed signal of Login button
 func _on_LoginButton_pressed():
 	var email: String = $UsernameLineEdit.text

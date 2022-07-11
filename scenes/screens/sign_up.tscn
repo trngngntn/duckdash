@@ -22,8 +22,10 @@ anchor_bottom = 1.0
 margin_top = 50.0
 margin_bottom = -904.0
 bbcode_enabled = true
-bbcode_text = "[center][b]Sign up now![/b][/center]"
-text = "Sign up now!"
+bbcode_text = "[center][b]Duckdash[/b]
+Homecomming[/center]"
+text = "Duckdash
+Homecomming"
 
 [node name="EmailLineEdit" type="LineEdit" parent="."]
 anchor_right = 1.0
