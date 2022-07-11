@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://resources/ui_theme.tres" type="Theme" id=1]
 [ext_resource path="res://resources/sprites/static/background.png" type="Texture" id=2]
 [ext_resource path="res://scenes/screens/sign_up.gd" type="Script" id=3]
 [ext_resource path="res://resources/font/ui_font_error.tres" type="DynamicFont" id=4]
+[ext_resource path="res://assets/sprites/static/ui/duck_dash_logo1.png" type="Texture" id=5]
 
 [node name="SignUp" type="Control"]
 anchor_right = 1.0
@@ -16,28 +17,79 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource( 2 )
 
-[node name="TitleLabel" type="RichTextLabel" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 50.0
-margin_bottom = -904.0
-bbcode_enabled = true
-bbcode_text = "[center][b]Duckdash[/b]
-Homecomming[/center]"
-text = "Duckdash
-Homecomming"
+custom_constants/margin_right = 30
+custom_constants/margin_top = 30
+custom_constants/margin_left = 30
+custom_constants/margin_bottom = 30
 
-[node name="EmailLineEdit" type="LineEdit" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 600.0
-margin_top = 200.0
-margin_right = -600.0
-margin_bottom = -774.0
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+margin_left = 30.0
+margin_top = 30.0
+margin_right = 1890.0
+margin_bottom = 1050.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
+margin_right = 1860.0
+margin_bottom = 1020.0
+rect_min_size = Vector2( 0, 150 )
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/HBoxContainer"]
+margin_right = 212.0
+margin_bottom = 1020.0
+
+[node name="BackButton" type="Button" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer"]
+margin_right = 212.0
+margin_bottom = 104.0
+text = "Back"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer/HBoxContainer"]
+margin_left = 216.0
+margin_right = 1644.0
+margin_bottom = 1020.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 60
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer2"]
+margin_right = 1428.0
+margin_bottom = 250.0
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+margin_left = 414.0
+margin_right = 1014.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 600, 250 )
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer2"]
+margin_top = 310.0
+margin_right = 1428.0
+margin_bottom = 826.0
+custom_constants/margin_right = 300
+custom_constants/margin_top = 10
+custom_constants/margin_left = 300
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer"]
+margin_left = 300.0
+margin_top = 10.0
+margin_right = 1128.0
+margin_bottom = 516.0
+custom_constants/separation = 30
+
+[node name="EmailLineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
+margin_right = 828.0
+margin_bottom = 104.0
 align = 1
 placeholder_text = "E-mail"
 
-[node name="EmailErrorLabel" type="Label" parent="."]
+[node name="EmailErrorLabel" type="Label" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -51,18 +103,15 @@ text = "EMAIL_ERROR_email_error"
 align = 1
 valign = 1
 
-[node name="UsernameLineEdit" type="LineEdit" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 600.0
-margin_top = 350.0
-margin_right = -600.0
-margin_bottom = -624.0
+[node name="UsernameLineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
+margin_top = 134.0
+margin_right = 828.0
+margin_bottom = 238.0
 align = 1
 placeholder_text = "Name"
 caret_blink = true
 
-[node name="UsernameErrorLabel" type="Label" parent="."]
+[node name="UsernameErrorLabel" type="Label" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -77,19 +126,16 @@ text = "USR_ERROR_usr_error"
 align = 1
 valign = 1
 
-[node name="PasswordLineEdit" type="LineEdit" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 600.0
-margin_top = 500.0
-margin_right = -600.0
-margin_bottom = -474.0
+[node name="PasswordLineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
+margin_top = 268.0
+margin_right = 828.0
+margin_bottom = 372.0
 align = 1
 secret = true
 secret_character = "•"
 placeholder_text = "Password"
 
-[node name="PasswordErrorLabel" type="Label" parent="."]
+[node name="PasswordErrorLabel" type="Label" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -104,19 +150,16 @@ text = "PWD_ERROR_pwd_error"
 align = 1
 valign = 1
 
-[node name="CfPasswordLineEdit" type="LineEdit" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 600.0
-margin_top = 650.0
-margin_right = -600.0
-margin_bottom = -324.0
+[node name="CfPasswordLineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
+margin_top = 402.0
+margin_right = 828.0
+margin_bottom = 506.0
 align = 1
 secret = true
 secret_character = "•"
 placeholder_text = "Confirm Password"
 
-[node name="CfPasswordErrorLabel" type="Label" parent="."]
+[node name="CfPasswordErrorLabel" type="Label" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -131,23 +174,24 @@ text = "CFPWD_ERROR_cfpwd_error"
 align = 1
 valign = 1
 
-[node name="RegisterButton" type="Button" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 700.0
-margin_top = 910.0
-margin_right = -700.0
-margin_bottom = -50.0
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer2"]
+margin_top = 886.0
+margin_right = 1428.0
+margin_bottom = 990.0
+alignment = 1
+
+[node name="RegisterButton" type="Button" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer2"]
+margin_left = 514.0
+margin_right = 914.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 400, 0 )
 text = "Register"
 
-[node name="BackButton" type="Button" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 60.0
-margin_top = 50.0
-margin_right = -1600.0
-margin_bottom = -910.0
-text = "Back"
+[node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/HBoxContainer/HBoxContainer"]
+margin_left = 1648.0
+margin_right = 1860.0
+margin_bottom = 1020.0
+rect_min_size = Vector2( 212, 0 )
 
-[connection signal="pressed" from="RegisterButton" to="." method="_on_RegisterButton_pressed"]
-[connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/RegisterButton" to="." method="_on_RegisterButton_pressed"]
