@@ -1,22 +1,69 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://resources/sprites/static/background.png" type="Texture" id=1]
 [ext_resource path="res://resources/ui_theme.tres" type="Theme" id=2]
 [ext_resource path="res://scenes/screens/lobby_screen.gd" type="Script" id=3]
 
-[sub_resource type="Gradient" id=2]
-offsets = PoolRealArray( 1 )
-colors = PoolColorArray( 0, 0, 0, 1 )
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0, 0, 0, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+corner_detail = 20
 
-[sub_resource type="GradientTexture" id=1]
-gradient = SubResource( 2 )
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.760784, 0.376471, 1, 1 )
+border_blend = true
+corner_radius_top_left = 28
+corner_radius_bottom_left = 28
+corner_detail = 20
 
-[sub_resource type="Gradient" id=3]
-offsets = PoolRealArray( 0, 0.694805, 1 )
-colors = PoolColorArray( 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1 )
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.215686, 0.12549, 0.478431, 1 )
+border_blend = true
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_detail = 20
 
-[sub_resource type="GradientTexture" id=4]
-gradient = SubResource( 3 )
+[sub_resource type="StyleBoxFlat" id=9]
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.705882, 0.686275, 0.686275, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id=10]
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -85,7 +132,7 @@ margin_right = 980.0
 margin_bottom = 852.0
 size_flags_vertical = 3
 
-[node name="LobbySlot2" type="MarginContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer"]
+[node name="LobbySlot1" type="MarginContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer"]
 margin_right = 960.0
 margin_bottom = 190.0
 custom_constants/margin_right = 20
@@ -93,16 +140,101 @@ custom_constants/margin_top = 20
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot2"]
+[node name="Panel" type="Panel" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot1"]
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 940.0
 margin_bottom = 170.0
 rect_min_size = Vector2( 0, 150 )
 size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = SubResource( 1 )
-region_rect = Rect2( 689, 148, 0, 0 )
+custom_styles/panel = SubResource( 5 )
+
+[node name="Panel" type="Panel" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot1/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -300.0
+margin_bottom = -8.0
+custom_styles/panel = SubResource( 6 )
+
+[node name="Panel2" type="Panel" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot1/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 550.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -8.0
+custom_styles/panel = SubResource( 7 )
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot1"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 940.0
+margin_bottom = 170.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot1/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 900.0
+margin_bottom = 130.0
+
+[node name="Label" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot1/MarginContainer/HBoxContainer"]
+margin_top = 31.0
+margin_right = 529.0
+margin_bottom = 79.0
+rect_min_size = Vector2( 529, 0 )
+size_flags_horizontal = 3
+text = "Player name 1"
+
+[node name="Label2" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot1/MarginContainer/HBoxContainer"]
+margin_left = 533.0
+margin_top = 31.0
+margin_right = 880.0
+margin_bottom = 79.0
+size_flags_horizontal = 3
+text = "Ready status"
+align = 1
+
+[node name="LobbySlot2" type="MarginContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer"]
+margin_top = 194.0
+margin_right = 960.0
+margin_bottom = 384.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="Panel" type="Panel" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot2"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 940.0
+margin_bottom = 170.0
+rect_min_size = Vector2( 0, 150 )
+size_flags_horizontal = 3
+custom_styles/panel = SubResource( 5 )
+
+[node name="Panel" type="Panel" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot2/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -300.0
+margin_bottom = -8.0
+custom_styles/panel = SubResource( 6 )
+
+[node name="Panel2" type="Panel" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot2/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 550.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -8.0
+custom_styles/panel = SubResource( 7 )
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot2"]
 margin_left = 20.0
@@ -122,71 +254,20 @@ margin_bottom = 130.0
 
 [node name="Label" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot2/MarginContainer/HBoxContainer"]
 margin_top = 31.0
-margin_right = 438.0
+margin_right = 529.0
 margin_bottom = 79.0
-size_flags_horizontal = 3
-text = "Player name 1"
-
-[node name="Label2" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot2/MarginContainer/HBoxContainer"]
-margin_left = 442.0
-margin_top = 31.0
-margin_right = 880.0
-margin_bottom = 79.0
-size_flags_horizontal = 3
-text = "Ready status"
-align = 2
-
-[node name="LobbySlot" type="MarginContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer"]
-margin_top = 194.0
-margin_right = 960.0
-margin_bottom = 384.0
-custom_constants/margin_right = 20
-custom_constants/margin_top = 20
-custom_constants/margin_left = 20
-custom_constants/margin_bottom = 20
-
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot"]
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 940.0
-margin_bottom = 170.0
-rect_min_size = Vector2( 0, 150 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = SubResource( 1 )
-region_rect = Rect2( 689, 148, 0, 0 )
-
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot"]
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 940.0
-margin_bottom = 170.0
-custom_constants/margin_right = 20
-custom_constants/margin_top = 20
-custom_constants/margin_left = 20
-custom_constants/margin_bottom = 20
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot/MarginContainer"]
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 900.0
-margin_bottom = 130.0
-
-[node name="Label" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot/MarginContainer/HBoxContainer"]
-margin_top = 31.0
-margin_right = 438.0
-margin_bottom = 79.0
+rect_min_size = Vector2( 529, 0 )
 size_flags_horizontal = 3
 text = "Player name 2"
 
-[node name="Label2" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot/MarginContainer/HBoxContainer"]
-margin_left = 442.0
+[node name="Label2" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot2/MarginContainer/HBoxContainer"]
+margin_left = 533.0
 margin_top = 31.0
 margin_right = 880.0
 margin_bottom = 79.0
 size_flags_horizontal = 3
 text = "Ready status"
-align = 2
+align = 1
 
 [node name="LobbySlot3" type="MarginContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer"]
 margin_top = 388.0
@@ -197,16 +278,32 @@ custom_constants/margin_top = 20
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot3"]
+[node name="Panel" type="Panel" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot3"]
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 940.0
 margin_bottom = 170.0
 rect_min_size = Vector2( 0, 150 )
 size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = SubResource( 1 )
-region_rect = Rect2( 689, 148, 0, 0 )
+custom_styles/panel = SubResource( 5 )
+
+[node name="Panel" type="Panel" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot3/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -300.0
+margin_bottom = -8.0
+custom_styles/panel = SubResource( 6 )
+
+[node name="Panel2" type="Panel" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot3/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 550.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -8.0
+custom_styles/panel = SubResource( 7 )
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot3"]
 margin_left = 20.0
@@ -226,19 +323,20 @@ margin_bottom = 130.0
 
 [node name="Label" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot3/MarginContainer/HBoxContainer"]
 margin_top = 31.0
-margin_right = 438.0
+margin_right = 529.0
 margin_bottom = 79.0
+rect_min_size = Vector2( 529, 0 )
 size_flags_horizontal = 3
 text = "Player name 3"
 
 [node name="Label2" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot3/MarginContainer/HBoxContainer"]
-margin_left = 442.0
+margin_left = 533.0
 margin_top = 31.0
 margin_right = 880.0
 margin_bottom = 79.0
 size_flags_horizontal = 3
 text = "Ready status"
-align = 2
+align = 1
 
 [node name="LobbySlot4" type="MarginContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer"]
 margin_top = 582.0
@@ -249,16 +347,32 @@ custom_constants/margin_top = 20
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot4"]
+[node name="Panel" type="Panel" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot4"]
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 940.0
 margin_bottom = 170.0
 rect_min_size = Vector2( 0, 150 )
 size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = SubResource( 4 )
-region_rect = Rect2( 689, 148, 0, 0 )
+custom_styles/panel = SubResource( 5 )
+
+[node name="Panel" type="Panel" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot4/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -300.0
+margin_bottom = -8.0
+custom_styles/panel = SubResource( 6 )
+
+[node name="Panel2" type="Panel" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot4/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 550.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -8.0
+custom_styles/panel = SubResource( 7 )
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot4"]
 margin_left = 20.0
@@ -278,19 +392,20 @@ margin_bottom = 130.0
 
 [node name="Label" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot4/MarginContainer/HBoxContainer"]
 margin_top = 31.0
-margin_right = 438.0
+margin_right = 529.0
 margin_bottom = 79.0
+rect_min_size = Vector2( 529, 0 )
 size_flags_horizontal = 3
 text = "Player name 4"
 
 [node name="Label2" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/LobbySlotContainer/LobbySlot4/MarginContainer/HBoxContainer"]
-margin_left = 442.0
+margin_left = 533.0
 margin_top = 31.0
 margin_right = 880.0
 margin_bottom = 79.0
 size_flags_horizontal = 3
 text = "Ready status"
-align = 2
+align = 1
 
 [node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer"]
 margin_left = 1104.0
@@ -363,16 +478,12 @@ custom_constants/margin_top = 70
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/WeaponSlot"]
+[node name="Panel" type="Panel" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/WeaponSlot"]
 margin_left = 20.0
 margin_top = 70.0
 margin_right = 192.0
 margin_bottom = 330.0
-rect_min_size = Vector2( 0, 150 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = SubResource( 1 )
-region_rect = Rect2( 689, 148, 0, 0 )
+custom_styles/panel = SubResource( 9 )
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/WeaponSlot"]
 margin_left = 20.0
@@ -413,16 +524,12 @@ custom_constants/margin_top = 20
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/LobbySlot3"]
+[node name="Panel" type="Panel" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/LobbySlot3"]
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 258.0
 margin_bottom = 380.0
-rect_min_size = Vector2( 0, 150 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = SubResource( 1 )
-region_rect = Rect2( 689, 148, 0, 0 )
+custom_styles/panel = SubResource( 8 )
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/LobbySlot3"]
 margin_left = 20.0
@@ -458,16 +565,12 @@ custom_constants/margin_top = 20
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/LobbySlot2"]
+[node name="Panel" type="Panel" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/LobbySlot2"]
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 258.0
 margin_bottom = 170.0
-rect_min_size = Vector2( 0, 150 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = SubResource( 1 )
-region_rect = Rect2( 689, 148, 0, 0 )
+custom_styles/panel = SubResource( 10 )
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/LobbySlot2"]
 margin_left = 20.0
@@ -506,16 +609,12 @@ custom_constants/margin_top = 70
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/WingSlot"]
+[node name="Panel" type="Panel" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/WingSlot"]
 margin_left = 20.0
 margin_top = 70.0
 margin_right = 192.0
 margin_bottom = 330.0
-rect_min_size = Vector2( 0, 150 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = SubResource( 1 )
-region_rect = Rect2( 689, 148, 0, 0 )
+custom_styles/panel = SubResource( 9 )
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/WingSlot"]
 margin_left = 20.0
