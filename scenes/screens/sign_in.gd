@@ -7,7 +7,6 @@ func _ready():
 	if error_code != 0:
 		print("SCREEN_LOGIN_ERROR: ", error_code)
 
-
 #pressed signal of Login button
 func _on_LoginButton_pressed():
 	var email: String = $UsernameLineEdit.text
