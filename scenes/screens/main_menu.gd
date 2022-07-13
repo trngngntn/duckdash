@@ -8,7 +8,7 @@ extends Control
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if Conn.nkm_session == null:
-		get_tree().change_scene("res://scenes/screens/sign_in.tscn")
+		ScreenManager.change_screen(ScreenManager.SCREEN_LOGIN)
 	else:
 		$GreetingRichTextLabel.text = "Hello, " + Conn.nkm_session.username
 
@@ -19,7 +19,7 @@ func _ready():
 
 
 func _on_PlayButton_pressed():
-	pass # Replace with function body.
+	ScreenManager.change_screen(ScreenManager.SCREEN_LOBBY)
 
 
 func _on_InventoryButton_pressed():
