@@ -148,13 +148,15 @@ _global_script_class_icons={
 
 config/name="DuckDash"
 config/description="Duck Souls a.k.a. DuckDash: Homecoming"
-run/main_scene="res://scenes/mock_up_in_game.tscn"
+run/main_scene="res://scenes/main.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
 Nakama="*res://addons/com.heroiclabs.nakama/Nakama.gd"
 Conn="*res://scripts/autoload/conn.gd"
+NakamaMatch="*res://scripts/autoload/nakama_match.gd"
+ScreenManager="*res://scripts/screen_manager.gd"
 
 [display]
 

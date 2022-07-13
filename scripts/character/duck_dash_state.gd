@@ -9,7 +9,7 @@ var _shadow = preload("res://scenes/character/duck_dash_shadow.tscn")
 func _ready() -> void:
 	tween = Tween.new()
 	add_child(tween)
-	var _flag = tween.connect("tween_started", self, "_start_dash")
+	var _flag = tween.connect("tween_completed", self, "_end_dash")
 
 	timer = Timer.new()
 	add_child(timer)

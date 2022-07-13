@@ -10,6 +10,10 @@ export var initial_state := NodePath()
 # The current active state. At the start of the game, we get the `initial_state`.
 onready var state: State = get_node(initial_state)
 
+func _get_custom_rpc_methods() -> Array:
+	return [
+		"_remote_change_state"
+	]
 
 func _ready() -> void:
 	yield(owner, "ready")
@@ -37,6 +41,16 @@ func _physics_process(delta: float) -> void:
 # and calls its enter function.
 # It optionally takes a `msg` dictionary to pass to the next state's enter() function.
 func change_state(target_state_name: String, dat :={}) -> void:
+	if not has_node(target_state_name):
+		return
+
+	state.exit()
+	state = get_node(target_state_name)
+	state.enter(dat)
+	NakamaMatch.custom_rpc(self, "change_state", [target_state_name, dat])
+	emit_signal("transitioned", state.name)
+
+func _remote_change_state(target_state_name: String, dat :={}) -> void:
 	if not has_node(target_state_name):
 		return
 
