@@ -352,7 +352,7 @@ margin_bottom = 632.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="WeaponSlot" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer"]
 margin_right = 212.0
 margin_bottom = 350.0
 rect_min_size = Vector2( 212, 350 )
@@ -363,7 +363,7 @@ custom_constants/margin_top = 70
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/WeaponSlot"]
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer"]
 margin_left = 20.0
 margin_top = 70.0
 margin_right = 192.0
@@ -374,7 +374,7 @@ size_flags_vertical = 3
 texture = SubResource( 1 )
 region_rect = Rect2( 689, 148, 0, 0 )
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/WeaponSlot"]
+[node name="WeaponSlot" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer"]
 margin_left = 20.0
 margin_top = 70.0
 margin_right = 192.0
@@ -384,13 +384,13 @@ custom_constants/margin_top = 20
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/WeaponSlot/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer/WeaponSlot"]
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 152.0
 margin_bottom = 240.0
 
-[node name="Label" type="Label" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/WeaponSlot/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer/WeaponSlot/HBoxContainer"]
 margin_top = 60.0
 margin_right = 132.0
 margin_bottom = 159.0
@@ -404,7 +404,7 @@ margin_left = 216.0
 margin_right = 494.0
 margin_bottom = 632.0
 
-[node name="LobbySlot3" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer"]
 margin_right = 278.0
 margin_bottom = 400.0
 rect_min_size = Vector2( 0, 400 )
@@ -413,7 +413,7 @@ custom_constants/margin_top = 20
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/LobbySlot3"]
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/MarginContainer"]
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 258.0
@@ -424,7 +424,7 @@ size_flags_vertical = 3
 texture = SubResource( 1 )
 region_rect = Rect2( 689, 148, 0, 0 )
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/LobbySlot3"]
+[node name="ArmorSlot" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/MarginContainer"]
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 258.0
@@ -434,13 +434,13 @@ custom_constants/margin_top = 20
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/LobbySlot3/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/MarginContainer/ArmorSlot"]
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 218.0
 margin_bottom = 340.0
 
-[node name="Label" type="Label" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/LobbySlot3/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/MarginContainer/ArmorSlot/HBoxContainer"]
 margin_top = 136.0
 margin_right = 198.0
 margin_bottom = 184.0
@@ -448,7 +448,7 @@ size_flags_horizontal = 3
 text = "Armor slot"
 align = 1
 
-[node name="LobbySlot2" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer"]
 margin_top = 404.0
 margin_right = 278.0
 margin_bottom = 594.0
@@ -458,7 +458,7 @@ custom_constants/margin_top = 20
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/LobbySlot2"]
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/MarginContainer2"]
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 258.0
@@ -469,7 +469,7 @@ size_flags_vertical = 3
 texture = SubResource( 1 )
 region_rect = Rect2( 689, 148, 0, 0 )
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/LobbySlot2"]
+[node name="FeetSlot" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/MarginContainer2"]
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 258.0
@@ -479,14 +479,14 @@ custom_constants/margin_top = 20
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/LobbySlot2/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/MarginContainer2/FeetSlot"]
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 218.0
 margin_bottom = 130.0
 rect_min_size = Vector2( 0, 90 )
 
-[node name="Label" type="Label" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/LobbySlot2/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/MarginContainer2/FeetSlot/HBoxContainer"]
 margin_top = 31.0
 margin_right = 198.0
 margin_bottom = 79.0
@@ -494,7 +494,7 @@ size_flags_horizontal = 3
 text = "Feet slot"
 align = 1
 
-[node name="WingSlot" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer"]
 margin_left = 498.0
 margin_right = 710.0
 margin_bottom = 350.0
@@ -506,7 +506,7 @@ custom_constants/margin_top = 70
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/WingSlot"]
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer2"]
 margin_left = 20.0
 margin_top = 70.0
 margin_right = 192.0
@@ -517,7 +517,7 @@ size_flags_vertical = 3
 texture = SubResource( 1 )
 region_rect = Rect2( 689, 148, 0, 0 )
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/WingSlot"]
+[node name="WingSlot" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer2"]
 margin_left = 20.0
 margin_top = 70.0
 margin_right = 192.0
@@ -527,13 +527,13 @@ custom_constants/margin_top = 20
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/WingSlot/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer2/WingSlot"]
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 152.0
 margin_bottom = 240.0
 
-[node name="Label" type="Label" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/WingSlot/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer2/WingSlot/HBoxContainer"]
 margin_top = 60.0
 margin_right = 132.0
 margin_bottom = 159.0
@@ -599,4 +599,8 @@ size_flags_horizontal = 3
 text = "START GAME"
 
 [connection signal="pressed" from="HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/LeaveButton" to="." method="_on_LeaveButton_pressed"]
+[connection signal="gui_input" from="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer/WeaponSlot" to="." method="_on_WeaponSlot_gui_input"]
+[connection signal="gui_input" from="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/MarginContainer/ArmorSlot" to="." method="_on_ArmorSlot_gui_input"]
+[connection signal="gui_input" from="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/MarginContainer2/FeetSlot" to="." method="_on_FeetSlot_gui_input"]
+[connection signal="gui_input" from="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer2/WingSlot" to="." method="_on_WingSlot_gui_input"]
 [connection signal="pressed" from="HBoxContainer/MarginContainer2/VBoxContainer/MarginContainer2/HBoxContainer/MarginContainer2/StartGameButton" to="." method="_on_StartGameButton_pressed"]
