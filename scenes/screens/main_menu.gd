@@ -7,10 +7,11 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	print(Conn.nkm_session)
 	if Conn.nkm_session == null:
 		ScreenManager.change_screen(ScreenManager.SCREEN_LOGIN)
 	else:
-		$GreetingRichTextLabel.text = "Hello, " + Conn.nkm_session.username
+		$MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/GreetingLabel.text = "Hello, " + Conn.nkm_session.username
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -23,11 +24,11 @@ func _on_PlayButton_pressed():
 
 
 func _on_InventoryButton_pressed():
-	pass # Replace with function body.
+	ScreenManager.change_screen(ScreenManager.SCREEN_INVENTORY)
 
 
 func _on_MarketplaceButton_pressed():
-	pass # Replace with function body.
+	ScreenManager.change_screen(ScreenManager.SCREEN_MARKETPLACE)
 
 
 func _on_QuitButton_pressed():

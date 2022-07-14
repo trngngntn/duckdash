@@ -12,3 +12,7 @@ func _on_StartGameButton_pressed():
 	Conn.connect_nakama_socket()
 	NakamaMatch.create_match(Conn.nkm_socket)
 
+
+
+func _on_LeaveButton_pressed():
+	ScreenManager.change_screen(ScreenManager.SCREEN_MENU)

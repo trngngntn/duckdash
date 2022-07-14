@@ -4,6 +4,8 @@ const SCREEN_LOGIN = preload("res://scenes/screens/sign_in.tscn")
 const SCREEN_REGISTER = preload("res://scenes/screens/sign_up.tscn")
 const SCREEN_MENU = preload("res://scenes/screens/main_menu.tscn")
 const SCREEN_LOBBY = preload("res://scenes/screens/lobby.tscn")
+const SCREEN_INVENTORY = preload("res://scenes/screens/inventory.tscn")
+const SCREEN_MARKETPLACE = preload("res://scenes/screens/market_place.tscn")
 
 onready var main : Node = get_tree().current_scene
 onready var screen : Node = main.get_node("Screen")

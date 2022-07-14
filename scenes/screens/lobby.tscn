@@ -56,15 +56,15 @@ margin_bottom = 1030.0
 margin_right = 1000.0
 margin_bottom = 104.0
 
-[node name="Button" type="Button" parent="HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 203.0
+[node name="LeaveButton" type="Button" parent="HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 233.0
 margin_bottom = 104.0
-text = "Quit"
+text = "Leave"
 
-[node name="Label" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 207.0
+[node name="LobbyLabel" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 237.0
 margin_top = 28.0
-margin_right = 312.0
+margin_right = 342.0
 margin_bottom = 76.0
 text = "Lobby"
 
@@ -598,4 +598,5 @@ margin_bottom = 104.0
 size_flags_horizontal = 3
 text = "START GAME"
 
+[connection signal="pressed" from="HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/LeaveButton" to="." method="_on_LeaveButton_pressed"]
 [connection signal="pressed" from="HBoxContainer/MarginContainer2/VBoxContainer/MarginContainer2/HBoxContainer/MarginContainer2/StartGameButton" to="." method="_on_StartGameButton_pressed"]
