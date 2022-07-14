@@ -67,7 +67,7 @@ func is_nakama_socket_connected() -> bool:
 signal nakama_logged_in
 signal nakama_login_err(err)
 signal dev_auth
-signal dev_unauth
+signal dev_unauth(message)
 
 func login_async(email: String, pwd: String) -> void:
 	nkm_session = yield(

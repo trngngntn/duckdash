@@ -4,6 +4,7 @@ const SCREEN_LOGIN = preload("res://scenes/screens/sign_in.tscn")
 const SCREEN_REGISTER = preload("res://scenes/screens/sign_up.tscn")
 const SCREEN_MENU = preload("res://scenes/screens/main_menu.tscn")
 const SCREEN_LOBBY = preload("res://scenes/screens/lobby.tscn")
+const SCREEN_CHANGE_EQUIP = preload("res://scenes/screens/equipment_changing.tscn")
 const SCREEN_INVENTORY = preload("res://scenes/screens/inventory.tscn")
 const SCREEN_MARKETPLACE = preload("res://scenes/screens/market_place.tscn")
 
@@ -26,6 +27,6 @@ func change_screen(screen_res: Resource):
 func _on_NakamaConn_device_authorized() -> void:
 	change_screen(ScreenManager.SCREEN_MENU)
 	
-func _on_NakamaConn_device_unauthorized() -> void:
+func _on_NakamaConn_device_unauthorized(message) -> void:
 	change_screen(ScreenManager.SCREEN_LOGIN)
 	
