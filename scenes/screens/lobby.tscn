@@ -121,4 +121,4 @@ text = "Play"
 
 [connection signal="pressed" from="Control/MarginContainer/PartySizeControl/SubButton" to="." method="_on_SubButton_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/PartySizeControl/AddButton" to="." method="_on_AddButton_pressed"]
-[connection signal="pressed" from="Control/ButtonContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="Control/ButtonContainer/ReadyButton" to="." method="_on_ReadyButton_pressed"]

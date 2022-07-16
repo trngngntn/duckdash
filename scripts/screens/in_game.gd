@@ -22,6 +22,8 @@ func _get_custom_rpc_methods() -> Array:
 	]
 
 func _ready() -> void:
+	if OS.get_name() != "Android":
+		$CanvasLayer/Control/MoveJoystick.visible = false
 	randomize()
 	var map_seed : int= randi()
 	var map_generator : MapGenerator= MapGenerator.new()

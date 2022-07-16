@@ -20,7 +20,7 @@ func _process(_delta) -> void:
 		var inac = dir.angle() / snap_angle
 		dir = Vector2(1, 0).rotated(snap_angle * int(round(inac)))
 
-	$Handle.position = dir * 10
+	$Handle.position = dir * 15
 	emit_signal("active", dir)
 
 

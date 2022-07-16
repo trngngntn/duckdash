@@ -9,6 +9,13 @@ func _set_go_back(flag : bool) -> void:
 	if go_back:
 		$UI/Titlebar/BackButton.visible = true
 
+func hide_background() -> void:
+	$Node2D/Background.visible = false
+
+
+func show_background() -> void:
+	$Node2D/Background.visible = true
+
 func hide_titlebar() -> void:
 	$UI/Titlebar.visible = false
 

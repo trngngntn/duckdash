@@ -8,6 +8,9 @@ var self_session_id: String
 var match_id: String
 var ticket: String
 
+var min_player: int = 2
+var max_player: int = 4
+
 #RPC
 var self_peer_id: int
 
@@ -89,7 +92,7 @@ func _set_nakama_socket(_nkm_socket: NakamaSocket) -> void:
 		nkm_socket.disconnect("received_error", self, "_on_nakama_error")
 		nkm_socket.disconnect("received_match_state", self, "_on_nakama_match_state")
 		nkm_socket.disconnect("received_match_presence", self, "_on_nakama_match_presence")
-		nkm_socket.disconnect("received_matchmaker_matched", self, "_on_nakama_matchmaker_matched")
+		nkm_socket.disconnect("received_matchmaker_matched", self, "_on_matchmaker_matched")
 
 	nkm_socket = _nkm_socket
 
@@ -99,7 +102,7 @@ func _set_nakama_socket(_nkm_socket: NakamaSocket) -> void:
 		nkm_socket.connect("received_error", self, "_on_nakama_error")
 		nkm_socket.connect("received_match_state", self, "_on_nakama_match_state")
 		nkm_socket.connect("received_match_presence", self, "_on_nakama_match_presence")
-		nkm_socket.connect("received_matchmaker_matched", self, "_on_nakama_matchmaker_matched")
+		nkm_socket.connect("received_matchmaker_matched", self, "_on_matchmaker_matched")
 
 
 func start_playing() -> void:
@@ -129,6 +132,14 @@ func leave(close_socket: bool = false) -> void:
 	match_state = MatchState.LOBBY
 	match_mode = MatchMode.NONE
 
+####-----------------------------------------------------------------------------------------------
+# match related function
+func _check_enough_players() -> void:
+	if players.size() >= min_player:
+		match_state = MatchState.READY;
+		emit_signal("match_ready", players)
+	else:
+		match_state = MatchState.WAITING_FOR_ENOUGH_PLAYERS
 
 func create_match(_nkm_socket: NakamaSocket) -> void:
 	leave()
@@ -153,14 +164,14 @@ func start_matchmaking(_nkm_socket: NakamaSocket, data: Dictionary = {}) -> void
 	match_mode = MatchMode.MATCHMAKER
 
 	# if data.has('min_count'):
-	# 	data['min_count'] = max(min_players, data['min_count'])
-	#   else:
-	# 	data['min_count'] = min_players
+	# 	data['min_count'] = max(min_player, data['min_count'])
+	# else:
+	# 	data['min_count'] = min_player
 
-	#   if data.has('max_count'):
-	# 	data['max_count'] = min(max_players, data['max_count'])
-	#   else:
-	# 	data['max_count'] = max_players
+	# if data.has('max_count'):
+	# 	data['max_count'] = min(max_player, data['max_count'])
+	# else:
+	# 	data['max_count'] = max_player
 
 	match_state = MatchState.MATCHING
 	var result = yield(
@@ -177,9 +188,12 @@ func start_matchmaking(_nkm_socket: NakamaSocket, data: Dictionary = {}) -> void
 		leave()
 		emit_signal("error", "Unable to join match making pool")
 	else:
+		print("MATCH_TICKET: " + str(result.ticket))
 		ticket = result.ticket
 
 
+####-----------------------------------------------------------------------------------------------
+# NakamaConn callbacks
 func _on_match_created(data: NakamaRTAPI.Match) -> void:
 	match_id = data.match_id
 	self_session_id = data.self_user.session_id
@@ -236,6 +250,8 @@ func _on_matchmaker_matched(data: NakamaRTAPI.MatchmakerMatched) -> void:
 		pass
 
 
+####-----------------------------------------------------------------------------------------------
+# custom RPC functions
 enum MatchOpCode { CUSTOM_RPC = 100 }
 
 
@@ -301,9 +317,9 @@ func _on_match_state_received(data: NakamaRTAPI.MatchData) -> void:
 func get_network_unique_id() -> int:
 	return self_peer_id
 
+
 func get_player_names_by_peer_id() -> Dictionary:
 	var result = {}
 	for session_id in players:
-		result[players[session_id]['peer_id']] = players[session_id]['username']
+		result[players[session_id]["peer_id"]] = players[session_id]["username"]
 	return result
-
