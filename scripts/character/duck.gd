@@ -25,14 +25,18 @@ func _update_position() -> void:
 			is_dashing = false
 	else:
 		direction = Vector2()
-		if Input.is_action_pressed("move_up"):
-			direction.y -= 1
-		if Input.is_action_pressed("move_down"):
-			direction.y += 1
-		if Input.is_action_pressed("move_left"):
-			direction.x -= 1
-		if Input.is_action_pressed("move_right"):
-			direction.x += 1
+		if OS.get_name() == "Android":
+			pass
+		else:
+			if Input.is_action_pressed("move_up"):
+				direction.y -= 1
+			if Input.is_action_pressed("move_down"):
+				direction.y += 1
+			if Input.is_action_pressed("move_left"):
+				direction.x -= 1
+			if Input.is_action_pressed("move_right"):
+				direction.x += 1
+
 		if direction.length() > 0:
 			if direction.x > 0:
 				$AnimatedSprite.play("move_right")

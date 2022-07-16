@@ -13,38 +13,36 @@ margin_bottom = -50.0
 theme = ExtResource( 1 )
 script = ExtResource( 3 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="InputFieldCont" type="VBoxContainer" parent="."]
 anchor_left = 0.25
 anchor_right = 0.75
 anchor_bottom = 0.8
-margin_right = 40.0
-margin_bottom = 40.0
 
-[node name="UsernameEdit" type="LineEdit" parent="VBoxContainer"]
-margin_right = 790.0
+[node name="UsernameEdit" type="LineEdit" parent="InputFieldCont"]
+margin_right = 750.0
 margin_bottom = 104.0
 rect_pivot_offset = Vector2( -1537, -253 )
 align = 1
 placeholder_text = "Username"
 
-[node name="EmailEdit" type="LineEdit" parent="VBoxContainer"]
+[node name="EmailEdit" type="LineEdit" parent="InputFieldCont"]
 margin_top = 108.0
-margin_right = 790.0
+margin_right = 750.0
 margin_bottom = 212.0
 align = 1
 placeholder_text = "E-mail"
 
-[node name="PasswordEdit" type="LineEdit" parent="VBoxContainer"]
+[node name="PasswordEdit" type="LineEdit" parent="InputFieldCont"]
 margin_top = 216.0
-margin_right = 790.0
+margin_right = 750.0
 margin_bottom = 320.0
 align = 1
 secret = true
 placeholder_text = "Password"
 
-[node name="ConfirmPasswordEdit" type="LineEdit" parent="VBoxContainer"]
+[node name="ConfirmPasswordEdit" type="LineEdit" parent="InputFieldCont"]
 margin_top = 324.0
-margin_right = 790.0
+margin_right = 750.0
 margin_bottom = 428.0
 align = 1
 secret = true

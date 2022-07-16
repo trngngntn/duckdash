@@ -28,7 +28,7 @@ func _ready():
 
 
 func _on_RegisterButton_pressed():
-	var email = $EmailEdit.text
-	var usr = $UsernameEdit.text
-	var pwd = $PasswordEdit.text
+	var email = $InputFieldCont/EmailEdit.text
+	var usr = $InputFieldCont/UsernameEdit.text
+	var pwd = $InputFieldCont/PasswordEdit.text
 	Conn.register_async(email, usr, pwd)

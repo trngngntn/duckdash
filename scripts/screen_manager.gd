@@ -18,6 +18,8 @@ onready var self_instance = self
 func _ready() -> void:
 	var _result := Conn.connect("dev_auth", self, "_on_NakamaConn_device_authorized")
 	_result = Conn.connect("dev_unauth", self, "_on_NakamaConn_device_unauthorized")
+	_result = Conn.connect("logged_in", self, "_on_NakamaConn_logged_in")
+	_result = Conn.connect("registered", self, "_on_NakamaConn_registered")
 	_result = main.connect("go_back", self, "_on_ScreenManager_go_back_pressed")
 	Conn.device_auth()
 
@@ -38,7 +40,7 @@ func change_screen(screen_res: Resource, go_back := true) -> Node:
 		go_back = false
 		screen_res_stack.clear()
 	else:
-		main.set_title(current_screen.get("TITLE"))
+		main.set_title(str(current_screen.get("TITLE")))
 
 	if screen_res_stack.back() != screen_res:
 		screen_res_stack.push_back(screen_res)
@@ -68,7 +70,6 @@ func connect_signal(signal_name: String, method: String) -> void:
 
 
 func _on_ScreenManager_go_back_pressed() -> void:
-	print("gobackkkk")
 	var _srcn = change_previous_screen()
 
 
@@ -80,3 +81,9 @@ func _on_NakamaConn_device_authorized() -> void:
 
 func _on_NakamaConn_device_unauthorized() -> void:
 	var _scr := change_screen(ScreenManager.SCREEN_LOGIN)
+
+func _on_NakamaConn_logged_in() -> void:
+	var _scr := change_screen(ScreenManager.SCREEN_MENU)
+
+func _on_NakamaConn_registered() -> void:
+	var _scr := change_screen(ScreenManager.SCREEN_MENU)
