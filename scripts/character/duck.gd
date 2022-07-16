@@ -13,7 +13,8 @@ var dash_dest : Vector2
 func _ready() -> void:
 	pass  # Replace with function body.
 
-
+func set_player_name(name: String) -> void:
+	$Label.text = name
 
 func _update_position() -> void:
 	if is_dashing:

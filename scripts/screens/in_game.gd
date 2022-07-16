@@ -28,7 +28,7 @@ func _ready() -> void:
 	var gen_stratergy = OpenSimplexNoiseStrategy.new()
 	map_generator.set_strategy(gen_stratergy)
 	map = map_generator.generate_map(map_seed)
-	add_child(map)
+	$Back.add_child(map)
 	pass
 
 func game_start(players: Dictionary) -> void:
@@ -48,15 +48,16 @@ func _setup(players: Dictionary) -> void:
 	#reload_map()
 
 	for player_id in players:
+		print("PLAYER: " + str(player_id))
 		var other_player = Player.instance()
 		other_player.name = str(player_id)
-		player_list.add_child(other_player)
+		map.player_cont.add_child(other_player)
 
 		other_player.set_network_master(player_id)
 		other_player.set_player_name(players[player_id])
-		other_player.position = map.get_node(
-			"PlayerStartPositions/Player" + str(player_id)
-		).position
+		# other_player.position = map.get_node(
+		# 	"PlayerStartPositions/Player" + str(player_id)
+		# ).position
 
 		other_player.connect("player_dead", self, "_on_player_dead", [player_id])
 
@@ -64,7 +65,10 @@ func _setup(players: Dictionary) -> void:
 		# 	other_player.player_controlled = true
 		# 	other_player.input_prefix = "player" + str(player_id) + "_"
 	var my_id: int = NakamaMatch.get_network_unique_id()
-	var my_player := player_list.get_node(str(my_id))
+	var my_player = map.player_cont.get_node(str(my_id))
+
+	$GameCamera.set_node_tracking(my_player)
+	$GameCamera.current = true
 
 	NakamaMatch.custom_rpc_id_sync(self, 1, "_finish_setup", [my_id])
 

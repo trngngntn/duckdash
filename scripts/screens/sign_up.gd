@@ -1,5 +1,7 @@
 extends Control
 
+const TITLE = "SIGN UP"
+
 const ERR_EMAIL_NULL: String = "email_null"
 const ERR_EMAIL_EXIST: String = "email_exist"
 const ERR_USR_NULL: String = "usr_null"
@@ -26,11 +28,7 @@ func _ready():
 
 
 func _on_RegisterButton_pressed():
-	var email = $EmailLineEdit.text
-	var usr = $UsernameLineEdit.text
-	var pwd = $PasswordLineEdit.text
+	var email = $EmailEdit.text
+	var usr = $UsernameEdit.text
+	var pwd = $PasswordEdit.text
 	Conn.register_async(email, usr, pwd)
-
-
-func _on_BackButton_pressed():
-	ScreenManager.change_screen(ScreenManager.SCREEN_LOGIN)

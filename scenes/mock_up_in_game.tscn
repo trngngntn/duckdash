@@ -19,6 +19,7 @@ threshold = 50
 [node name="ShaderLayer" type="CanvasLayer" parent="."]
 
 [node name="Warp" type="Sprite" parent="ShaderLayer"]
+visible = false
 material = ExtResource( 4 )
 position = Vector2( 960, 540 )
 texture = ExtResource( 5 )

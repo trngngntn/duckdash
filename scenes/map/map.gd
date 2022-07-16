@@ -19,6 +19,8 @@ var map_full_width: int
 onready var wall_tilemap = $YSort/TileMap
 onready var ground_tilemap = $Navigation/GroundTileMap
 
+onready var player_cont = $YSort/PlayerCont
+
 func _ready():
 	_display_map()
 
