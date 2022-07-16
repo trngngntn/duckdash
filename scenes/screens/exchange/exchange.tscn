@@ -1,0 +1,293 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://resources/ui_theme.tres" type="Theme" id=1]
+[ext_resource path="res://scenes/screens/exchange/exchange.gd" type="Script" id=3]
+[ext_resource path="res://scenes/ui/item.tscn" type="PackedScene" id=4]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.168627, 0, 0.290196, 1 )
+
+[node name="ExchangeScreen" type="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 3 )
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 1.0
+margin_bottom = 0.245972
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 50
+custom_constants/margin_top = 50
+custom_constants/margin_left = 50
+custom_constants/margin_bottom = 50
+
+[node name="Control" type="Control" parent="MarginContainer"]
+margin_left = 50.0
+margin_top = 50.0
+margin_right = 1871.0
+margin_bottom = 1030.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 30
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Control/VBoxContainer"]
+margin_right = 1821.0
+margin_bottom = 104.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Control/VBoxContainer/HBoxContainer"]
+margin_right = 410.0
+margin_bottom = 104.0
+custom_constants/separation = 30
+
+[node name="Button" type="Button" parent="MarginContainer/Control/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_right = 212.0
+margin_bottom = 104.0
+text = "Back"
+
+[node name="Label" type="Label" parent="MarginContainer/Control/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 242.0
+margin_top = 28.0
+margin_right = 410.0
+margin_bottom = 76.0
+text = "Exchange"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Control/VBoxContainer/HBoxContainer"]
+margin_left = 414.0
+margin_right = 1821.0
+margin_bottom = 104.0
+size_flags_horizontal = 3
+custom_constants/separation = 50
+alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Control/VBoxContainer/HBoxContainer/HBoxContainer2"]
+margin_left = 983.0
+margin_right = 1170.0
+margin_bottom = 104.0
+custom_constants/separation = 10
+
+[node name="Label" type="Label" parent="MarginContainer/Control/VBoxContainer/HBoxContainer/HBoxContainer2/HBoxContainer"]
+margin_top = 28.0
+margin_right = 114.0
+margin_bottom = 76.0
+text = "Coins:"
+
+[node name="Label2" type="Label" parent="MarginContainer/Control/VBoxContainer/HBoxContainer/HBoxContainer2/HBoxContainer"]
+margin_left = 124.0
+margin_top = 28.0
+margin_right = 187.0
+margin_bottom = 76.0
+text = "999"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Control/VBoxContainer/HBoxContainer/HBoxContainer2"]
+margin_left = 1220.0
+margin_right = 1407.0
+margin_bottom = 104.0
+custom_constants/separation = 10
+
+[node name="Label" type="Label" parent="MarginContainer/Control/VBoxContainer/HBoxContainer/HBoxContainer2/HBoxContainer2"]
+margin_top = 28.0
+margin_right = 114.0
+margin_bottom = 76.0
+text = "Souls:"
+
+[node name="Label2" type="Label" parent="MarginContainer/Control/VBoxContainer/HBoxContainer/HBoxContainer2/HBoxContainer2"]
+margin_left = 124.0
+margin_top = 28.0
+margin_right = 187.0
+margin_bottom = 76.0
+text = "999"
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/VBoxContainer"]
+margin_top = 134.0
+margin_right = 1821.0
+margin_bottom = 846.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TabContainer" type="TabContainer" parent="MarginContainer/Control/VBoxContainer/MarginContainer"]
+margin_right = 1821.0
+margin_bottom = 712.0
+size_flags_horizontal = 3
+tab_align = 0
+
+[node name="Weapon tab" type="Tabs" parent="MarginContainer/Control/VBoxContainer/MarginContainer/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+tab_align = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/Control/VBoxContainer/MarginContainer/TabContainer/Weapon tab"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = 20.0
+margin_right = -20.0
+margin_bottom = -20.0
+scroll_horizontal_enabled = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Control/VBoxContainer/MarginContainer/TabContainer/Weapon tab/ScrollContainer"]
+margin_right = 1773.0
+margin_bottom = 636.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/Control/VBoxContainer/MarginContainer/TabContainer/Weapon tab/ScrollContainer/HBoxContainer"]
+margin_right = 1773.0
+margin_bottom = 636.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/vseparation = 20
+custom_constants/hseparation = 20
+columns = 8
+
+[node name="Control" parent="MarginContainer/Control/VBoxContainer/MarginContainer/TabContainer/Weapon tab/ScrollContainer/HBoxContainer/GridContainer" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 221.0
+margin_bottom = 200.0
+
+[node name="Armor tab" type="Tabs" parent="MarginContainer/Control/VBoxContainer/MarginContainer/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+tab_align = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/Control/VBoxContainer/MarginContainer/TabContainer/Armor tab"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = 20.0
+margin_right = -20.0
+margin_bottom = -20.0
+scroll_horizontal_enabled = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Control/VBoxContainer/MarginContainer/TabContainer/Armor tab/ScrollContainer"]
+margin_right = 1773.0
+margin_bottom = 640.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/Control/VBoxContainer/MarginContainer/TabContainer/Armor tab/ScrollContainer/HBoxContainer"]
+margin_right = 1773.0
+margin_bottom = 636.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/vseparation = 20
+custom_constants/hseparation = 20
+columns = 8
+
+[node name="Control" parent="MarginContainer/Control/VBoxContainer/MarginContainer/TabContainer/Armor tab/ScrollContainer/HBoxContainer/GridContainer" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 221.0
+margin_bottom = 200.0
+
+[node name="Wing tab" type="Tabs" parent="MarginContainer/Control/VBoxContainer/MarginContainer/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+tab_align = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/Control/VBoxContainer/MarginContainer/TabContainer/Wing tab"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = 20.0
+margin_right = -20.0
+margin_bottom = -20.0
+scroll_horizontal_enabled = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Control/VBoxContainer/MarginContainer/TabContainer/Wing tab/ScrollContainer"]
+margin_right = 1773.0
+margin_bottom = 640.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/Control/VBoxContainer/MarginContainer/TabContainer/Wing tab/ScrollContainer/HBoxContainer"]
+margin_right = 1773.0
+margin_bottom = 636.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/vseparation = 20
+custom_constants/hseparation = 20
+columns = 8
+
+[node name="Control" parent="MarginContainer/Control/VBoxContainer/MarginContainer/TabContainer/Wing tab/ScrollContainer/HBoxContainer/GridContainer" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 221.0
+margin_bottom = 200.0
+
+[node name="Feet tab" type="Tabs" parent="MarginContainer/Control/VBoxContainer/MarginContainer/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+tab_align = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/Control/VBoxContainer/MarginContainer/TabContainer/Feet tab"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = 20.0
+margin_right = -20.0
+margin_bottom = -20.0
+scroll_horizontal_enabled = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Control/VBoxContainer/MarginContainer/TabContainer/Feet tab/ScrollContainer"]
+margin_right = 1773.0
+margin_bottom = 640.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/Control/VBoxContainer/MarginContainer/TabContainer/Feet tab/ScrollContainer/HBoxContainer"]
+margin_right = 1773.0
+margin_bottom = 636.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/vseparation = 20
+custom_constants/hseparation = 20
+columns = 8
+
+[node name="Control" parent="MarginContainer/Control/VBoxContainer/MarginContainer/TabContainer/Feet tab/ScrollContainer/HBoxContainer/GridContainer" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 221.0
+margin_bottom = 200.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Control/VBoxContainer"]
+margin_top = 876.0
+margin_right = 1821.0
+margin_bottom = 980.0
+custom_constants/separation = 30
+alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/Control/VBoxContainer/HBoxContainer2"]
+margin_left = 660.0
+margin_right = 1160.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 500, 0 )
+text = "EXCHANGE"
