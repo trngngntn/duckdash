@@ -1,4 +1,5 @@
 extends Node2D
+class_name Map
 
 const TILE_WALL = 1
 const TILE_GROUND = 0
@@ -17,6 +18,16 @@ var map_full_width: int
 
 onready var wall_tilemap = $YSort/TileMap
 onready var ground_tilemap = $Navigation/GroundTileMap
+
+func _ready():
+	_display_map()
+
+func set_data(data : Array) -> void:
+	_map_data = data
+	map_full_width = data.size() - 1
+	map_full_height = data[0].size() - 1
+	map_width = map_full_width / 2
+	map_height = map_full_height / 2
 
 func set_wall_tile(x: int, y: int) -> void:
 	_map_data[x][y] = 1

@@ -64,10 +64,10 @@ func is_nakama_socket_connected() -> bool:
 
 
 # login
-signal nakama_logged_in
+signal nakama_logged_in()
 signal nakama_login_err(err)
-signal dev_auth
-signal dev_unauth
+signal dev_auth()
+signal dev_unauth()
 
 func login_async(email: String, pwd: String) -> void:
 	nkm_session = yield(
@@ -89,7 +89,7 @@ func device_auth() -> void:
 	)
 	if nkm_session.is_exception():
 		print("LOGIN_ERR: " + nkm_session.get_exception().message)
-		emit_signal("dev_unauth", nkm_session.get_exception().message)
+		emit_signal("dev_unauth")
 		nkm_session = null
 	else:
 		print("LOGIN_LOG: Logged In using UID!")

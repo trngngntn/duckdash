@@ -74,7 +74,7 @@ margin_bottom = 104.0
 custom_constants/separation = 50
 alignment = 2
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+[node name="Username" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
 margin_left = 675.0
 margin_top = 28.0
 margin_right = 921.0

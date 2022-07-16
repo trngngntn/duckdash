@@ -10,7 +10,7 @@ func _ready():
 	if Conn.nkm_session == null:
 		ScreenManager.change_screen(ScreenManager.SCREEN_LOGIN)
 	else:
-		$GreetingRichTextLabel.text = "Hello, " + Conn.nkm_session.username
+		$MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/Username.text = "Hello, " + Conn.nkm_session.username
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

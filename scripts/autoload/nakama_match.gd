@@ -37,6 +37,20 @@ enum PlayerStatus {
 	CONNECTED = 1,
 }
 
+signal error(message)
+signal disconnected
+
+signal match_created(match_id)
+signal match_joined(match_id)
+signal matchmaker_matched(players)
+
+signal player_joined(player)
+signal player_left(player)
+signal player_status_changed(player, status)
+
+signal match_ready(players)
+signal match_not_ready
+
 
 class Player:
 	var session_id: String
@@ -86,6 +100,11 @@ func _set_nakama_socket(_nkm_socket: NakamaSocket) -> void:
 		nkm_socket.connect("received_match_state", self, "_on_nakama_match_state")
 		nkm_socket.connect("received_match_presence", self, "_on_nakama_match_presence")
 		nkm_socket.connect("received_matchmaker_matched", self, "_on_nakama_matchmaker_matched")
+
+
+func start_playing() -> void:
+	assert(match_state == MatchState.READY)
+	match_state = MatchState.PLAYING
 
 
 func leave(close_socket: bool = false) -> void:
@@ -277,3 +296,14 @@ func _on_match_state_received(data: NakamaRTAPI.MatchData) -> void:
 				push_warning("CUSTOM_RPC_ERR: rpc method is not valid")
 				return
 			node.callv(rpc_data["method"], str2var(rpc_data["args"]))
+
+
+func get_network_unique_id() -> int:
+	return self_peer_id
+
+func get_player_names_by_peer_id() -> Dictionary:
+	var result = {}
+	for session_id in players:
+		result[players[session_id]['peer_id']] = players[session_id]['username']
+	return result
+

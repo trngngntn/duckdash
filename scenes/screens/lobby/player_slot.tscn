@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://resources/ui/ui_textbox.tres" type="StyleBox" id=1]
+[ext_resource path="res://scripts/screens/lobby/player_slot.gd" type="Script" id=2]
+
+[node name="PlayerSlot" type="MarginContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 5
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 5
+script = ExtResource( 2 )
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+margin_left = 20.0
+margin_top = 5.0
+margin_right = 1580.0
+margin_bottom = 895.0
+custom_styles/panel = ExtResource( 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+margin_left = 64.0
+margin_top = 24.0
+margin_right = 1496.0
+margin_bottom = 858.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 10
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 10
+
+[node name="HSplit" type="HSplitContainer" parent="PanelContainer/MarginContainer"]
+margin_left = 20.0
+margin_top = 10.0
+margin_right = 1412.0
+margin_bottom = 824.0
+
+[node name="PlayerName" type="Label" parent="PanelContainer/MarginContainer/HSplit"]
+margin_top = 400.0
+margin_right = 1392.0
+margin_bottom = 414.0
+text = "PlayerName"
+valign = 1
+
+[node name="Status" type="Label" parent="PanelContainer/MarginContainer/HSplit"]
+visible = false
+margin_left = 89.0
+margin_top = 400.0
+margin_right = 1392.0
+margin_bottom = 414.0
+text = "Status"
+align = 2
+valign = 1

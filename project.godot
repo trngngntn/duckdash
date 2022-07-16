@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "NativeScript",
 "path": "res://addons/godot-git-plugin/git_api.gdns"
 }, {
+"base": "Node2D",
+"class": "Map",
+"language": "GDScript",
+"path": "res://scenes/map/map.gd"
+}, {
 "base": "Node",
 "class": "MapGenStrategy",
 "language": "GDScript",
@@ -109,6 +114,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/com.heroiclabs.nakama/api/NakamaWriteStorageObject.gd"
 }, {
+"base": "MapGenStrategy",
+"class": "OpenSimplexNoiseStrategy",
+"language": "GDScript",
+"path": "res://scripts/map/open_simplex_noise_strategy.gd"
+}, {
 "base": "Node",
 "class": "State",
 "language": "GDScript",
@@ -124,6 +134,7 @@ _global_script_class_icons={
 "Duck": "",
 "DuckState": "",
 "GitAPI": "",
+"Map": "",
 "MapGenStrategy": "",
 "MapGenerator": "",
 "NakamaAPI": "",
@@ -140,6 +151,7 @@ _global_script_class_icons={
 "NakamaSocketAdapter": "",
 "NakamaStorageObjectId": "",
 "NakamaWriteStorageObject": "",
+"OpenSimplexNoiseStrategy": "",
 "State": "",
 "StateMachine": ""
 }
@@ -147,7 +159,7 @@ _global_script_class_icons={
 [application]
 
 config/name="DuckDash"
-config/description="Duck Souls a.k.a. DuckDash: Homecoming"
+config/description="DuckDash: Homecoming"
 run/main_scene="res://scenes/main.tscn"
 config/icon="res://icon.png"
 
@@ -157,14 +169,15 @@ Nakama="*res://addons/com.heroiclabs.nakama/Nakama.gd"
 Conn="*res://scripts/autoload/conn.gd"
 NakamaMatch="*res://scripts/autoload/nakama_match.gd"
 ScreenManager="*res://scripts/screen_manager.gd"
+MatchManager="*res://scripts/match_manager.gd"
 
 [display]
 
-window/size/width=1920
-window/size/height=1080
-window/size/borderless=true
-window/size/fullscreen=true
+window/size/width=1600
+window/size/height=900
 window/vsync/vsync_via_compositor=true
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
 
 [gdnative]
 
