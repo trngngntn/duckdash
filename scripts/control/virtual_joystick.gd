@@ -40,6 +40,8 @@ func _on_Area2D_input_event(_viewport: Node, event: InputEvent, _shape_idx: int)
 			$Handle.position = Vector2(0, 0)
 			emit_signal("active", Vector2(0, 0))
 			set_process(false)
+		else:
+			set_process(true)
 
 
 func set_snap_step(step: int) -> void:

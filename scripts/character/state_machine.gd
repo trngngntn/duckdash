@@ -23,6 +23,8 @@ func _ready() -> void:
 		child.state_machine = self
 
 func start() -> void:
+	for child in get_children():
+		child.init()
 	state.enter({})
 
 # The state machine subscribes to node callbacks and delegates them to the state objects.

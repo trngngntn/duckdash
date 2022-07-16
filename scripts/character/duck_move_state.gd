@@ -6,11 +6,12 @@ var direction = Vector2()
 func _get_custom_rpc_methods() -> Array:
 	return ["_remote_physics_update"]
 
-
-func enter(_dat := {}) -> void:
+func init() -> void:
 	if player.joystick:
 		player.joystick.connect("active", self, "_on_joystick_active")
 
+func enter(_dat := {}) -> void:
+	pass
 
 func _remote_physics_update(direction) -> void:
 	player.move_and_slide(direction * player.speed)
@@ -47,5 +48,4 @@ func physics_update(_delta) -> void:
 
 
 func _on_joystick_active(data: Vector2) -> void:
-	print("bitch")
 	direction = data

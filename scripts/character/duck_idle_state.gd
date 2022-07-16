@@ -1,9 +1,10 @@
 extends DuckState
 
-
-func enter(_dat := {}) -> void:
+func init() -> void:
 	if player.joystick:
 		player.joystick.connect("active", self, "_on_joystick_active")
+		
+func enter(_dat := {}) -> void:
 	player.get_node("AnimatedSprite").play("idle_right")
 	#player.velocity = Vector2(0,0)
 

@@ -91,3 +91,6 @@ func _display_map() -> void:
 	wall_tilemap.update_bitmask_region(
 		Vector2(-map_width_padding, -map_height_padding), Vector2(map_width_padding, map_height_padding)
 	)
+
+func _on_MobSpawnerTimer_timeout():
+	pass
