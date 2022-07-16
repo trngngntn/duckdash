@@ -8,6 +8,8 @@ var dash_range : float = 400
 var is_dashing = false
 var dash_dest : Vector2
 
+var joystick: Joystick
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -15,6 +17,12 @@ func _ready() -> void:
 
 func set_player_name(name: String) -> void:
 	$Label.text = name
+
+func map_joystick(_joystick: Joystick) -> void:
+	joystick = _joystick
+
+func finish_setup() -> void:
+	$StateMachine.start()
 
 func _update_position() -> void:
 	if is_dashing:

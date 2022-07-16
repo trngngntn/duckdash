@@ -30,6 +30,11 @@ _global_script_classes=[ {
 "path": "res://addons/godot-git-plugin/git_api.gdns"
 }, {
 "base": "Node2D",
+"class": "Joystick",
+"language": "GDScript",
+"path": "res://scripts/control/virtual_joystick.gd"
+}, {
+"base": "Node2D",
 "class": "Map",
 "language": "GDScript",
 "path": "res://scenes/map/map.gd"
@@ -134,6 +139,7 @@ _global_script_class_icons={
 "Duck": "",
 "DuckState": "",
 "GitAPI": "",
+"Joystick": "",
 "Map": "",
 "MapGenStrategy": "",
 "MapGenerator": "",

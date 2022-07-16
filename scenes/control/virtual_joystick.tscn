@@ -8,7 +8,7 @@
 radius = 25.0
 
 [node name="VirtualJoystick" type="Node2D"]
-scale = Vector2( 4, 4 )
+scale = Vector2( 6, 6 )
 script = ExtResource( 3 )
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -25,5 +25,6 @@ texture = ExtResource( 1 )
 [node name="Handle" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 
+[connection signal="input_event" from="Area2D" to="." method="_on_Area2D_input_event"]
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_Area2D_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_Area2D_mouse_exited"]

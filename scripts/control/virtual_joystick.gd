@@ -1,4 +1,5 @@
 extends Node2D
+class_name Joystick
 
 signal active(data)
 
@@ -25,11 +26,20 @@ func _process(_delta) -> void:
 
 func _on_Area2D_mouse_exited() -> void:
 	$Handle.position = Vector2(0, 0)
+	emit_signal("active", Vector2(0, 0))
 	set_process(false)
 
 
 func _on_Area2D_mouse_entered() -> void:
 	set_process(true)
+
+
+func _on_Area2D_input_event(_viewport: Node, event: InputEvent, _shape_idx: int):
+	if event is InputEventScreenTouch:
+		if not event.is_pressed():
+			$Handle.position = Vector2(0, 0)
+			emit_signal("active", Vector2(0, 0))
+			set_process(false)
 
 
 func set_snap_step(step: int) -> void:
