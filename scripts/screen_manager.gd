@@ -8,12 +8,9 @@ const SCREEN_INGAME = preload("res://scenes/screens/in_game.tscn")
 const SCREEN_CHANGE_EQUIP = preload("res://scenes/screens/equipment_changing.tscn")
 const SCREEN_INVENTORY = preload("res://scenes/screens/inventory.tscn")
 const SCREEN_MARKETPLACE = preload("res://scenes/screens/market_place.tscn")
-<<<<<<< HEAD
-=======
 
 var screen_res_stack: Array = []
 var current_screen: Node
->>>>>>> trng/client
 
 signal screen_changed(screen)
 
