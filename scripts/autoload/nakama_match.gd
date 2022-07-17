@@ -90,7 +90,7 @@ func _set_nakama_socket(_nkm_socket: NakamaSocket) -> void:
 	if nkm_socket:
 		nkm_socket.disconnect("closed", self, "_on_nakama_closed")
 		nkm_socket.disconnect("received_error", self, "_on_nakama_error")
-		nkm_socket.disconnect("received_match_state", self, "_on_nakama_match_state")
+		nkm_socket.disconnect("received_match_state", self, "_on_match_state_received")
 		nkm_socket.disconnect("received_match_presence", self, "_on_nakama_match_presence")
 		nkm_socket.disconnect("received_matchmaker_matched", self, "_on_matchmaker_matched")
 
@@ -100,7 +100,7 @@ func _set_nakama_socket(_nkm_socket: NakamaSocket) -> void:
 	if nkm_socket:
 		nkm_socket.connect("closed", self, "_on_nakama_closed")
 		nkm_socket.connect("received_error", self, "_on_nakama_error")
-		nkm_socket.connect("received_match_state", self, "_on_nakama_match_state")
+		nkm_socket.connect("received_match_state", self, "_on_match_state_received")
 		nkm_socket.connect("received_match_presence", self, "_on_nakama_match_presence")
 		nkm_socket.connect("received_matchmaker_matched", self, "_on_matchmaker_matched")
 
@@ -111,7 +111,7 @@ func start_playing() -> void:
 
 
 func leave(close_socket: bool = false) -> void:
-	#Disconnect Nakama
+	#disconnect socket
 	if nkm_socket:
 		if match_id:
 			yield(nkm_socket.leave_match_async(match_id), "completed")
@@ -136,7 +136,7 @@ func leave(close_socket: bool = false) -> void:
 # match related function
 func _check_enough_players() -> void:
 	if players.size() >= min_player:
-		match_state = MatchState.READY;
+		match_state = MatchState.READY
 		emit_signal("match_ready", players)
 	else:
 		match_state = MatchState.WAITING_FOR_ENOUGH_PLAYERS
@@ -209,11 +209,10 @@ func _on_match_created(data: NakamaRTAPI.Match) -> void:
 func _on_match_joined(data: NakamaRTAPI.Match) -> void:
 	match_id = data.match_id
 	self_session_id = data.self_user.session_id
-
 	# if match_mode == MatchMode.JOIN:
 	# 	emit_signal("match_joined", match_id)
-	# elif match_mode == MatchMode.MATCHMAKER:
-	# 	_check_enough_player()
+	if match_mode == MatchMode.MATCHMAKER:
+		_check_enough_players()
 	pass
 
 
@@ -281,8 +280,8 @@ func custom_rpc_id(node: Node, id: int, method: String, args: Array = []) -> voi
 
 
 func custom_rpc_sync(node: Node, method: String, args: Array = []) -> void:
-	custom_rpc(node, method, args)
 	node.callv(method, args)
+	custom_rpc(node, method, args)
 
 
 func custom_rpc_id_sync(node: Node, id: int, method: String, args: Array = []) -> void:
@@ -317,9 +316,15 @@ func _on_match_state_received(data: NakamaRTAPI.MatchData) -> void:
 func get_network_unique_id() -> int:
 	return self_peer_id
 
+func is_network_server() -> bool:
+	return self_peer_id == 1
+
 
 func get_player_names_by_peer_id() -> Dictionary:
 	var result = {}
 	for session_id in players:
 		result[players[session_id]["peer_id"]] = players[session_id]["username"]
 	return result
+
+func is_network_master_for_node(node: Node) -> bool:
+	return node.get_network_master() == self_peer_id

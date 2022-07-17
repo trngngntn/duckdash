@@ -3,53 +3,64 @@ extends Node2D
 var Player = preload("res://scenes/character/duck.tscn")
 
 var player_list: Node
-var map
+var map: Map
 
 var game_started := false
 var game_over := false
 var players_alive := {}
 var players_setup := {}
 
+signal map_generated
 signal game_started
 signal game_over
 signal player_dead(player_id)
 
+
 func _get_custom_rpc_methods() -> Array:
 	return [
-		'_setup',
-		'_finish_setup',
-		'_start',
+		"generate_map",
+		"setup",
+		"_finish_setup",
+		"_start",
 	]
+
 
 func _ready() -> void:
 	if OS.get_name() != "Android":
 		$CanvasLayer/Control/MoveJoystick.visible = false
-	randomize()
-	var map_seed : int= randi()
-	var map_generator : MapGenerator= MapGenerator.new()
+
+
+func generate_map(map_seed: int) -> void:
+	print("GEN_MAP: " + str(map_seed))
+	var map_generator: MapGenerator = MapGenerator.new()
 	var gen_stratergy = OpenSimplexNoiseStrategy.new()
 	map_generator.set_strategy(gen_stratergy)
 	map = map_generator.generate_map(map_seed)
 	$Back.add_child(map)
-	pass
+	emit_signal("map_generated")
 
-func game_start(players: Dictionary) -> void:
-	NakamaMatch.custom_rpc_sync(self, "_setup",[players])
 
 # Initializes the game so that it is ready to really start.
-func _setup(players: Dictionary) -> void:
+func setup(players: Dictionary) -> void:
 	get_tree().set_pause(true)
 
-	if game_started:
-		_stop()
+	if NakamaMatch.is_network_server():
+		randomize()
+		var map_seed: int = randi()
+		NakamaMatch.custom_rpc_sync(self, "generate_map", [map_seed])
+	elif not map:
+		yield(self, "map_generated")
+
+	# if game_started:
+	# 	_stop()
 
 	game_started = false
 	game_over = false
 	players_alive = players
 
 	#reload_map()
-	var my_player : Duck
-	var my_id
+	var my_player: Duck
+	var my_id: int
 	for player_id in players:
 		print("PLAYER: " + str(player_id))
 		var other_player = Player.instance()
@@ -75,7 +86,7 @@ func _setup(players: Dictionary) -> void:
 		# 	other_player.input_prefix = "player" + str(player_id) + "_"
 	# var my_id: int = NakamaMatch.get_network_unique_id()
 	# var my_player = map.player_cont.get_node(str(my_id))
-	
+
 	$GameCamera.set_node_tracking(my_player)
 	$GameCamera.current = true
 

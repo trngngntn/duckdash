@@ -15,8 +15,12 @@ var is_match = false
 
 
 func _ready():
-	var _result := $Control/ButtonContainer/PlayButton.connect("pressed", self, "_on_match_button_pressed", [NakamaMatch.MatchMode.SINGLE])
-	_result = $Control/ButtonContainer/MatchmakingButton.connect("pressed", self, "_on_match_button_pressed", [NakamaMatch.MatchMode.MATCHMAKER])
+	var _result := $Control/ButtonContainer/PlayButton.connect(
+		"pressed", self, "_on_match_button_pressed", [NakamaMatch.MatchMode.SINGLE]
+	)
+	_result = $Control/ButtonContainer/MatchmakingButton.connect(
+		"pressed", self, "_on_match_button_pressed", [NakamaMatch.MatchMode.MATCHMAKER]
+	)
 
 	_result = NakamaMatch.connect("match_created", self, "_on_NakamaMatch_match_created")
 	_result = NakamaMatch.connect("matchmaker_matched", self, "_on_NakamaMatch_matchmaker_matched")
@@ -31,13 +35,13 @@ func _ready():
 	#Match
 	if Conn.nkm_session == null or Conn.nkm_session.is_expired():
 		#ui_layer.show_screen("ConnectionScreen", { reconnect = true, next_screen = null })
-		
+
 		# Wait to see if we get a new valid session.
 		yield(Conn, "session_changed")
 		if Conn.nkm_session == null:
 			#TODO: show a try again dialog
 			return
-	
+
 	# Connect socket to realtime Nakama API if not connected.
 	if not Conn.is_nakama_socket_connected():
 		Conn.connect_nakama_socket()
@@ -82,8 +86,10 @@ func update_party_size(size: int) -> void:
 		else:
 			$Control/ButtonContainer/MatchmakingButton.visible = true
 
+
 func _create_match() -> void:
 	NakamaMatch.create_match(Conn.nkm_socket)
+
 
 func _start_matchmaking() -> void:
 	var data = {
@@ -107,6 +113,7 @@ func _on_AddButton_pressed() -> void:
 func _on_SubButton_pressed() -> void:
 	update_party_size(party_size - 1)
 
+
 func _on_match_button_pressed(mode) -> void:
 	match mode:
 		NakamaMatch.MatchMode.MATCHMAKER:
@@ -118,30 +125,41 @@ func _on_match_button_pressed(mode) -> void:
 		NakamaMatch.MatchMode.SINGLE:
 			_create_match()
 
-func _on_ReadyButton_pressed() -> void:
-	emit_signal("ready_pressed")
+
+func _on_ReadyButton_toggled(button_pressed: bool):
+	if button_pressed:
+		NakamaMatch.custom_rpc_sync(
+			MatchManager.self_instance, "player_ready", [NakamaMatch.self_session_id]
+		)
 
 
 ####-----------------------------------------------------------------------------------------------
 # NakamaMatch callbacks
-func _on_NakamaMatch_matchmaker_matched(players: Dictionary) -> void:
-	var self_user_f : bool = false
+func _on_NakamaMatch_matchmaker_matched(_players: Dictionary) -> void:
+	players = _players
+	var self_user_f: bool = false
 	players_slot[1].set_status("CONNECTED")
+	print(players)
 	for player_session_id in players:
 		if player_session_id == NakamaMatch.self_session_id:
 			self_user_f = true
 			continue
-		var player: NakamaMatch.Player= players[player_session_id]
+		var player: NakamaMatch.Player = players[player_session_id]
 		var pos := player.peer_id
 		if not self_user_f:
 			pos += 1
 		players_slot[pos].set_player_name(player.username)
 		players_slot[pos].set_status("CONNECTED")
-	pass
+
 
 func _on_NakamaMatch_match_created(match_id: String) -> void:
 	print("Match created: " + match_id)
 	pass
+
+
+func _on_NakamaMatch_match_ready(players) -> void:
+	$Control/ButtonContainer/MatchmakingButton.visible = false
+	$Control/ButtonContainer/ReadyButton.visible = true
 
 
 func _on_NakamaMatch_player_joined(player) -> void:
