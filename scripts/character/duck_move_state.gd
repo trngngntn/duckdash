@@ -31,11 +31,10 @@ func physics_update(_delta) -> void:
 		if Input.is_action_pressed("move_right"):
 			direction.x += 1
 
-	if Input.is_action_just_pressed("move_dash"):
-		state_machine.change_state("Dash", {"direction": direction})
-		return
-
 	if direction.length() > 0:
+		if Input.is_action_just_pressed("move_dash"):
+			state_machine.change_state("Dash", {"direction": direction})
+			return
 		if direction.x > 0:
 			player.get_node("AnimatedSprite").play("move_right")
 		else:
