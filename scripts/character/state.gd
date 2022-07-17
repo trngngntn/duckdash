@@ -18,6 +18,9 @@ func update(_delta: float) -> void:
 func physics_update(_delta: float) -> void:
 	pass
 
+func init() -> void:
+	pass
+
 func enter(_dat := {}) -> void:
 	pass
 

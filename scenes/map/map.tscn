@@ -4,13 +4,13 @@
 [ext_resource path="res://resources/tileset/tileset_generic_iso.tres" type="TileSet" id=2]
 
 [node name="Map" type="Node2D"]
-scale = Vector2( 0.125, 0.125 )
 script = ExtResource( 1 )
 
 [node name="Navigation" type="Navigation2D" parent="."]
 
 [node name="GroundTileMap" type="TileMap" parent="Navigation"]
 scale = Vector2( 2, 4 )
+z_index = -2
 mode = 1
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 64, 32 )
@@ -19,6 +19,7 @@ format = 1
 [node name="YSort" type="YSort" parent="."]
 
 [node name="TileMap" type="TileMap" parent="YSort"]
+position = Vector2( 0, 64 )
 scale = Vector2( 2, 4 )
 mode = 1
 tile_set = ExtResource( 2 )
@@ -26,6 +27,8 @@ cell_size = Vector2( 64, 32 )
 cell_tile_origin = 1
 cell_y_sort = true
 format = 1
+
+[node name="PlayerCont" type="YSort" parent="YSort"]
 
 [node name="MobSpawnerTimer" type="Timer" parent="."]
 autostart = true

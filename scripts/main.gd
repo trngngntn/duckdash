@@ -1,15 +1,27 @@
 extends Node
 
+var go_back : bool setget _set_go_back
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+signal go_back()
+
+func _set_go_back(flag : bool) -> void:
+	go_back = flag
+	if go_back:
+		$UI/Titlebar/BackButton.visible = true
+
+func hide_background() -> void:
+	$Node2D/Background.visible = false
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
+func show_background() -> void:
+	$Node2D/Background.visible = true
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func hide_titlebar() -> void:
+	$UI/Titlebar.visible = false
+
+func set_title(title: String) -> void:
+	$UI/Titlebar/Title.text = title
+
+
+func _on_BackButton_pressed():
+	emit_signal("go_back")

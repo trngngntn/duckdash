@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://resources/ui/ui_textbox.tres" type="StyleBox" id=1]
 [ext_resource path="res://scripts/screens/lobby/player_slot.gd" type="Script" id=2]
+[ext_resource path="res://scenes/ui/loading_dots.tscn" type="PackedScene" id=3]
 
 [node name="PlayerSlot" type="MarginContainer"]
 anchor_right = 1.0
@@ -29,7 +30,7 @@ custom_constants/margin_top = 10
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 10
 
-[node name="HSplit" type="HSplitContainer" parent="PanelContainer/MarginContainer"]
+[node name="HSplit" type="HBoxContainer" parent="PanelContainer/MarginContainer"]
 margin_left = 20.0
 margin_top = 10.0
 margin_right = 1412.0
@@ -37,17 +38,28 @@ margin_bottom = 824.0
 
 [node name="PlayerName" type="Label" parent="PanelContainer/MarginContainer/HSplit"]
 margin_top = 400.0
-margin_right = 1392.0
+margin_right = 694.0
 margin_bottom = 414.0
+size_flags_horizontal = 3
 text = "PlayerName"
 valign = 1
 
 [node name="Status" type="Label" parent="PanelContainer/MarginContainer/HSplit"]
-visible = false
-margin_left = 89.0
+margin_left = 698.0
 margin_top = 400.0
 margin_right = 1392.0
 margin_bottom = 414.0
+size_flags_horizontal = 3
 text = "Status"
 align = 2
 valign = 1
+
+[node name="LoadingDots" parent="." instance=ExtResource( 3 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 20.0
+margin_top = 5.0
+margin_right = 1580.0
+margin_bottom = 895.0
+size_flags_horizontal = 3

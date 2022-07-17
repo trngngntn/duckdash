@@ -96,8 +96,8 @@ func device_auth() -> void:
 		emit_signal("dev_auth")
 
 # register
-signal nakama_registered
-signal nakama_register_err(err)
+signal registered
+signal register_err(err)
 
 
 func register_async(email: String, usr: String, pwd: String) -> void:
@@ -119,7 +119,7 @@ func register_async(email: String, usr: String, pwd: String) -> void:
 		else:
 			print("REG_ERR: " + msg)
 		Conn.nkm_session = null
-		emit_signal("nakama_register_err", msg)
+		emit_signal("register_err", msg)
 
 	else:
 		var device_id: String = OS.get_unique_id() + "_duckdash"
@@ -134,4 +134,4 @@ func register_async(email: String, usr: String, pwd: String) -> void:
 
 		Conn.nkm_session = nkm_session
 		print("REG_LOG: Registered!")
-		emit_signal("nakama_registered")
+		emit_signal("registered")

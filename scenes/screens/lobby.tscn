@@ -113,36 +113,20 @@ size_flags_horizontal = 3
 toggle_mode = true
 text = "Ready"
 
-<<<<<<< HEAD
 [node name="PlayButton" type="Button" parent="Control/ButtonContainer"]
 margin_right = 599.0
 margin_bottom = 105.0
-=======
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer"]
-margin_right = 212.0
-margin_bottom = 350.0
-rect_min_size = Vector2( 212, 350 )
-size_flags_horizontal = 0
-size_flags_vertical = 0
-custom_constants/margin_right = 20
-custom_constants/margin_top = 70
-custom_constants/margin_left = 20
-custom_constants/margin_bottom = 20
-
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer"]
-margin_left = 20.0
-margin_top = 70.0
-margin_right = 192.0
-margin_bottom = 330.0
-rect_min_size = Vector2( 0, 150 )
->>>>>>> 7f262cfa9d57a4b997e931a4eb13a38e90806c13
 size_flags_horizontal = 3
 text = "Play"
 
 <<<<<<< HEAD
 [connection signal="pressed" from="Control/MarginContainer/PartySizeControl/SubButton" to="." method="_on_SubButton_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/PartySizeControl/AddButton" to="." method="_on_AddButton_pressed"]
+<<<<<<< HEAD
 [connection signal="pressed" from="Control/ButtonContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
+=======
+[connection signal="pressed" from="Control/ButtonContainer/ReadyButton" to="." method="_on_ReadyButton_pressed"]
+>>>>>>> trng/client
 =======
 [node name="WeaponSlot" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer"]
 margin_left = 20.0

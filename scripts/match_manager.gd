@@ -85,7 +85,8 @@ func player_ready(session_id: String) -> void:
 
 func start_game() -> void:
 	players = NakamaMatch.get_player_names_by_peer_id()
-	var _scrn = ScreenManager.change_screen(ScreenManager.SCREEN_INGAME)
+	var scrn = ScreenManager.change_screen(ScreenManager.SCREEN_INGAME)
+	scrn.game_start(players)
 
 
 func stop_game() -> void:

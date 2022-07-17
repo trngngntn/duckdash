@@ -29,7 +29,7 @@
 0/z_index = 0
 1/name = "tile_generic_wall.png 1"
 1/texture = ExtResource( 2 )
-1/tex_offset = Vector2( 0, 0 )
+1/tex_offset = Vector2( 0, -16 )
 1/modulate = Color( 1, 1, 1, 1 )
 1/region = Rect2( 0, 0, 320, 144 )
 1/tile_mode = 1
@@ -44,9 +44,15 @@
 1/autotile/z_index_map = [  ]
 1/occluder_offset = Vector2( 0, 0 )
 1/navigation_offset = Vector2( 0, 0 )
-1/shape_offset = Vector2( 0, 0 )
-1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape_offset = Vector2( 0, -16 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, -16 )
 1/shape_one_way = false
-1/shape_one_way_margin = 0.0
-1/shapes = [  ]
+1/shape_one_way_margin = 1.0
+1/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": null,
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, -16 )
+} ]
 1/z_index = 0

@@ -19,6 +19,8 @@ var map_full_width: int
 onready var wall_tilemap = $YSort/TileMap
 onready var ground_tilemap = $Navigation/GroundTileMap
 
+onready var player_cont = $YSort/PlayerCont
+
 func _ready():
 	_display_map()
 
@@ -89,3 +91,6 @@ func _display_map() -> void:
 	wall_tilemap.update_bitmask_region(
 		Vector2(-map_width_padding, -map_height_padding), Vector2(map_width_padding, map_height_padding)
 	)
+
+func _on_MobSpawnerTimer_timeout():
+	pass
