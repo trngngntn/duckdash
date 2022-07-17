@@ -113,12 +113,265 @@ size_flags_horizontal = 3
 toggle_mode = true
 text = "Ready"
 
+<<<<<<< HEAD
 [node name="PlayButton" type="Button" parent="Control/ButtonContainer"]
 margin_right = 599.0
 margin_bottom = 105.0
+=======
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer"]
+margin_right = 212.0
+margin_bottom = 350.0
+rect_min_size = Vector2( 212, 350 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 70
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer"]
+margin_left = 20.0
+margin_top = 70.0
+margin_right = 192.0
+margin_bottom = 330.0
+rect_min_size = Vector2( 0, 150 )
+>>>>>>> 7f262cfa9d57a4b997e931a4eb13a38e90806c13
 size_flags_horizontal = 3
 text = "Play"
 
+<<<<<<< HEAD
 [connection signal="pressed" from="Control/MarginContainer/PartySizeControl/SubButton" to="." method="_on_SubButton_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/PartySizeControl/AddButton" to="." method="_on_AddButton_pressed"]
 [connection signal="pressed" from="Control/ButtonContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
+=======
+[node name="WeaponSlot" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer"]
+margin_left = 20.0
+margin_top = 70.0
+margin_right = 192.0
+margin_bottom = 330.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer/WeaponSlot"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 152.0
+margin_bottom = 240.0
+
+[node name="Label" type="Label" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer/WeaponSlot/HBoxContainer"]
+margin_top = 60.0
+margin_right = 132.0
+margin_bottom = 159.0
+size_flags_horizontal = 3
+text = "Weapon
+slot"
+align = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer"]
+margin_left = 216.0
+margin_right = 494.0
+margin_bottom = 632.0
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer"]
+margin_right = 278.0
+margin_bottom = 400.0
+rect_min_size = Vector2( 0, 400 )
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 258.0
+margin_bottom = 380.0
+rect_min_size = Vector2( 0, 150 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource( 1 )
+region_rect = Rect2( 689, 148, 0, 0 )
+
+[node name="ArmorSlot" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 258.0
+margin_bottom = 380.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/MarginContainer/ArmorSlot"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 218.0
+margin_bottom = 340.0
+
+[node name="Label" type="Label" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/MarginContainer/ArmorSlot/HBoxContainer"]
+margin_top = 136.0
+margin_right = 198.0
+margin_bottom = 184.0
+size_flags_horizontal = 3
+text = "Armor slot"
+align = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer"]
+margin_top = 404.0
+margin_right = 278.0
+margin_bottom = 594.0
+rect_min_size = Vector2( 0, 190 )
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/MarginContainer2"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 258.0
+margin_bottom = 170.0
+rect_min_size = Vector2( 0, 150 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource( 1 )
+region_rect = Rect2( 689, 148, 0, 0 )
+
+[node name="FeetSlot" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/MarginContainer2"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 258.0
+margin_bottom = 170.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/MarginContainer2/FeetSlot"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 218.0
+margin_bottom = 130.0
+rect_min_size = Vector2( 0, 90 )
+
+[node name="Label" type="Label" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/MarginContainer2/FeetSlot/HBoxContainer"]
+margin_top = 31.0
+margin_right = 198.0
+margin_bottom = 79.0
+size_flags_horizontal = 3
+text = "Feet slot"
+align = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer"]
+margin_left = 498.0
+margin_right = 710.0
+margin_bottom = 350.0
+rect_min_size = Vector2( 212, 350 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 70
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer2"]
+margin_left = 20.0
+margin_top = 70.0
+margin_right = 192.0
+margin_bottom = 330.0
+rect_min_size = Vector2( 0, 150 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource( 1 )
+region_rect = Rect2( 689, 148, 0, 0 )
+
+[node name="WingSlot" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer2"]
+margin_left = 20.0
+margin_top = 70.0
+margin_right = 192.0
+margin_bottom = 330.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer2/WingSlot"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 152.0
+margin_bottom = 240.0
+
+[node name="Label" type="Label" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer2/WingSlot/HBoxContainer"]
+margin_top = 60.0
+margin_right = 132.0
+margin_bottom = 159.0
+size_flags_horizontal = 3
+text = "Wing
+slot"
+align = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments"]
+margin_top = 636.0
+margin_right = 710.0
+margin_bottom = 740.0
+custom_constants/margin_right = 100
+custom_constants/margin_left = 100
+
+[node name="SkillTreeButton" type="Button" parent="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/MarginContainer"]
+margin_left = 100.0
+margin_right = 610.0
+margin_bottom = 104.0
+text = "Custom Skill-tree"
+
+[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer"]
+margin_top = 836.0
+margin_right = 750.0
+margin_bottom = 980.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/MarginContainer2"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 730.0
+margin_bottom = 124.0
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/MarginContainer2/HBoxContainer"]
+margin_right = 273.0
+margin_bottom = 104.0
+custom_constants/margin_right = 20
+custom_constants/margin_left = 20
+
+[node name="ReadyButton" type="Button" parent="HBoxContainer/MarginContainer2/VBoxContainer/MarginContainer2/HBoxContainer/MarginContainer"]
+margin_left = 20.0
+margin_right = 253.0
+margin_bottom = 104.0
+text = "READY"
+
+[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/MarginContainer2/HBoxContainer"]
+margin_left = 277.0
+margin_right = 710.0
+margin_bottom = 104.0
+size_flags_horizontal = 3
+custom_constants/margin_right = 20
+custom_constants/margin_left = 20
+
+[node name="StartGameButton" type="Button" parent="HBoxContainer/MarginContainer2/VBoxContainer/MarginContainer2/HBoxContainer/MarginContainer2"]
+margin_left = 20.0
+margin_right = 413.0
+margin_bottom = 104.0
+size_flags_horizontal = 3
+text = "START GAME"
+
+[connection signal="pressed" from="HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/LeaveButton" to="." method="_on_LeaveButton_pressed"]
+[connection signal="gui_input" from="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer/WeaponSlot" to="." method="_on_WeaponSlot_gui_input"]
+[connection signal="gui_input" from="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/MarginContainer/ArmorSlot" to="." method="_on_ArmorSlot_gui_input"]
+[connection signal="gui_input" from="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/VBoxContainer/MarginContainer2/FeetSlot" to="." method="_on_FeetSlot_gui_input"]
+[connection signal="gui_input" from="HBoxContainer/MarginContainer2/VBoxContainer/CharacterEquimentContainer/VBoxContainer/Equipments/HBoxContainer/MarginContainer2/WingSlot" to="." method="_on_WingSlot_gui_input"]
+[connection signal="pressed" from="HBoxContainer/MarginContainer2/VBoxContainer/MarginContainer2/HBoxContainer/MarginContainer2/StartGameButton" to="." method="_on_StartGameButton_pressed"]
+>>>>>>> 7f262cfa9d57a4b997e931a4eb13a38e90806c13

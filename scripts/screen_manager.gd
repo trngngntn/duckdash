@@ -5,6 +5,9 @@ const SCREEN_REGISTER = preload("res://scenes/screens/sign_up.tscn")
 const SCREEN_MENU = preload("res://scenes/screens/main_menu.tscn")
 const SCREEN_LOBBY = preload("res://scenes/screens/lobby.tscn")
 const SCREEN_INGAME = preload("res://scenes/screens/in_game.tscn")
+const SCREEN_CHANGE_EQUIP = preload("res://scenes/screens/equipment_changing.tscn")
+const SCREEN_INVENTORY = preload("res://scenes/screens/inventory.tscn")
+const SCREEN_MARKETPLACE = preload("res://scenes/screens/market_place.tscn")
 
 onready var main: Node = get_tree().current_scene
 onready var screen: Node = main.get_node("Screen")
