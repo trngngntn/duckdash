@@ -10,10 +10,12 @@ script = ExtResource( 3 )
 [node name="Node2D" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 
 [node name="Background" type="TextureRect" parent="Node2D"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 7

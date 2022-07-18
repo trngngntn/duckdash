@@ -19,7 +19,6 @@ format = 1
 [node name="YSort" type="YSort" parent="."]
 
 [node name="TileMap" type="TileMap" parent="YSort"]
-position = Vector2( 0, 64 )
 scale = Vector2( 2, 4 )
 mode = 1
 tile_set = ExtResource( 2 )

@@ -1,8 +1,8 @@
 extends DuckState
 
 func init() -> void:
-	if player.joystick && NakamaMatch.is_network_master_for_node(self):
-		player.joystick.connect("active", self, "_on_joystick_active")
+	if player.move_joystick && NakamaMatch.is_network_master_for_node(self):
+		player.move_joystick.connect("active", self, "_on_joystick_active")
 		
 func enter(_dat := {}) -> void:
 	player.get_node("AnimatedSprite").play("idle_right")
@@ -12,7 +12,7 @@ func enter(_dat := {}) -> void:
 func physics_update(_delta: float) -> void:
 	if not NakamaMatch.is_network_master_for_node(self):
 		return
-	if not player.joystick:	
+	if not player.move_joystick:	
 		if (
 			Input.is_action_pressed("move_up")
 			|| Input.is_action_pressed("move_down")

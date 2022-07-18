@@ -1,49 +1,63 @@
 extends Node2D
 class_name Joystick
 
-signal active(data)
+var touch_range = 200
 
 var snap_step: int = -1
 var snap_angle: float
 
+var output: Vector2
+var _touch_index: int = -1
+
+signal active(data)
+
 
 func _ready():
-	set_process(false)
-	set_snap_step(1)
+	# if not OS.has_touchscreen_ui_hint():
+	# 	hide()
+	pass
 
 
-func _process(_delta) -> void:
-	var mouse: Vector2 = get_viewport().get_mouse_position()
-	var dir: Vector2 = (mouse - global_position).normalized()
-
-	if snap_step > -1:
-		var inac = dir.angle() / snap_angle
-		dir = Vector2(1, 0).rotated(snap_angle * int(round(inac)))
-
-	$Handle.position = dir * 15
-	emit_signal("active", dir)
-
-
-func _on_Area2D_mouse_exited() -> void:
+func _reset() -> void:
+	_touch_index = -1
 	$Handle.position = Vector2(0, 0)
 	emit_signal("active", Vector2(0, 0))
-	set_process(false)
 
 
-func _on_Area2D_mouse_entered() -> void:
-	set_process(true)
+func _update(event_position: Vector2) -> void:
+	output = (event_position - global_position).normalized()
+
+	if snap_step > -1:
+		var inac = output.angle() / snap_angle
+		output = Vector2(1, 0).rotated(snap_angle * int(round(inac)))
+
+	$Handle.position = output * 15
+	emit_signal("active", output)
+
+	get_tree().set_input_as_handled()
 
 
-func _on_Area2D_input_event(_viewport: Node, event: InputEvent, _shape_idx: int):
+func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
-		if not event.is_pressed():
-			$Handle.position = Vector2(0, 0)
-			emit_signal("active", Vector2(0, 0))
-			set_process(false)
-		else:
-			set_process(true)
+		print("TOUCH")
+		if event.is_pressed():
+			if _touch_index == -1 && _is_in_range(event.position):
+				_touch_index = event.index
+				_update(event.position)
+		elif event.index == _touch_index:
+			_reset()
+			get_tree().set_input_as_handled()
+	elif event is InputEventScreenDrag:
+		if event.index == _touch_index:
+			_update(event.position)
+
+
+func _is_in_range(point: Vector2) -> bool:
+	return point.distance_to(global_position) < touch_range
 
 
 func set_snap_step(step: int) -> void:
+	if step < -1:
+		return
 	snap_step = 4 + (step * 4)
 	snap_angle = (2 * PI) / snap_step

@@ -101,6 +101,8 @@ func _start_matchmaking() -> void:
 	print("looking for matches")
 	NakamaMatch.start_matchmaking(Conn.nkm_socket, data)
 
+func player_ready(player_session_id) -> void:
+	pass
 
 ####-----------------------------------------------------------------------------------------------
 # local callbacks
@@ -137,19 +139,16 @@ func _on_ReadyButton_toggled(button_pressed: bool):
 # NakamaMatch callbacks
 func _on_NakamaMatch_matchmaker_matched(_players: Dictionary) -> void:
 	players = _players
-	var self_user_f: bool = false
+	var pos : int = 2
 	players_slot[1].set_status("CONNECTED")
-	print(players)
+
 	for player_session_id in players:
 		if player_session_id == NakamaMatch.self_session_id:
-			self_user_f = true
 			continue
 		var player: NakamaMatch.Player = players[player_session_id]
-		var pos := player.peer_id
-		if not self_user_f:
-			pos += 1
 		players_slot[pos].set_player_name(player.username)
 		players_slot[pos].set_status("CONNECTED")
+		pos += 1
 
 
 func _on_NakamaMatch_match_created(match_id: String) -> void:

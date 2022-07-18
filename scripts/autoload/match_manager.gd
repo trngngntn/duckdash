@@ -20,7 +20,6 @@ func _ready() -> void:
 	)
 	_result = NakamaMatch.connect("player_left", self, "_on_NakamaMatch_player_left")
 	_result = NakamaMatch.connect("match_created", self, "_on_NakamaMatch_match_created")
-	print("OHHHH")
 	randomize()
 
 
@@ -96,6 +95,8 @@ func start_game() -> void:
 	in_game_node = ScreenManager.change_screen(ScreenManager.SCREEN_INGAME)
 	if not NakamaMatch.is_network_server():
 		NakamaMatch.custom_rpc(self, "player_in_game", [NakamaMatch.self_peer_id])
+	elif NakamaMatch.match_mode == NakamaMatch.MatchMode.SINGLE:
+		in_game_node.setup(players)
 
 
 func player_in_game(_peer_id: int) -> void:

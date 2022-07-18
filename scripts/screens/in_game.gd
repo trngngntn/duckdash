@@ -26,8 +26,7 @@ func _get_custom_rpc_methods() -> Array:
 
 
 func _ready() -> void:
-	if OS.get_name() != "Android":
-		$CanvasLayer/Control/MoveJoystick.visible = false
+	$CanvasLayer/MoveControl/MoveJoystick.set_snap_step(1)
 
 
 func generate_map(map_seed: int) -> void:
@@ -46,7 +45,7 @@ func setup(players: Dictionary) -> void:
 
 	if NakamaMatch.is_network_server():
 		randomize()
-		var map_seed: int = randi()
+		var map_seed: int = 100
 		NakamaMatch.custom_rpc_sync(self, "generate_map", [map_seed])
 	elif not map:
 		yield(self, "map_generated")
@@ -69,7 +68,8 @@ func setup(players: Dictionary) -> void:
 		if player_id == NakamaMatch.get_network_unique_id():
 			my_id = player_id
 			my_player = other_player
-			my_player.map_joystick($CanvasLayer/Control/MoveJoystick)
+			my_player.map_move_joystick($CanvasLayer/MoveControl/MoveJoystick)
+			my_player.map_attack_joystick($CanvasLayer/AttackControl/AttackJoystick)
 
 		map.player_cont.add_child(other_player)
 
