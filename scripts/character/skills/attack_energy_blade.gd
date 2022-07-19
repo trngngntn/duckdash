@@ -1,6 +1,6 @@
 extends Area2D
 
-var speed: float = 1000
+var speed: float = 500
 var decay: float = .2
 var direction: Vector2
 
@@ -18,13 +18,12 @@ func trigger(player: Node, _direction: Vector2) -> void:
 	$AnimatedSprite.play("move")
 	$DecayTimer.start()
 
-
 func _physics_process(delta) -> void:
 	position += direction * delta * speed
 
 
 func _on_DecayTimer_timeout() -> void:
-	speed = 0
+	speed /= 2
 	$AnimatedSprite.play("disappear")
 
 

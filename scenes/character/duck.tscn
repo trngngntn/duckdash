@@ -10,26 +10,6 @@
 [ext_resource path="res://scripts/character/duck_idle_state.gd" type="Script" id=8]
 [ext_resource path="res://assets/sprites/animated/character/character_dash_left.png" type="Texture" id=9]
 
-[sub_resource type="AtlasTexture" id=17]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 16, 24 )
-
-[sub_resource type="AtlasTexture" id=18]
-atlas = ExtResource( 3 )
-region = Rect2( 16, 0, 16, 24 )
-
-[sub_resource type="AtlasTexture" id=19]
-atlas = ExtResource( 3 )
-region = Rect2( 32, 0, 16, 24 )
-
-[sub_resource type="AtlasTexture" id=20]
-atlas = ExtResource( 3 )
-region = Rect2( 48, 0, 16, 24 )
-
-[sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 9 )
-region = Rect2( 0, 0, 16, 24 )
-
 [sub_resource type="AtlasTexture" id=25]
 atlas = ExtResource( 9 )
 region = Rect2( 16, 0, 16, 24 )
@@ -41,10 +21,6 @@ region = Rect2( 32, 0, 16, 24 )
 [sub_resource type="AtlasTexture" id=27]
 atlas = ExtResource( 9 )
 region = Rect2( 48, 0, 16, 24 )
-
-[sub_resource type="AtlasTexture" id=24]
-atlas = ExtResource( 4 )
-region = Rect2( 0, 0, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 1 )
@@ -62,6 +38,26 @@ region = Rect2( 32, 0, 16, 24 )
 atlas = ExtResource( 1 )
 region = Rect2( 48, 0, 16, 24 )
 
+[sub_resource type="AtlasTexture" id=28]
+atlas = ExtResource( 9 )
+region = Rect2( 0, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=17]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=18]
+atlas = ExtResource( 3 )
+region = Rect2( 16, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=19]
+atlas = ExtResource( 3 )
+region = Rect2( 32, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=20]
+atlas = ExtResource( 3 )
+region = Rect2( 48, 0, 16, 24 )
+
 [sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 4 )
 region = Rect2( 16, 0, 16, 24 )
@@ -74,26 +70,15 @@ region = Rect2( 32, 0, 16, 24 )
 atlas = ExtResource( 4 )
 region = Rect2( 48, 0, 16, 24 )
 
+[sub_resource type="AtlasTexture" id=24]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 16, 24 )
+
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ) ],
-"loop": true,
-"name": "move_left",
-"speed": 20.0
-}, {
-"frames": [ SubResource( 28 ) ],
-"loop": true,
-"name": "idle_left",
-"speed": 5.0
-}, {
 "frames": [ SubResource( 25 ), SubResource( 26 ), SubResource( 27 ) ],
 "loop": true,
 "name": "dash_left",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 24 ) ],
-"loop": true,
-"name": "idle_right",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ],
@@ -101,9 +86,24 @@ animations = [ {
 "name": "move_right",
 "speed": 20.0
 }, {
+"frames": [ SubResource( 28 ) ],
+"loop": true,
+"name": "idle_left",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ) ],
+"loop": true,
+"name": "move_left",
+"speed": 20.0
+}, {
 "frames": [ SubResource( 21 ), SubResource( 22 ), SubResource( 23 ) ],
 "loop": true,
 "name": "dash_right",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 24 ) ],
+"loop": true,
+"name": "idle_right",
 "speed": 5.0
 } ]
 
@@ -118,6 +118,7 @@ radius = 20.0
 height = 10.0
 
 [node name="Duck" type="KinematicBody2D"]
+modulate = Color( 1, 1, 1.5, 1 )
 scale = Vector2( 0.5, 1 )
 collision_layer = 2
 script = ExtResource( 2 )
@@ -140,11 +141,10 @@ align = 1
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 4, 4 )
 frames = SubResource( 1 )
-animation = "dash_right"
+animation = "idle_right"
 
 [node name="MovementHitbox" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 24 )
-scale = Vector2( 1, 1 )
 shape = SubResource( 3 )
 
 [node name="DashHitArea2D" type="Area2D" parent="."]

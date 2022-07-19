@@ -73,7 +73,7 @@ func _cloning() -> void:
 	shad.texture = anim.frames.get_frame(anim.animation, anim.frame)
 	shad.position = player.position
 	shad.scale = player.scale * 4
-	player.get_parent().add_child(shad)
+	player.get_parent().get_parent().add_child(shad)
 
 
 func _on_collision(_area: Area2D):

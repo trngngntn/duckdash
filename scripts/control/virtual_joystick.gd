@@ -13,15 +13,16 @@ signal active(data)
 
 
 func _ready():
-	# if not OS.has_touchscreen_ui_hint():
-	# 	hide()
-	pass
+	if not OS.has_touchscreen_ui_hint():
+		hide()
+	modulate.a = 0.25
 
 
 func _reset() -> void:
 	_touch_index = -1
 	$Handle.position = Vector2(0, 0)
 	emit_signal("active", Vector2(0, 0))
+	modulate.a = 0.25
 
 
 func _update(event_position: Vector2) -> void:
@@ -34,6 +35,7 @@ func _update(event_position: Vector2) -> void:
 	$Handle.position = output * 15
 	emit_signal("active", output)
 
+	modulate.a = 1
 	get_tree().set_input_as_handled()
 
 
