@@ -1,0 +1,132 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://resources/ui_theme.tres" type="Theme" id=2]
+[ext_resource path="res://scenes/screens/sign_in/sign_in.gd" type="Script" id=3]
+[ext_resource path="res://assets/sprites/static/ui/duck_dash_logo.png" type="Texture" id=4]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.168627, 0, 0.290196, 1 )
+
+[node name="SignIn" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 2 )
+script = ExtResource( 3 )
+
+[node name="Background" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 50
+custom_constants/margin_top = 50
+custom_constants/margin_left = 50
+custom_constants/margin_bottom = 50
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer"]
+margin_left = 50.0
+margin_top = 50.0
+margin_right = 1870.0
+margin_bottom = 1030.0
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer2"]
+margin_right = 1820.0
+margin_bottom = 708.0
+custom_constants/margin_right = 500
+custom_constants/margin_top = 50
+custom_constants/margin_left = 500
+custom_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer2/MarginContainer"]
+margin_left = 500.0
+margin_top = 50.0
+margin_right = 1320.0
+margin_bottom = 658.0
+custom_constants/separation = 100
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
+margin_right = 820.0
+margin_bottom = 250.0
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer2/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 110.0
+margin_right = 710.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 600, 250 )
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
+margin_top = 350.0
+margin_right = 820.0
+margin_bottom = 608.0
+custom_constants/separation = 50
+
+[node name="UsernameLineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer2/MarginContainer/VBoxContainer/VBoxContainer"]
+margin_right = 820.0
+margin_bottom = 104.0
+align = 1
+placeholder_text = "Username"
+
+[node name="PasswordLineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer2/MarginContainer/VBoxContainer/VBoxContainer"]
+margin_top = 154.0
+margin_right = 820.0
+margin_bottom = 258.0
+align = 1
+secret = true
+secret_character = "•"
+placeholder_text = "Password"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer2"]
+margin_top = 712.0
+margin_right = 1820.0
+margin_bottom = 980.0
+size_flags_vertical = 3
+alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer"]
+margin_top = 79.0
+margin_right = 1820.0
+margin_bottom = 189.0
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer2"]
+margin_right = 604.0
+margin_bottom = 110.0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer2"]
+margin_left = 608.0
+margin_right = 1212.0
+margin_bottom = 110.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="LoginButton" type="Button" parent="MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer2/HBoxContainer2"]
+margin_left = 102.0
+margin_right = 502.0
+margin_bottom = 110.0
+rect_min_size = Vector2( 400, 110 )
+text = "Login"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer2"]
+margin_left = 1216.0
+margin_right = 1820.0
+margin_bottom = 110.0
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="RegisterButton" type="Button" parent="MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer2/HBoxContainer3"]
+margin_left = 204.0
+margin_right = 604.0
+margin_bottom = 110.0
+rect_min_size = Vector2( 400, 110 )
+text = "Signup"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer2/HBoxContainer2/LoginButton" to="." method="_on_LoginButton_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer2/HBoxContainer3/RegisterButton" to="." method="_on_RegisterButton_pressed"]
