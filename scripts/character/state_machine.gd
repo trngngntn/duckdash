@@ -1,13 +1,12 @@
 extends Node
 class_name StateMachine
 
-# Emitted when transitioning to a new state.
+# onready var is_remote: bool
+
 signal transitioned(state_name)
 
-# Path to the initial active state. We export it to be able to pick the initial state in the inspector.
 export var initial_state := NodePath()
 
-# The current active state. At the start of the game, we get the `initial_state`.
 onready var state: State = get_node(initial_state)
 
 func _get_custom_rpc_methods() -> Array:
@@ -23,8 +22,10 @@ func _ready() -> void:
 		child.state_machine = self
 
 func start() -> void:
+	# is_remote = NakamaMatch.self_peer_id != self.get_network_master()
 	for child in get_children():
 		child.init()
+	print("INIT_STATE: " + str(state))
 	state.enter({})
 
 # The state machine subscribes to node callbacks and delegates them to the state objects.
@@ -50,7 +51,7 @@ func change_state(target_state_name: String, dat :={}) -> void:
 	state.exit()
 	state = get_node(target_state_name)
 	state.enter(dat)
-	NakamaMatch.custom_rpc(self, "change_state", [target_state_name, dat])
+	NakamaMatch.custom_rpc(self, "_remote_change_state", [target_state_name, dat])
 	emit_signal("transitioned", state.name)
 
 func _remote_change_state(target_state_name: String, dat :={}) -> void:

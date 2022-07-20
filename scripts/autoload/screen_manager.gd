@@ -8,18 +8,16 @@ const SCREEN_INGAME = preload("res://scenes/screens/in_game.tscn")
 const SCREEN_CHANGE_EQUIP = preload("res://scenes/screens/equipment_changing.tscn")
 const SCREEN_INVENTORY = preload("res://scenes/screens/inventory.tscn")
 const SCREEN_MARKETPLACE = preload("res://scenes/screens/market_place.tscn")
-<<<<<<< HEAD
-=======
 
 var screen_res_stack: Array = []
 var current_screen: Node
->>>>>>> trng/client
+
+signal screen_changed(screen)
 
 onready var main: Node = get_tree().current_scene
 onready var screen: Node = main.get_node("Screen")
 onready var ui: CanvasLayer = main.get_node("UI")
 onready var self_instance = self
-
 
 func _ready() -> void:
 	var _result := Conn.connect("dev_auth", self, "_on_NakamaConn_device_authorized")
@@ -62,6 +60,8 @@ func change_screen(screen_res: Resource, go_back := true) -> Node:
 		screen_res_stack.clear()
 
 	main.go_back = go_back
+
+	emit_signal("screen_changed")
 
 	return current_screen
 

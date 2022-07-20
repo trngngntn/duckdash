@@ -22,10 +22,6 @@ region = Rect2( 32, 0, 16, 24 )
 atlas = ExtResource( 9 )
 region = Rect2( 48, 0, 16, 24 )
 
-[sub_resource type="AtlasTexture" id=24]
-atlas = ExtResource( 4 )
-region = Rect2( 0, 0, 16, 24 )
-
 [sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 16, 24 )
@@ -40,18 +36,6 @@ region = Rect2( 32, 0, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=16]
 atlas = ExtResource( 1 )
-region = Rect2( 48, 0, 16, 24 )
-
-[sub_resource type="AtlasTexture" id=21]
-atlas = ExtResource( 4 )
-region = Rect2( 16, 0, 16, 24 )
-
-[sub_resource type="AtlasTexture" id=22]
-atlas = ExtResource( 4 )
-region = Rect2( 32, 0, 16, 24 )
-
-[sub_resource type="AtlasTexture" id=23]
-atlas = ExtResource( 4 )
 region = Rect2( 48, 0, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=28]
@@ -74,6 +58,22 @@ region = Rect2( 32, 0, 16, 24 )
 atlas = ExtResource( 3 )
 region = Rect2( 48, 0, 16, 24 )
 
+[sub_resource type="AtlasTexture" id=21]
+atlas = ExtResource( 4 )
+region = Rect2( 16, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = ExtResource( 4 )
+region = Rect2( 32, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=23]
+atlas = ExtResource( 4 )
+region = Rect2( 48, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=24]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 16, 24 )
+
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ SubResource( 25 ), SubResource( 26 ), SubResource( 27 ) ],
@@ -81,20 +81,10 @@ animations = [ {
 "name": "dash_left",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 24 ) ],
-"loop": true,
-"name": "idle_right",
-"speed": 5.0
-}, {
 "frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ],
 "loop": true,
 "name": "move_right",
 "speed": 20.0
-}, {
-"frames": [ SubResource( 21 ), SubResource( 22 ), SubResource( 23 ) ],
-"loop": true,
-"name": "dash_right",
-"speed": 5.0
 }, {
 "frames": [ SubResource( 28 ) ],
 "loop": true,
@@ -105,39 +95,64 @@ animations = [ {
 "loop": true,
 "name": "move_left",
 "speed": 20.0
+}, {
+"frames": [ SubResource( 21 ), SubResource( 22 ), SubResource( 23 ) ],
+"loop": true,
+"name": "dash_right",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 24 ) ],
+"loop": true,
+"name": "idle_right",
+"speed": 5.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 20, 5.5 )
+extents = Vector2( 20, 10 )
+
+[sub_resource type="RectangleShape2D" id=29]
+extents = Vector2( 20, 10 )
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 20.0
 height = 10.0
 
-[sub_resource type="Animation" id=12]
-resource_name = "Run"
-
 [node name="Duck" type="KinematicBody2D"]
+modulate = Color( 1, 1, 1.5, 1 )
 scale = Vector2( 0.5, 1 )
 collision_layer = 2
 script = ExtResource( 2 )
 
-[node name="Label" type="Label" parent="."]
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 margin_left = -54.0
 margin_top = -54.0
 margin_right = 54.0
 margin_bottom = -40.0
+color = Color( 0.501961, 0.501961, 0.501961, 0.501961 )
+
+[node name="Label" type="Label" parent="ColorRect"]
+visible = false
+margin_right = 108.0
+margin_bottom = 14.0
 text = "player_name"
 align = 1
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 4, 4 )
 frames = SubResource( 1 )
-animation = "dash_right"
+animation = "idle_right"
 
 [node name="MovementHitbox" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 26 )
+position = Vector2( 0, 24 )
 shape = SubResource( 3 )
+
+[node name="DashHitArea2D" type="Area2D" parent="."]
+collision_layer = 16
+
+[node name="DashHitBox" type="CollisionShape2D" parent="DashHitArea2D"]
+position = Vector2( 0, 24 )
+shape = SubResource( 29 )
 
 [node name="HitArea2D" type="Area2D" parent="."]
 collision_layer = 2
@@ -145,9 +160,6 @@ collision_layer = 2
 [node name="Hitbox" type="CollisionShape2D" parent="HitArea2D"]
 use_parent_material = true
 shape = SubResource( 2 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Run = SubResource( 12 )
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 7 )
@@ -161,3 +173,7 @@ script = ExtResource( 5 )
 
 [node name="Dash" type="Node" parent="StateMachine"]
 script = ExtResource( 6 )
+
+[node name="AttackTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]

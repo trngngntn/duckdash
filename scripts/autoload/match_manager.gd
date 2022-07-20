@@ -4,10 +4,15 @@ var players := {}
 
 var players_ready := {}
 
+var player_in_game_count: int = 1
+var in_game_node: Node
+
 var match_started := false
+var self_instance
 
 
 func _ready() -> void:
+	self_instance = self
 	var _result := NakamaMatch.connect("error", self, "_on_NakamaMatch_error")
 	_result = NakamaMatch.connect("disconnected", self, "_on_NakamaMatch_disconnected")
 	_result = NakamaMatch.connect(
@@ -15,13 +20,14 @@ func _ready() -> void:
 	)
 	_result = NakamaMatch.connect("player_left", self, "_on_NakamaMatch_player_left")
 	_result = NakamaMatch.connect("match_created", self, "_on_NakamaMatch_match_created")
-	print("OHHHH")
 	randomize()
 
 
 func _get_custom_rpc_methods() -> Array:
 	return [
 		"player_ready",
+		"start_game",
+		"player_in_game",
 	]
 
 
@@ -76,17 +82,30 @@ func player_ready(session_id: String) -> void:
 	#ready_screen.set_status(session_id, "READY!")
 
 	if NakamaMatch.is_network_server() and not players_ready.has(session_id):
+		print("IS_SERVER")
 		players_ready[session_id] = true
 		if players_ready.size() == NakamaMatch.players.size():
 			if NakamaMatch.match_state != NakamaMatch.MatchState.PLAYING:
 				NakamaMatch.start_playing()
-			start_game()
+			NakamaMatch.custom_rpc_sync(self, "start_game", [])
 
 
 func start_game() -> void:
 	players = NakamaMatch.get_player_names_by_peer_id()
-	var scrn = ScreenManager.change_screen(ScreenManager.SCREEN_INGAME)
-	scrn.game_start(players)
+	in_game_node = ScreenManager.change_screen(ScreenManager.SCREEN_INGAME)
+	if not NakamaMatch.is_network_server():
+		NakamaMatch.custom_rpc(self, "player_in_game", [NakamaMatch.self_peer_id])
+	elif NakamaMatch.match_mode == NakamaMatch.MatchMode.SINGLE:
+		in_game_node.setup(players)
+
+
+func player_in_game(_peer_id: int) -> void:
+	if NakamaMatch.is_network_server():
+		player_in_game_count += 1
+		print("IN_GAME_PLAYER: " + str(player_in_game_count))
+		print("PLAYER_COUNT: " + str(players.size()))
+		if player_in_game_count == players.size():
+			NakamaMatch.custom_rpc_sync(in_game_node, "setup", [players])
 
 
 func stop_game() -> void:
