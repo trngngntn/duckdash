@@ -135,3 +135,5 @@ func register_async(email: String, usr: String, pwd: String) -> void:
 		Conn.nkm_session = nkm_session
 		print("REG_LOG: Registered!")
 		emit_signal("registered")
+
+#equipment related

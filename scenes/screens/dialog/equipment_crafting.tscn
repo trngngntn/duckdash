@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://resources/ui_theme.tres" type="Theme" id=1]
+[ext_resource path="res://scripts/screens/dialog/equipment_crafting.gd" type="Script" id=2]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_top = 0.8
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -70.0
+
+[node name="Control" type="Control" parent="HBoxContainer"]
+margin_right = 530.0
+margin_bottom = 110.0
+size_flags_horizontal = 3
+
+[node name="Control2" type="Control" parent="HBoxContainer"]
+margin_left = 534.0
+margin_right = 1065.0
+margin_bottom = 110.0
+size_flags_horizontal = 3
+
+[node name="CraftButton" type="Button" parent="HBoxContainer/Control2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 40.0
+margin_right = -40.0
+rect_min_size = Vector2( 400, 110 )
+text = "Craft"
+
+[node name="Control3" type="Control" parent="HBoxContainer"]
+margin_left = 1069.0
+margin_right = 1600.0
+margin_bottom = 110.0
+size_flags_horizontal = 3
+
+[connection signal="pressed" from="HBoxContainer/Control2/CraftButton" to="." method="_on_CraftButton_pressed"]

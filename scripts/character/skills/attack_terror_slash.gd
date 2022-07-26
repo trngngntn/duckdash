@@ -21,7 +21,7 @@ func trigger(player: Node, _direction: Vector2) -> void:
 		"rotation",
 		_direction.angle() + PI / 2 - PI * (4.0 / 18),
 		_direction.angle() + PI / 2  + PI * (4.0 / 18),
-		0.333
+		0.3
 	)
 	# $Tween.interpolate_property($CollisionPolygon2D, "rotation",PI, 0, 1)
 	$Tween.start()

@@ -12,9 +12,7 @@
 [ext_resource path="res://resources/ui/ui_textbox_focus.tres" type="StyleBox" id=10]
 
 [resource]
-Button/colors/font_color = Color( 0.396078, 0.243137, 0.172549, 1 )
-Button/colors/font_color_focus = Color( 0.0117647, 0.482353, 0.670588, 1 )
-Button/colors/font_color_hover = Color( 0.0117647, 0.482353, 0.670588, 1 )
+Button/colors/font_color = Color( 0.956863, 0.956863, 0.956863, 1 )
 Button/fonts/font = ExtResource( 2 )
 Button/styles/focus = ExtResource( 9 )
 Button/styles/hover = ExtResource( 4 )

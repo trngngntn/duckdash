@@ -16,7 +16,7 @@ vec2 remap(in vec2 oldUV){
 	return oldUV;
 }
 
-vec2 perspective(in vec2 oldUV){
+vec2 pers(in vec2 oldUV){
 	return vec2(oldUV.x / (2.0 - oldUV.y) , oldUV.y / (2.0 -oldUV.y)) / 0.5;
 }
 

@@ -10,7 +10,7 @@ var dash_dest: Vector2
 var tracking_cam: Camera2D setget set_tracking_cam
 
 var is_attacking: bool = false
-var attack_res = preload("res://scenes/character/skills/attack_magic_bullet.tscn")
+var attack_res = preload("res://scenes/character/skills/attack_power_punch.tscn")
 
 var move_joystick: Joystick = null
 var atk_joystick: Joystick = null
@@ -22,7 +22,7 @@ onready var dash_area: Area2D = $DashHitArea2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$AttackTimer.wait_time = .75
+	$AttackTimer.wait_time = .2
 
 
 func set_tracking_cam(cam: Camera2D) -> void:

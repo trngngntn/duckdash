@@ -24,7 +24,7 @@ func _on_PlayButton_pressed():
 
 
 func _on_InventoryButton_pressed():
-	ScreenManager.change_screen(ScreenManager.SCREEN_INVENTORY)
+	ScreenManager.show_screen_dialog(ScreenManager.SCREEN_EQUIPMENT_CRAFTING)
 
 
 func _on_MarketplaceButton_pressed():

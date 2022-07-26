@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/character/duck_dash_shadow.gd"
 }, {
+"base": "Control",
+"class": "Dialog",
+"language": "GDScript",
+"path": "res://scripts/ui/dialog.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Duck",
 "language": "GDScript",
@@ -136,6 +141,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "DashShadow": "",
+"Dialog": "",
 "Duck": "",
 "DuckState": "",
 "GitAPI": "",
@@ -176,6 +182,7 @@ Conn="*res://scripts/autoload/conn.gd"
 NakamaMatch="*res://scripts/autoload/nakama_match.gd"
 ScreenManager="*res://scripts/autoload/screen_manager.gd"
 MatchManager="*res://scripts/autoload/match_manager.gd"
+EquipmentManager="*res://scripts/autoload/equipment_manager.gd"
 
 [display]
 
@@ -261,5 +268,6 @@ vram_compression/import_etc=true
 gles2/compatibility/disable_half_float=true
 quality/lightmapping/use_bicubic_sampling=false
 environment/default_clear_color=Color( 1, 1, 1, 1 )
+quality/depth/hdr.mobile=true
 environment/default_environment="res://default_env.tres"
 <<<<<<<HEADgles2/compatibility/disable_half_float=true

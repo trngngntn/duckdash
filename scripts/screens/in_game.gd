@@ -119,3 +119,11 @@ func _on_player_dead(player_id) -> void:
 		game_over = true
 		var player_keys = players_alive.keys()
 		emit_signal("game_over", player_keys[0])
+
+
+func _on_DashButton_pressed():
+	Input.action_press("move_dash")
+
+
+func _on_DashButton_released():
+	Input.action_release("move_dash")

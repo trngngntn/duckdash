@@ -1,5 +1,6 @@
 extends Control
 
+const TITLE = "LOBBY"
 const PARTY_SIZE = 4
 
 var players := {}

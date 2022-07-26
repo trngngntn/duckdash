@@ -9,6 +9,8 @@ const SCREEN_CHANGE_EQUIP = preload("res://scenes/screens/equipment_changing.tsc
 const SCREEN_INVENTORY = preload("res://scenes/screens/inventory.tscn")
 const SCREEN_MARKETPLACE = preload("res://scenes/screens/market_place.tscn")
 
+const SCREEN_EQUIPMENT_CRAFTING = preload("res://scenes/screens/dialog/equipment_crafting.tscn")
+
 var screen_res_stack: Array = []
 var current_screen: Node
 
@@ -17,6 +19,7 @@ signal screen_changed(screen)
 onready var main: Node = get_tree().current_scene
 onready var screen: Node = main.get_node("Screen")
 onready var ui: CanvasLayer = main.get_node("UI")
+onready var dialog: Dialog = main.get_node("UI/Dialog")
 onready var self_instance = self
 
 func _ready() -> void:
@@ -27,6 +30,11 @@ func _ready() -> void:
 	_result = main.connect("go_back", self, "_on_ScreenManager_go_back_pressed")
 	Conn.device_auth()
 
+func show_screen_dialog(screen_res: Resource) -> void:
+	var scrn = screen_res.instance()
+	dialog.append_node(scrn)
+	dialog.set_title(str(scrn.get("TITLE")))
+	dialog.show()
 
 func change_screen(screen_res: Resource, go_back := true) -> Node:
 	if not screen:
@@ -49,6 +57,7 @@ func change_screen(screen_res: Resource, go_back := true) -> Node:
 		go_back = false
 		screen_res_stack.clear()
 	else:
+		main.show_titlebar()
 		main.set_title(str(current_screen.get("TITLE")))
 
 	if screen_res_stack.back() != screen_res:
@@ -59,10 +68,10 @@ func change_screen(screen_res: Resource, go_back := true) -> Node:
 	elif not go_back:
 		screen_res_stack.clear()
 
-	main.go_back = go_back
+	main.back = go_back
 
 	emit_signal("screen_changed")
-
+	print(screen_res_stack)
 	return current_screen
 
 

@@ -63,27 +63,26 @@ custom_constants/separation = 200
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
 margin_right = 896.0
-margin_bottom = 104.0
+margin_bottom = 48.0
 custom_constants/separation = 50
 alignment = 2
 
 [node name="GreetingLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
 margin_left = 355.0
-margin_top = 28.0
 margin_right = 601.0
-margin_bottom = 76.0
+margin_bottom = 48.0
 text = "Account name"
 
 [node name="OptionButton" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
 margin_left = 651.0
 margin_right = 896.0
-margin_bottom = 104.0
+margin_bottom = 48.0
 text = "Option"
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
-margin_top = 304.0
+margin_top = 248.0
 margin_right = 896.0
-margin_bottom = 954.0
+margin_bottom = 898.0
 custom_constants/margin_left = 500
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2/MarginContainer"]
