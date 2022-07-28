@@ -28,6 +28,7 @@ margin_left = 50.0
 margin_top = 20.0
 margin_right = -50.0
 margin_bottom = 130.0
+mouse_filter = 2
 theme = ExtResource( 2 )
 
 [node name="Title" type="Label" parent="UI/Titlebar"]
@@ -40,7 +41,9 @@ valign = 1
 [node name="BackButton" type="Button" parent="UI/Titlebar"]
 anchor_right = 0.2
 anchor_bottom = 1.0
+margin_top = 20.0
 margin_right = -88.0
+margin_bottom = -20.0
 text = "Back"
 
 [node name="Dialog" parent="UI" instance=ExtResource( 1 )]

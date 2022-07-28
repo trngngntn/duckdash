@@ -1,0 +1,2 @@
+extends Stat
+class_name Modifier

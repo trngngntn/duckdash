@@ -16,10 +16,10 @@ var is_match = false
 
 
 func _ready():
-	var _result := $Control/ButtonContainer/PlayButton.connect(
+	var _result := $ButtonContainer/PlayButton.connect(
 		"pressed", self, "_on_match_button_pressed", [NakamaMatch.MatchMode.SINGLE]
 	)
-	_result = $Control/ButtonContainer/MatchmakingButton.connect(
+	_result = $ButtonContainer/MatchmakingButton.connect(
 		"pressed", self, "_on_match_button_pressed", [NakamaMatch.MatchMode.MATCHMAKER]
 	)
 
@@ -49,7 +49,7 @@ func _ready():
 		yield(Conn, "socket_connected")
 
 	for i in range(1, PARTY_SIZE + 1):
-		players_slot[i] = get_node("Control/PlayerListCont/PlayerSlot" + str(i))
+		players_slot[i] = get_node("PlayerListCont/PlayerSlot" + str(i))
 
 	players_slot[1].set_player_name(Conn.nkm_session.username)
 
@@ -67,15 +67,15 @@ func del_player(session_id: String) -> void:
 
 
 func reset_buttons() -> void:
-	$Control/ButtonContainer/MatchmakingButton.visible = false
-	$Control/ButtonContainer/ReadyButton.visible = false
-	$Control/ButtonContainer/PlayButton.visible = false
+	$ButtonContainer/MatchmakingButton.visible = false
+	$ButtonContainer/ReadyButton.visible = false
+	$ButtonContainer/PlayButton.visible = false
 
 
 func update_party_size(size: int) -> void:
 	if size >= 1 && size <= 4:
 		party_size = size
-		$Control/MarginContainer/PartySizeControl/Status.text = "Party size: " + str(size)
+		$MarginContainer/PartySizeControl/Status.text = "Party size: " + str(size)
 		for i in range(1, PARTY_SIZE + 1):
 			if i <= size:
 				players_slot[i].visible = true
@@ -83,9 +83,9 @@ func update_party_size(size: int) -> void:
 				players_slot[i].visible = false
 		reset_buttons()
 		if size == 1:
-			$Control/ButtonContainer/PlayButton.visible = true
+			$ButtonContainer/PlayButton.visible = true
 		else:
-			$Control/ButtonContainer/MatchmakingButton.visible = true
+			$ButtonContainer/MatchmakingButton.visible = true
 
 
 func _create_match() -> void:
@@ -158,8 +158,8 @@ func _on_NakamaMatch_match_created(match_id: String) -> void:
 
 
 func _on_NakamaMatch_match_ready(players) -> void:
-	$Control/ButtonContainer/MatchmakingButton.visible = false
-	$Control/ButtonContainer/ReadyButton.visible = true
+	$ButtonContainer/MatchmakingButton.visible = false
+	$ButtonContainer/ReadyButton.visible = true
 
 
 func _on_NakamaMatch_player_joined(player) -> void:

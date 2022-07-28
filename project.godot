@@ -29,10 +29,25 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/character/duck_state.gd"
 }, {
+"base": "Stat",
+"class": "Effect",
+"language": "GDScript",
+"path": "res://scripts/stat/effect.gd"
+}, {
+"base": "Node2D",
+"class": "Equipment",
+"language": "GDScript",
+"path": "res://scripts/items/equipment.gd"
+}, {
 "base": "",
 "class": "GitAPI",
 "language": "NativeScript",
 "path": "res://addons/godot-git-plugin/git_api.gdns"
+}, {
+"base": "Control",
+"class": "InventoryItem",
+"language": "GDScript",
+"path": "res://scripts/ui/inventory_item.gd"
 }, {
 "base": "Node2D",
 "class": "Joystick",
@@ -53,6 +68,11 @@ _global_script_classes=[ {
 "class": "MapGenerator",
 "language": "GDScript",
 "path": "res://scripts/map/map_generator.gd"
+}, {
+"base": "Stat",
+"class": "Modifier",
+"language": "GDScript",
+"path": "res://scripts/stat/modifier.gd"
 }, {
 "base": "Reference",
 "class": "NakamaAPI",
@@ -130,6 +150,11 @@ _global_script_classes=[ {
 "path": "res://scripts/map/open_simplex_noise_strategy.gd"
 }, {
 "base": "Node",
+"class": "Stat",
+"language": "GDScript",
+"path": "res://scripts/stat/stat.gd"
+}, {
+"base": "Node",
 "class": "State",
 "language": "GDScript",
 "path": "res://scripts/character/state.gd"
@@ -138,17 +163,26 @@ _global_script_classes=[ {
 "class": "StateMachine",
 "language": "GDScript",
 "path": "res://scripts/character/state_machine.gd"
+}, {
+"base": "Equipment",
+"class": "Weapon",
+"language": "GDScript",
+"path": "res://scripts/items/weapon.gd"
 } ]
 _global_script_class_icons={
 "DashShadow": "",
 "Dialog": "",
 "Duck": "",
 "DuckState": "",
+"Effect": "",
+"Equipment": "",
 "GitAPI": "",
+"InventoryItem": "",
 "Joystick": "",
 "Map": "",
 "MapGenStrategy": "",
 "MapGenerator": "",
+"Modifier": "",
 "NakamaAPI": "",
 "NakamaAsyncResult": "",
 "NakamaClient": "",
@@ -164,8 +198,10 @@ _global_script_class_icons={
 "NakamaStorageObjectId": "",
 "NakamaWriteStorageObject": "",
 "OpenSimplexNoiseStrategy": "",
+"Stat": "",
 "State": "",
-"StateMachine": ""
+"StateMachine": "",
+"Weapon": ""
 }
 
 [application]

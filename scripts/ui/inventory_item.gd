@@ -1,5 +1,5 @@
-extends Panel
-
+extends Control
+class_name InventoryItem
 
 # Declare member variables here. Examples:
 # var a = 2

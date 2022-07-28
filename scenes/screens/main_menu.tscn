@@ -2,7 +2,7 @@
 
 [ext_resource path="res://resources/ui_theme.tres" type="Theme" id=2]
 [ext_resource path="res://assets/sprites/static/ui/duck_dash_logo.png" type="Texture" id=3]
-[ext_resource path="res://scenes/screens/main_menu.gd" type="Script" id=4]
+[ext_resource path="res://scripts/screens/main_menu.gd" type="Script" id=4]
 
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
@@ -63,26 +63,26 @@ custom_constants/separation = 200
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
 margin_right = 896.0
-margin_bottom = 48.0
+margin_bottom = 41.0
 custom_constants/separation = 50
 alignment = 2
 
 [node name="GreetingLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
-margin_left = 355.0
-margin_right = 601.0
-margin_bottom = 48.0
+margin_left = 422.0
+margin_right = 622.0
+margin_bottom = 41.0
 text = "Account name"
 
 [node name="OptionButton" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
-margin_left = 651.0
+margin_left = 672.0
 margin_right = 896.0
-margin_bottom = 48.0
+margin_bottom = 41.0
 text = "Option"
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
-margin_top = 248.0
+margin_top = 241.0
 margin_right = 896.0
-margin_bottom = 898.0
+margin_bottom = 891.0
 custom_constants/margin_left = 500
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2/MarginContainer"]

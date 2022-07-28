@@ -19,4 +19,4 @@ func _ready():
 
 
 func _on_CraftButton_pressed():
-	EquipmentManager.craft_equipment()
+	EquipmentManager.craft_equipment(EquipmentManager.TYPE_SKILL_CASTER)
