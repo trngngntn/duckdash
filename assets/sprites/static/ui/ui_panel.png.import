@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/duck_dash_logo.png-51aa021b48c958ced5737d9d4a5cdfb5.stex"
+path="res://.import/ui_panel.png-b76293a8e25929669ba702e542c7d6bd.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/static/ui/duck_dash_logo.png"
-dest_files=[ "res://.import/duck_dash_logo.png-51aa021b48c958ced5737d9d4a5cdfb5.stex" ]
+source_file="res://assets/sprites/static/ui/ui_panel.png"
+dest_files=[ "res://.import/ui_panel.png-b76293a8e25929669ba702e542c7d6bd.stex" ]
 
 [params]
 

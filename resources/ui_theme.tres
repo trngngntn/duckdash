@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=14 format=2]
+[gd_resource type="Theme" load_steps=15 format=2]
 
 [ext_resource path="res://resources/ui/ui_textbox.tres" type="StyleBox" id=1]
 [ext_resource path="res://resources/font/ui_font.tres" type="DynamicFont" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://resources/ui/ui_tab_bg.tres" type="StyleBox" id=11]
 [ext_resource path="res://resources/ui/ui_tab_fg.tres" type="StyleBox" id=12]
 [ext_resource path="res://resources/ui/ui_tab_panel.tres" type="StyleBox" id=13]
+[ext_resource path="res://resources/ui/ui_panel.tres" type="StyleBox" id=14]
 
 [resource]
 Button/colors/font_color = Color( 0.956863, 0.956863, 0.956863, 1 )
@@ -25,6 +26,7 @@ Label/fonts/font = ExtResource( 2 )
 LineEdit/fonts/font = ExtResource( 2 )
 LineEdit/styles/focus = ExtResource( 10 )
 LineEdit/styles/normal = ExtResource( 1 )
+Panel/styles/panel = ExtResource( 14 )
 ProgressBar/fonts/font = ExtResource( 2 )
 ProgressBar/styles/bg = ExtResource( 7 )
 ProgressBar/styles/fg = ExtResource( 6 )
