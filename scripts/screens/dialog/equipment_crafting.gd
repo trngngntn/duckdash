@@ -1,7 +1,7 @@
 extends Control
 
 const TITLE = "CRAFT NEW EQUIPMENT"
-
+var panel_equipment = preload("res://scenes/ui/panel_equipment_info.tscn")
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -20,3 +20,7 @@ func _ready():
 
 func _on_CraftButton_pressed():
 	EquipmentManager.craft_equipment(EquipmentManager.TYPE_SKILL_CASTER)
+	var e = yield(EquipmentManager.self_instance, "equipment_crafted")
+	var info = panel_equipment.instance()
+	info.equipment = e
+	add_child(info)

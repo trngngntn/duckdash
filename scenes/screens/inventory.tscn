@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://resources/ui_theme.tres" type="Theme" id=1]
 [ext_resource path="res://scripts/screens/inventory.gd" type="Script" id=2]
-[ext_resource path="res://scenes/ui/inventory_item.tscn" type="PackedScene" id=3]
 
 [node name="ScreenInventory" type="Control"]
 anchor_right = 1.0
@@ -19,69 +18,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 tab_align = 0
 
-[node name="Weapon" type="ScrollContainer" parent="TabContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 40.0
-margin_top = 101.0
-margin_right = -40.0
-margin_bottom = -40.0
-
-[node name="Container" type="GridContainer" parent="TabContainer/Weapon"]
-margin_right = 260.0
-margin_bottom = 120.0
-custom_constants/vseparation = 20
-custom_constants/hseparation = 20
-columns = 10
-
-[node name="InventoryItem" parent="TabContainer/Weapon/Container" instance=ExtResource( 3 )]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 0.0
-margin_top = 0.0
-margin_right = 120.0
-margin_bottom = 120.0
-
-[node name="InventoryItem2" parent="TabContainer/Weapon/Container" instance=ExtResource( 3 )]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 140.0
-margin_top = 0.0
-margin_right = 260.0
-margin_bottom = 120.0
-
-[node name="Shield" type="ScrollContainer" parent="TabContainer"]
-visible = false
-margin_right = 12.0
-margin_bottom = 12.0
-
-[node name="Container" type="GridContainer" parent="TabContainer/Shield"]
-custom_constants/vseparation = 20
-custom_constants/hseparation = 20
-
-[node name="Attack Enhancer" type="ScrollContainer" parent="TabContainer"]
-visible = false
-margin_right = 12.0
-margin_bottom = 12.0
-
-[node name="Container" type="GridContainer" parent="TabContainer/Attack Enhancer"]
-
-[node name="Dash Enhancer" type="ScrollContainer" parent="TabContainer"]
-visible = false
-margin_right = 12.0
-margin_bottom = 12.0
-
-[node name="Container" type="GridContainer" parent="TabContainer/Dash Enhancer"]
-
 [node name="ButtonCraft" type="Button" parent="."]
-margin_left = 1282.0
-margin_top = -119.0
-margin_right = 1492.0
-margin_bottom = -55.0
+margin_left = 1294.0
+margin_top = -125.0
+margin_right = 1504.0
+margin_bottom = -45.0
+rect_min_size = Vector2( 0, 80 )
 text = "Craft"
 
 [connection signal="pressed" from="ButtonCraft" to="." method="_on_ButtonCraft_pressed"]

@@ -39,11 +39,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/items/equipment.gd"
 }, {
-"base": "",
-"class": "GitAPI",
-"language": "NativeScript",
-"path": "res://addons/godot-git-plugin/git_api.gdns"
-}, {
 "base": "Control",
 "class": "InventoryItem",
 "language": "GDScript",
@@ -149,6 +144,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/map/open_simplex_noise_strategy.gd"
 }, {
+"base": "Panel",
+"class": "PanelEquipmentInfo",
+"language": "GDScript",
+"path": "res://scripts/ui/panel_equipment_info.gd"
+}, {
+"base": "Equipment",
+"class": "SkillCaster",
+"language": "GDScript",
+"path": "res://scripts/items/skill_caster.gd"
+}, {
 "base": "Node",
 "class": "Stat",
 "language": "GDScript",
@@ -163,11 +168,6 @@ _global_script_classes=[ {
 "class": "StateMachine",
 "language": "GDScript",
 "path": "res://scripts/character/state_machine.gd"
-}, {
-"base": "Equipment",
-"class": "Weapon",
-"language": "GDScript",
-"path": "res://scripts/items/weapon.gd"
 } ]
 _global_script_class_icons={
 "DashShadow": "",
@@ -176,7 +176,6 @@ _global_script_class_icons={
 "DuckState": "",
 "Effect": "",
 "Equipment": "",
-"GitAPI": "",
 "InventoryItem": "",
 "Joystick": "",
 "Map": "",
@@ -198,10 +197,11 @@ _global_script_class_icons={
 "NakamaStorageObjectId": "",
 "NakamaWriteStorageObject": "",
 "OpenSimplexNoiseStrategy": "",
+"PanelEquipmentInfo": "",
+"SkillCaster": "",
 "Stat": "",
 "State": "",
-"StateMachine": "",
-"Weapon": ""
+"StateMachine": ""
 }
 
 [application]
@@ -219,6 +219,7 @@ NakamaMatch="*res://scripts/autoload/nakama_match.gd"
 ScreenManager="*res://scripts/autoload/screen_manager.gd"
 MatchManager="*res://scripts/autoload/match_manager.gd"
 EquipmentManager="*res://scripts/autoload/equipment_manager.gd"
+StatManager="*res://scripts/autoload/stat_manager.gd"
 
 [display]
 
@@ -230,7 +231,7 @@ window/stretch/aspect="expand"
 
 [gdnative]
 
-singletons=[ "res://addons/godot-git-plugin/git_api.gdnlib" ]
+singletons=[  ]
 
 [global]
 

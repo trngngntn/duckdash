@@ -1,5 +1,7 @@
 extends Node
 
+onready var self_instance = self
+
 var nkm_server_key: String = "duckdash_nakama"
 var nkm_host: String = "10.144.0.2"
 var nkm_port: int = 7350
@@ -34,8 +36,18 @@ signal session_connected(nkm_session)
 
 
 func set_nakama_session(_nkm_session: NakamaSession) -> void:
+	# Close out the old socket.
+	if nkm_socket:
+		nkm_socket.close()
+		nkm_socket = null
+	
 	nkm_session = _nkm_session
+	
 	emit_signal("session_changed", nkm_session)
+	
+	if nkm_session and not nkm_session.is_exception() and not nkm_session.is_expired():
+		print("session_connected")
+		emit_signal("session_connected", nkm_session)
 
 
 #Nakama socket
@@ -70,7 +82,7 @@ signal dev_auth()
 signal dev_unauth()
 
 func login_async(email: String, pwd: String) -> void:
-	nkm_session = yield(
+	self.nkm_session = yield(
 		self.nkm_client.authenticate_email_async(email, pwd, null, false), "completed"
 	)
 
@@ -84,7 +96,7 @@ func login_async(email: String, pwd: String) -> void:
 
 
 func device_auth() -> void:
-	nkm_session = yield(
+	self.nkm_session = yield(
 		self.nkm_client.authenticate_device_async(OS.get_unique_id() + "_duckdash", null, false), "completed"
 	)
 	if nkm_session.is_exception():
@@ -101,7 +113,7 @@ signal register_err(err)
 
 
 func register_async(email: String, usr: String, pwd: String) -> void:
-	nkm_session = yield(
+	self.nkm_session = yield(
 		self.nkm_client.authenticate_email_async(email, pwd, usr, true), "completed"
 	)
 
