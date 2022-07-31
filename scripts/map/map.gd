@@ -5,6 +5,8 @@ const TILE_NAV = 2
 const TILE_WALL = 1
 const TILE_GROUND = 0
 
+const SPAWN_DISTANCE = 600
+
 var _map_data = []
 var ground_tile_id = 0
 var wall_tile_id = 1
@@ -113,11 +115,33 @@ var count = 0
 
 
 func _on_MobSpawnerTimer_timeout():
-	if count == 100:
+	if get_tree().get_nodes_in_group("enemy").size() > 100:
 		return
+	for player in player_cont.get_children():
+		spawn_enemy_around_player(player, 0)
+
+
+func spawn_enemy_around_player(player: Duck, times: int) -> void:
+	if times == 50:
+		return
+	var rand_pos: Vector2 = (
+		(Vector2(2 * randf() - 1, 2 * randf() - 1).normalized() * SPAWN_DISTANCE)
+		+ player.position
+	)
+	var tile_pos: Vector2 = ground_tilemap.world_to_map(ground_tilemap.to_local(rand_pos))
+	if ground_tilemap.get_cell(tile_pos.x, tile_pos.y) == TileMap.INVALID_CELL:
+		spawn_enemy_around_player(player, times + 1)
+		return
+	for other_player in player_cont.get_children():
+		if (
+			other_player != player
+			&& rand_pos.distance_squared_to(other_player.position) < SPAWN_DISTANCE * SPAWN_DISTANCE
+		):
+			spawn_enemy_around_player(player, times + 1)
+			return
 	var l = preload("res://scenes/enemies/enemy_slime.tscn")
 	var enemy = l.instance().init($Navigation, player_cont.get_child(0))
 	# var enemy = preload("res://scenes/enemies/old_enemy_slime.tscn").instance()
-	enemy.position = Vector2(80, 0)
-	player_cont.add_child(enemy)
-	count = count + 1
+	enemy.position = rand_pos
+	$YSort.add_child(enemy)
+	enemy.add_to_group("enemy")

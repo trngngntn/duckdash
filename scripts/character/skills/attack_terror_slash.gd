@@ -11,7 +11,6 @@ func _ready():
 
 
 func trigger(player: Node, _direction: Vector2) -> void:
-	
 	$CollisionPolygon2D.rotation = PI * (13.0 / 18) - _direction.angle()
 	$AnimatedSprite.rotation = _direction.angle() + PI / 2
 	player.add_child(self)
@@ -20,7 +19,7 @@ func trigger(player: Node, _direction: Vector2) -> void:
 		$CollisionPolygon2D,
 		"rotation",
 		_direction.angle() + PI / 2 - PI * (4.0 / 18),
-		_direction.angle() + PI / 2  + PI * (4.0 / 18),
+		_direction.angle() + PI / 2 + PI * (4.0 / 18),
 		0.3
 	)
 	# $Tween.interpolate_property($CollisionPolygon2D, "rotation",PI, 0, 1)
@@ -30,3 +29,9 @@ func trigger(player: Node, _direction: Vector2) -> void:
 
 func _on_Tween_tween_all_completed():
 	queue_free()
+
+
+func _on_Area2D_area_entered(area: Area2D):
+	var node = area.get_parent()
+	if node is Enemy:
+		node.hurt()
