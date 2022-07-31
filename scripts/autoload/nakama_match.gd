@@ -145,8 +145,9 @@ func create_match(_nkm_socket: NakamaSocket) -> void:
 	leave()
 	_set_nakama_socket(_nkm_socket)
 	match_mode = MatchMode.SINGLE
-
+	print("CREATE_MATCH_ASYNC_START")
 	var result = yield(nkm_socket.create_match_async(), "completed")
+	print("CREATE_MATCH_ASYNC_COMPLETE")
 	if result.is_exception():
 		leave()
 		print("MM_ERR: failed to create singleplayer match, " + str(result.get_exception().message))
@@ -200,7 +201,7 @@ func _on_match_created(data: NakamaRTAPI.Match) -> void:
 	var self_player = Player.from_presence(data.self_user, 1)
 	players[self_session_id] = self_player
 	self_peer_id = 1
-
+	print("MATCH_CREATED")
 	emit_signal("match_created", match_id)
 	emit_signal("player_joined", self_player)
 	emit_signal("player_status_changed", self_player, PlayerStatus.CONNECTED)

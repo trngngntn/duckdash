@@ -1,0 +1,5 @@
+[gd_scene format=2]
+
+[node name="Point" type="Polygon2D"]
+color = Color( 1, 0, 0, 1 )
+polygon = PoolVector2Array( -4, 0, 0, 4, 4, 0, 0, -4 )

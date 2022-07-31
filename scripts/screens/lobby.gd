@@ -89,6 +89,7 @@ func update_party_size(size: int) -> void:
 
 
 func _create_match() -> void:
+	print("CREATE_MATCH")
 	NakamaMatch.create_match(Conn.nkm_socket)
 
 

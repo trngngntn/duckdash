@@ -1,6 +1,7 @@
 extends Node2D
 class_name Map
 
+const TILE_NAV = 2
 const TILE_WALL = 1
 const TILE_GROUND = 0
 
@@ -13,29 +14,35 @@ var map_width
 var map_height
 export var map_padding = 10
 
-var map_full_height : int
+var map_full_height: int
 var map_full_width: int
 
+onready var nav_tilemap = $Navigation/NavTileMap
 onready var wall_tilemap = $YSort/TileMap
 onready var ground_tilemap = $Navigation/GroundTileMap
 
 onready var player_cont = $YSort/PlayerCont
 
+
 func _ready():
 	_display_map()
 
-func set_data(data : Array) -> void:
+
+func set_data(data: Array) -> void:
 	_map_data = data
 	map_full_width = data.size() - 1
 	map_full_height = data[0].size() - 1
 	map_width = map_full_width / 2
 	map_height = map_full_height / 2
 
+
 func set_wall_tile(x: int, y: int) -> void:
 	_map_data[x][y] = 1
 
+
 func set_ground_tile(x: int, y: int) -> void:
 	_map_data[x][y] = 0
+
 
 func get_nearby_tile_count(tile_x: int, tile_y: int, tile_type: int) -> int:
 	var tile_count = 0
@@ -43,6 +50,7 @@ func get_nearby_tile_count(tile_x: int, tile_y: int, tile_type: int) -> int:
 		for offset_y in range(-1, 1 + 1):
 			tile_count += 1 if _map_data[tile_x + offset_x][tile_y + offset_y] == tile_type else 0
 	return tile_count
+
 
 func _display_map() -> void:
 	#special treatment
@@ -57,10 +65,12 @@ func _display_map() -> void:
 		for y in range(-map_height, map_height + 1):
 			if _map_data[x + map_width][y + map_height] == 1:
 				wall_tilemap.set_cell(x, y, wall_tile_id)
+			# else:
+			# 	nav_tilemap.set_cell(x, y, TILE_NAV)
 
 	var map_width_padding = map_width + map_padding
 	var map_height_padding = map_height + map_padding
-	
+
 	#padding top and bottom edge
 	for x in range(-map_width_padding, map_width_padding):
 		for y in range(-map_height_padding, -map_height):
@@ -81,16 +91,33 @@ func _display_map() -> void:
 				|| wall_tilemap.get_cell(x, y - 1) == TileMap.INVALID_CELL
 				|| wall_tilemap.get_cell(x - 1, y - 1) == TileMap.INVALID_CELL
 			):
-				ground_tilemap.set_cell(x, y, 0)
-		
+				ground_tilemap.set_cell(x, y, TILE_GROUND)
+				nav_tilemap.set_cell(x, y, TILE_NAV)
 
 	#update bitmask for autotiles
+	nav_tilemap.update_bitmask_region(
+		Vector2(-map_width_padding, -map_height_padding),
+		Vector2(map_width_padding, map_height_padding)
+	)
 	ground_tilemap.update_bitmask_region(
-		Vector2(-map_width_padding, -map_height_padding), Vector2(map_width_padding, map_height_padding)
+		Vector2(-map_width_padding, -map_height_padding),
+		Vector2(map_width_padding, map_height_padding)
 	)
 	wall_tilemap.update_bitmask_region(
-		Vector2(-map_width_padding, -map_height_padding), Vector2(map_width_padding, map_height_padding)
+		Vector2(-map_width_padding, -map_height_padding),
+		Vector2(map_width_padding, map_height_padding)
 	)
 
+
+var count = 0
+
+
 func _on_MobSpawnerTimer_timeout():
-	pass
+	if count == 100:
+		return
+	var l = preload("res://scenes/enemies/enemy_slime.tscn")
+	var enemy = l.instance().init($Navigation, player_cont.get_child(0))
+	# var enemy = preload("res://scenes/enemies/old_enemy_slime.tscn").instance()
+	enemy.position = Vector2(80, 0)
+	player_cont.add_child(enemy)
+	count = count + 1

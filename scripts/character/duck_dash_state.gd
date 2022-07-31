@@ -51,6 +51,7 @@ func enter(dat := {}) -> void:
 
 
 func physics_update(_delta):
+	# player.move_and_slide(speed * direction, Vector2(0,0), false, 4, 0.785398, false)
 	player.move_and_slide(speed * direction)
 
 

@@ -2,8 +2,8 @@ extends KinematicBody2D
 class_name Duck
 
 var direction: Vector2
-var speed: float = 300
-var dash_speed: float = 1500
+var speed: float = 220
+var dash_speed: float = 1200
 var dash_range: float = 250
 var is_dashing: bool = false
 var dash_dest: Vector2
