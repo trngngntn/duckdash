@@ -13,6 +13,7 @@ var hp: float
 var mv_speed: float
 
 var last_position: Vector2
+var damageble: bool = true
 
 onready var sprite: AnimatedSprite = get_node("AnimatedSprite")
 

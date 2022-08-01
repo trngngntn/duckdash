@@ -37,7 +37,7 @@ func hurt() -> void:
 	sprite.material.set_shader_param("enable", true)
 	hp -= 50
 	if hp <= 0:
-		$CollisionShape2D.disabled = true
+		damageble = false
 		movement_ai = null
 	flash_timer.start()
 

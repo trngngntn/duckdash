@@ -259,7 +259,7 @@ enum MatchOpCode { CUSTOM_RPC = 100 }
 
 
 func custom_rpc(node: Node, method: String, args: Array = []) -> void:
-	if nkm_socket:
+	if nkm_socket && players.size() > 1:
 		nkm_socket.send_match_state_async(
 			match_id,
 			MatchOpCode.CUSTOM_RPC,
@@ -268,7 +268,7 @@ func custom_rpc(node: Node, method: String, args: Array = []) -> void:
 
 
 func custom_rpc_id(node: Node, id: int, method: String, args: Array = []) -> void:
-	if nkm_socket:
+	if nkm_socket && players.size() > 1:
 		nkm_socket.send_match_state_async(
 			match_id,
 			MatchOpCode.CUSTOM_RPC,
