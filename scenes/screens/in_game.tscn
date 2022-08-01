@@ -65,5 +65,9 @@ scale = Vector2( 4, 4 )
 normal = ExtResource( 5 )
 shape = SubResource( 1 )
 
+[node name="TestLabel" type="Label" parent="CanvasLayer"]
+margin_right = 330.0
+margin_bottom = 106.0
+
 [connection signal="pressed" from="CanvasLayer/AttackControl/DashButton" to="." method="_on_DashButton_pressed"]
 [connection signal="released" from="CanvasLayer/AttackControl/DashButton" to="." method="_on_DashButton_released"]

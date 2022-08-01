@@ -125,7 +125,7 @@ var count = 0
 
 
 func _on_MobSpawnerTimer_timeout():
-	if get_tree().get_nodes_in_group("enemy").size() > 4:
+	if get_tree().get_nodes_in_group("enemy").size() > 10:
 		return
 	for player in player_cont.get_children():
 		spawn_enemy_around_player(player, 0)
@@ -159,7 +159,7 @@ func spawn_enemy(position: Vector2, target_player_id: String, id: int) -> void:
 	if not NakamaMatch.is_network_server():
 		print("REMOTE_SPAWN")
 	var l = preload("res://scenes/enemies/enemy_slime.tscn")
-	var enemy = l.instance().init($Navigation, player_cont.get_node(target_player_id))
+	var enemy = l.instance().init($Navigation, player_cont.get_node(target_player_id), $ForceUpdateTimer)
 	enemy.position = position
 	enemy.name = "Enemy" + str(id)
 	$YSort.add_child(enemy)

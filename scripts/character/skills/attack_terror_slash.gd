@@ -7,7 +7,8 @@ extends Area2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass  # Replace with function body.
+	if not NakamaMatch.is_network_server():
+		$CollisionPolygon2D.disabled = true
 
 
 func trigger(player: Node, _direction: Vector2) -> void:
@@ -34,4 +35,4 @@ func _on_Tween_tween_all_completed():
 func _on_Area2D_area_entered(area: Area2D):
 	var node = area.get_parent()
 	if node is Enemy:
-		node.hurt()
+		NakamaMatch.custom_rpc_sync(node, "hurt")

@@ -44,6 +44,7 @@ func setup(players: Dictionary) -> void:
 	get_tree().set_pause(true)
 
 	if NakamaMatch.is_network_server():
+		$CanvasLayer/TestLabel.text = "SERVER_INSTANCE"
 		randomize()
 		var map_seed: int = 100
 		NakamaMatch.custom_rpc_sync(self, "generate_map", [map_seed])

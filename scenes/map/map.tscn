@@ -54,6 +54,10 @@ format = 1
 [node name="MobSpawnerTimer" type="Timer" parent="."]
 autostart = true
 
+[node name="ForceUpdateTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 1 )
 

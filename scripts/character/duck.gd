@@ -19,10 +19,17 @@ var atk_direction: Vector2
 
 onready var dash_area: Area2D = $DashHitArea2D
 
+func _get_custom_rpc_methods() -> Array:
+	return [
+		"_attack",
+	]
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
-	$AttackTimer.wait_time = .5
+	if NakamaMatch.is_network_master_for_node(self):
+		$AttackTimer.wait_time = .5
+	else:
+		$AttackTimer.stop()
 
 
 func set_tracking_cam(cam: Camera2D) -> void:
@@ -46,6 +53,8 @@ func map_attack_joystick(_joystick: Joystick) -> void:
 
 
 func _process(_delta):
+	if not NakamaMatch.is_network_master_for_node(self):
+		return
 	if not atk_joystick:
 		if Input.is_action_pressed("attack"):
 			atk_direction = (
@@ -79,10 +88,12 @@ func attack() -> void:
 	if not is_attacking:
 		$AttackTimer.stop()
 		return
-	var attack = attack_res.instance()
-	attack.trigger(self, atk_direction)
-	pass
+	NakamaMatch.custom_rpc_sync(self, "_attack", [atk_direction])
 
+func _attack(_atk_dir: Vector2) -> void:
+	var attack = attack_res.instance()
+	attack.trigger(self, _atk_dir)
+	pass
 
 func on_mouse_attack() -> void:
 	# atk_direction = (((get_viewport().get_mouse_position() + tracking_cam.position) - position) / 2)

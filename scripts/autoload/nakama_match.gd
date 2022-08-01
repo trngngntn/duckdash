@@ -250,7 +250,7 @@ func _on_matchmaker_matched(data: NakamaRTAPI.MatchmakerMatched) -> void:
 		pass
 
 func _on_nakama_match_presence(data: NakamaRTAPI.MatchPresenceEvent) -> void:
-	print("MATCH_PRESENCE_RECEIVED")
+	print("MATCH_PRESENCE_RECEIVED: " + str(data))
 	pass
 
 ####-----------------------------------------------------------------------------------------------
@@ -312,7 +312,7 @@ func _on_match_state_received(data: NakamaRTAPI.MatchData) -> void:
 				not node.has_method("_get_custom_rpc_methods")
 				|| not node._get_custom_rpc_methods().has(rpc_data["method"])
 			):
-				push_warning("CUSTOM_RPC_ERR: rpc method is not valid")
+				push_warning("CUSTOM_RPC_ERR: rpc method '" + rpc_data["method"] + "'' is not valid on path " + rpc_data["node_path"])
 				return
 			node.callv(rpc_data["method"], str2var(rpc_data["args"]))
 

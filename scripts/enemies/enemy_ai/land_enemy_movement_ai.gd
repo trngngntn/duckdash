@@ -13,7 +13,6 @@ var dir: Vector2
 func _get_custom_rpc_methods() -> Array:
 	return [
 		"set_dir",
-		"set_pos",
 	]
 
 
@@ -33,9 +32,12 @@ func move_to_target() -> void:
 func move() -> void:
 	# enemy.linear_velocity = (path[next_point] - enemy.position).normalized() * enemy.mv_speed
 	# enemy.add_central_force(dir - enemy.linear_velocity)
-	if NakamaMatch.is_network_server():
-		enemy.move_and_slide(dir, Vector2(0, 0), false, 1, 0.785398, true)
-		NakamaMatch.custom_rpc(self, "set_pos", [enemy.position])
+
+	enemy.move_and_slide(dir, Vector2(0, 0), false, 1, 0.785398, true)
+	
+	# if NakamaMatch.is_network_server():
+	# 	enemy.move_and_slide(dir, Vector2(0, 0), false, 1, 0.785398, true)
+	# 	NakamaMatch.custom_rpc(self, "set_pos", [enemy.position])
 
 
 # func integrate_forces(state) -> void:
@@ -70,7 +72,3 @@ func on_NavTimer_timeout() -> void:
 ##REMOTE FUNCTIONS
 func set_dir(_dir: Vector2) -> void:
 	dir = _dir
-
-
-func set_pos(pos: Vector2) -> void:
-	enemy.position = pos
