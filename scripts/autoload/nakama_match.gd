@@ -249,6 +249,9 @@ func _on_matchmaker_matched(data: NakamaRTAPI.MatchmakerMatched) -> void:
 		_on_match_joined(result)
 		pass
 
+func _on_nakama_match_presence(data: NakamaRTAPI.MatchPresenceEvent) -> void:
+	print("MATCH_PRESENCE_RECEIVED")
+	pass
 
 ####-----------------------------------------------------------------------------------------------
 # custom RPC functions

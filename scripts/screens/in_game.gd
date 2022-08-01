@@ -63,7 +63,7 @@ func setup(players: Dictionary) -> void:
 	for player_id in players:
 		print("PLAYER: " + str(player_id))
 		var other_player = Player.instance()
-		other_player.name = str(player_id)
+		other_player.name = "Player" + str(player_id)
 
 		if player_id == NakamaMatch.get_network_unique_id():
 			my_id = player_id
@@ -87,6 +87,7 @@ func setup(players: Dictionary) -> void:
 	# var my_id: int = NakamaMatch.get_network_unique_id()
 	# var my_player = map.player_cont.get_node(str(my_id))
 
+	my_player.tracking_cam = $GameCamera
 	$GameCamera.set_node_tracking(my_player)
 	$GameCamera.current = true
 

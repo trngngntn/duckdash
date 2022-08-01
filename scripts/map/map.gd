@@ -24,10 +24,20 @@ onready var wall_tilemap = $YSort/TileMap
 onready var ground_tilemap = $Navigation/GroundTileMap
 
 onready var player_cont = $YSort/PlayerCont
+var enemy_id = 0
+
+
+func _get_custom_rpc_methods() -> Array:
+	return [
+		"spawn_enemy",
+	]
 
 
 func _ready():
 	_display_map()
+	if not NakamaMatch.is_network_server():
+		$MobSpawnerTimer.stop()
+		$Navigation/NavUpdateTimer.stop()
 
 
 func set_data(data: Array) -> void:
@@ -115,13 +125,14 @@ var count = 0
 
 
 func _on_MobSpawnerTimer_timeout():
-	if get_tree().get_nodes_in_group("enemy").size() > 100:
+	if get_tree().get_nodes_in_group("enemy").size() > 4:
 		return
 	for player in player_cont.get_children():
 		spawn_enemy_around_player(player, 0)
 
 
 func spawn_enemy_around_player(player: Duck, times: int) -> void:
+	print("SPAWN")
 	if times == 50:
 		return
 	var rand_pos: Vector2 = (
@@ -139,9 +150,17 @@ func spawn_enemy_around_player(player: Duck, times: int) -> void:
 		):
 			spawn_enemy_around_player(player, times + 1)
 			return
+	NakamaMatch.custom_rpc_sync(self, "spawn_enemy", [rand_pos, player.name, enemy_id])
+	enemy_id += 1
+
+
+#### REMOTE FUNCTIONS
+func spawn_enemy(position: Vector2, target_player_id: String, id: int) -> void:
+	if not NakamaMatch.is_network_server():
+		print("REMOTE_SPAWN")
 	var l = preload("res://scenes/enemies/enemy_slime.tscn")
-	var enemy = l.instance().init($Navigation, player_cont.get_child(0))
-	# var enemy = preload("res://scenes/enemies/old_enemy_slime.tscn").instance()
-	enemy.position = rand_pos
+	var enemy = l.instance().init($Navigation, player_cont.get_node(target_player_id))
+	enemy.position = position
+	enemy.name = "Enemy" + str(id)
 	$YSort.add_child(enemy)
 	enemy.add_to_group("enemy")
