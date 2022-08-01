@@ -47,6 +47,7 @@ func physics_update(_delta) -> void:
 	
 		direction = direction.normalized()
 		update_sprite()
+		# player.move_and_slide(direction * player.speed, Vector2(0,0), false, 4, 0.785398, false)
 		player.move_and_slide(direction * player.speed)
 		NakamaMatch.custom_rpc(self, "_remote_physics_update", [direction, player.position])
 	else:

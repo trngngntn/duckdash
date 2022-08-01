@@ -51,6 +51,7 @@ func enter(dat := {}) -> void:
 
 
 func physics_update(_delta):
+	# player.move_and_slide(speed * direction, Vector2(0,0), false, 4, 0.785398, false)
 	player.move_and_slide(speed * direction)
 
 
@@ -60,10 +61,12 @@ func exit() -> void:
 
 
 func _on_Timer_timeout() -> void:
+	print("DASH_TIMER_TIMEOUT")
 	state_machine.change_state("Idle")
 
 
 func _end_dash(_o, _k) -> void:
+	print("DASH_TWEEN_TIMEOUT")
 	state_machine.change_state("Idle")
 
 

@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://scenes/map/map.gd" type="Script" id=1]
+[ext_resource path="res://scripts/map/map.gd" type="Script" id=1]
 [ext_resource path="res://resources/tileset/tileset_generic_iso.tres" type="TileSet" id=2]
-[ext_resource path="res://assets/sprites/static/joystick_handle.png" type="Texture" id=3]
+[ext_resource path="res://scripts/map/op_nav.gd" type="Script" id=3]
 
 [sub_resource type="Environment" id=1]
 background_mode = 4
@@ -16,6 +16,14 @@ glow_bicubic_upscale = true
 script = ExtResource( 1 )
 
 [node name="Navigation" type="Navigation2D" parent="."]
+script = ExtResource( 3 )
+
+[node name="NavTileMap" type="TileMap" parent="Navigation"]
+scale = Vector2( 2, 4 )
+mode = 1
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 64, 32 )
+format = 1
 
 [node name="GroundTileMap" type="TileMap" parent="Navigation"]
 scale = Vector2( 2, 4 )
@@ -24,6 +32,10 @@ mode = 1
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 64, 32 )
 format = 1
+
+[node name="NavUpdateTimer" type="Timer" parent="Navigation"]
+wait_time = 0.25
+autostart = true
 
 [node name="YSort" type="YSort" parent="."]
 
@@ -34,6 +46,7 @@ tile_set = ExtResource( 2 )
 cell_size = Vector2( 64, 32 )
 cell_tile_origin = 1
 cell_y_sort = true
+collision_mask = 0
 format = 1
 
 [node name="PlayerCont" type="YSort" parent="YSort"]
@@ -41,11 +54,9 @@ format = 1
 [node name="MobSpawnerTimer" type="Timer" parent="."]
 autostart = true
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="Sprite" type="Sprite" parent="Area2D"]
-modulate = Color( 1, 1, 1.5, 1 )
-texture = ExtResource( 3 )
+[node name="ForceUpdateTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 1 )

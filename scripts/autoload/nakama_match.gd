@@ -145,8 +145,9 @@ func create_match(_nkm_socket: NakamaSocket) -> void:
 	leave()
 	_set_nakama_socket(_nkm_socket)
 	match_mode = MatchMode.SINGLE
-
+	print("CREATE_MATCH_ASYNC_START")
 	var result = yield(nkm_socket.create_match_async(), "completed")
+	print("CREATE_MATCH_ASYNC_COMPLETE")
 	if result.is_exception():
 		leave()
 		print("MM_ERR: failed to create singleplayer match, " + str(result.get_exception().message))
@@ -200,7 +201,7 @@ func _on_match_created(data: NakamaRTAPI.Match) -> void:
 	var self_player = Player.from_presence(data.self_user, 1)
 	players[self_session_id] = self_player
 	self_peer_id = 1
-
+	print("MATCH_CREATED")
 	emit_signal("match_created", match_id)
 	emit_signal("player_joined", self_player)
 	emit_signal("player_status_changed", self_player, PlayerStatus.CONNECTED)
@@ -248,6 +249,9 @@ func _on_matchmaker_matched(data: NakamaRTAPI.MatchmakerMatched) -> void:
 		_on_match_joined(result)
 		pass
 
+func _on_nakama_match_presence(data: NakamaRTAPI.MatchPresenceEvent) -> void:
+	print("MATCH_PRESENCE_RECEIVED: " + str(data))
+	pass
 
 ####-----------------------------------------------------------------------------------------------
 # custom RPC functions
@@ -255,7 +259,7 @@ enum MatchOpCode { CUSTOM_RPC = 100 }
 
 
 func custom_rpc(node: Node, method: String, args: Array = []) -> void:
-	if nkm_socket:
+	if nkm_socket && players.size() > 1:
 		nkm_socket.send_match_state_async(
 			match_id,
 			MatchOpCode.CUSTOM_RPC,
@@ -264,7 +268,7 @@ func custom_rpc(node: Node, method: String, args: Array = []) -> void:
 
 
 func custom_rpc_id(node: Node, id: int, method: String, args: Array = []) -> void:
-	if nkm_socket:
+	if nkm_socket && players.size() > 1:
 		nkm_socket.send_match_state_async(
 			match_id,
 			MatchOpCode.CUSTOM_RPC,
@@ -308,7 +312,7 @@ func _on_match_state_received(data: NakamaRTAPI.MatchData) -> void:
 				not node.has_method("_get_custom_rpc_methods")
 				|| not node._get_custom_rpc_methods().has(rpc_data["method"])
 			):
-				push_warning("CUSTOM_RPC_ERR: rpc method is not valid")
+				push_warning("CUSTOM_RPC_ERR: rpc method '" + rpc_data["method"] + "'' is not valid on path " + rpc_data["node_path"])
 				return
 			node.callv(rpc_data["method"], str2var(rpc_data["args"]))
 

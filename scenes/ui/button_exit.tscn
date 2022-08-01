@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/sprites/static/ui/ui_button_exit.png" type="Texture" id=1]
+
+[node name="ButtonExit" type="TextureButton"]
+margin_left = 10.0
+margin_right = 111.0
+margin_bottom = 100.0
+focus_mode = 0
+enabled_focus_mode = 0
+texture_normal = ExtResource( 1 )

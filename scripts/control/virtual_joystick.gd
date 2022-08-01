@@ -41,7 +41,6 @@ func _update(event_position: Vector2) -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
-		print("TOUCH")
 		if event.is_pressed():
 			if _touch_index == -1 && _is_in_range(event.position):
 				_touch_index = event.index

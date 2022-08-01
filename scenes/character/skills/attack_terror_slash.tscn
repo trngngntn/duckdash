@@ -5,27 +5,27 @@
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 32, 32 )
+region = Rect2( 0, 0, 40, 40 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 1 )
-region = Rect2( 32, 0, 32, 32 )
+region = Rect2( 40, 0, 40, 40 )
 
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 1 )
-region = Rect2( 0, 32, 32, 32 )
+region = Rect2( 0, 40, 40, 40 )
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 1 )
-region = Rect2( 32, 32, 32, 32 )
+region = Rect2( 40, 40, 40, 40 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 1 )
-region = Rect2( 0, 64, 32, 32 )
+region = Rect2( 0, 80, 40, 40 )
 
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 1 )
-region = Rect2( 32, 64, 32, 32 )
+region = Rect2( 40, 80, 40, 40 )
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -36,18 +36,22 @@ animations = [ {
 } ]
 
 [node name="Area2D" type="Area2D"]
-scale = Vector2( 6, 3 )
+scale = Vector2( 5, 3 )
+collision_layer = 0
+collision_mask = 4
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
 animation = "move"
-offset = Vector2( 0, -16 )
+frame = 1
+offset = Vector2( 0, -20 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-rotation = -0.698132
-polygon = PoolVector2Array( -1, 0, -1, -24, 1, -24, 1, 0 )
+position = Vector2( 0, 1.19209e-07 )
+polygon = PoolVector2Array( -1, 0, -1, -30, 1, -30, 1, 0 )
 
 [node name="Tween" type="Tween" parent="."]
 
+[connection signal="area_entered" from="." to="." method="_on_Area2D_area_entered"]
 [connection signal="tween_all_completed" from="Tween" to="." method="_on_Tween_tween_all_completed"]

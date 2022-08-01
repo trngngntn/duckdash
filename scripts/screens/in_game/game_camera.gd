@@ -23,6 +23,6 @@ func _physics_process(delta) -> void:
 func set_node_tracking(node: Node) -> void:
 	print("CAM_TRACK: " + str(node)) 
 	tracking_node = node
-	if tracking_node.has_method("set_tracking_cam"):
-		tracking_node.set_tracking_cam(self)
+	# if tracking_node.has_method("set_tracking_cam"):
+	# 	tracking_node.set_tracking_cam(self)
 	tween.start()

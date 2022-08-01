@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
+[ext_resource path="res://scenes/ui/slot_shallow.tscn" type="PackedScene" id=1]
 [ext_resource path="res://resources/ui_theme.tres" type="Theme" id=2]
 [ext_resource path="res://scripts/screens/lobby.gd" type="Script" id=3]
 [ext_resource path="res://scenes/screens/lobby/player_slot.tscn" type="PackedScene" id=4]
@@ -7,29 +8,25 @@
 [node name="Lobby" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 100.0
+margin_left = 50.0
+margin_top = 150.0
+margin_right = -50.0
+margin_bottom = -50.0
 theme = ExtResource( 2 )
 script = ExtResource( 3 )
 
-[node name="Control" type="Control" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 50.0
-margin_top = 50.0
-margin_right = -50.0
-margin_bottom = -50.0
-
-[node name="PlayerListCont" type="VBoxContainer" parent="Control"]
+[node name="PlayerListCont" type="VBoxContainer" parent="."]
 anchor_right = 0.6
-anchor_bottom = 0.8
+anchor_bottom = 0.85
+margin_right = -25.0
 
-[node name="PlayerSlot1" parent="Control/PlayerListCont" instance=ExtResource( 4 )]
+[node name="PlayerSlot1" parent="PlayerListCont" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 900.0
-margin_bottom = 134.0
+margin_right = 875.0
+margin_bottom = 158.0
 
-[node name="PlayerSlot2" parent="Control/PlayerListCont" instance=ExtResource( 4 )]
+[node name="PlayerSlot2" parent="PlayerListCont" instance=ExtResource( 4 )]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -37,7 +34,7 @@ margin_top = 138.0
 margin_right = 900.0
 margin_bottom = 272.0
 
-[node name="PlayerSlot3" parent="Control/PlayerListCont" instance=ExtResource( 4 )]
+[node name="PlayerSlot3" parent="PlayerListCont" instance=ExtResource( 4 )]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -45,7 +42,7 @@ margin_top = 276.0
 margin_right = 900.0
 margin_bottom = 410.0
 
-[node name="PlayerSlot4" parent="Control/PlayerListCont" instance=ExtResource( 4 )]
+[node name="PlayerSlot4" parent="PlayerListCont" instance=ExtResource( 4 )]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -53,59 +50,64 @@ margin_top = 414.0
 margin_right = 900.0
 margin_bottom = 548.0
 
-[node name="CharacterEquipmentCont" type="VBoxContainer" parent="Control"]
-anchor_left = 0.6
-anchor_right = 1.0
-anchor_bottom = 0.8
-alignment = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_top = 0.85
 anchor_right = 0.6
 anchor_bottom = 1.0
-custom_constants/margin_right = 40
-custom_constants/margin_left = 40
+margin_right = -25.0
+custom_constants/margin_right = 0
 
-[node name="PartySizeControl" type="HBoxContainer" parent="Control/MarginContainer"]
-margin_left = 40.0
-margin_right = 860.0
+[node name="PartySizeControl" type="HBoxContainer" parent="MarginContainer"]
+margin_right = 875.0
 margin_bottom = 105.0
 
-[node name="SubButton" type="Button" parent="Control/MarginContainer/PartySizeControl"]
-margin_right = 146.0
+[node name="SubButton" type="Button" parent="MarginContainer/PartySizeControl"]
+margin_right = 118.0
 margin_bottom = 105.0
 text = "-"
 
-[node name="Status" type="Label" parent="Control/MarginContainer/PartySizeControl"]
-margin_left = 150.0
+[node name="Status" type="Label" parent="MarginContainer/PartySizeControl"]
+margin_left = 122.0
 margin_top = 28.0
-margin_right = 667.0
+margin_right = 750.0
 margin_bottom = 76.0
 size_flags_horizontal = 3
 text = "Party size: 1"
 align = 1
 valign = 1
 
-[node name="AddButton" type="Button" parent="Control/MarginContainer/PartySizeControl"]
-margin_left = 671.0
-margin_right = 820.0
+[node name="AddButton" type="Button" parent="MarginContainer/PartySizeControl"]
+margin_left = 754.0
+margin_right = 875.0
 margin_bottom = 105.0
 text = "+"
 
-[node name="ButtonContainer" type="HBoxContainer" parent="Control"]
+[node name="CharacterEquipmentCont" type="Control" parent="."]
+anchor_left = 0.6
+anchor_right = 1.0
+anchor_bottom = 0.85
+
+[node name="Slot" parent="CharacterEquipmentCont" instance=ExtResource( 1 )]
+margin_left = 450.0
+margin_top = -3.0
+margin_bottom = -448.0
+
+[node name="ButtonContainer" type="HBoxContainer" parent="."]
 anchor_left = 0.6
 anchor_top = 0.85
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 25.0
+margin_right = -10.0
 
-[node name="MatchmakingButton" type="Button" parent="Control/ButtonContainer"]
+[node name="MatchmakingButton" type="Button" parent="ButtonContainer"]
 visible = false
 margin_right = 308.0
 margin_bottom = 105.0
 size_flags_horizontal = 3
 text = "Find Game"
 
-[node name="ReadyButton" type="Button" parent="Control/ButtonContainer"]
+[node name="ReadyButton" type="Button" parent="ButtonContainer"]
 visible = false
 margin_right = 599.0
 margin_bottom = 105.0
@@ -113,12 +115,12 @@ size_flags_horizontal = 3
 toggle_mode = true
 text = "Ready"
 
-[node name="PlayButton" type="Button" parent="Control/ButtonContainer"]
-margin_right = 599.0
+[node name="PlayButton" type="Button" parent="ButtonContainer"]
+margin_right = 564.0
 margin_bottom = 105.0
 size_flags_horizontal = 3
 text = "Play"
 
-[connection signal="pressed" from="Control/MarginContainer/PartySizeControl/SubButton" to="." method="_on_SubButton_pressed"]
-[connection signal="pressed" from="Control/MarginContainer/PartySizeControl/AddButton" to="." method="_on_AddButton_pressed"]
-[connection signal="toggled" from="Control/ButtonContainer/ReadyButton" to="." method="_on_ReadyButton_toggled"]
+[connection signal="pressed" from="MarginContainer/PartySizeControl/SubButton" to="." method="_on_SubButton_pressed"]
+[connection signal="pressed" from="MarginContainer/PartySizeControl/AddButton" to="." method="_on_AddButton_pressed"]
+[connection signal="toggled" from="ButtonContainer/ReadyButton" to="." method="_on_ReadyButton_toggled"]

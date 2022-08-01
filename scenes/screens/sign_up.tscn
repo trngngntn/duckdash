@@ -68,9 +68,9 @@ size_flags_horizontal = 3
 [node name="RegisterButton" type="Button" parent="HBoxContainer/Control2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 20.0
+margin_left = 40.0
 margin_top = 20.0
-margin_right = -20.0
+margin_right = -40.0
 rect_min_size = Vector2( 400, 110 )
 text = "Register"
 

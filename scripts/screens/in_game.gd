@@ -44,6 +44,7 @@ func setup(players: Dictionary) -> void:
 	get_tree().set_pause(true)
 
 	if NakamaMatch.is_network_server():
+		$CanvasLayer/TestLabel.text = "SERVER_INSTANCE"
 		randomize()
 		var map_seed: int = 100
 		NakamaMatch.custom_rpc_sync(self, "generate_map", [map_seed])
@@ -63,7 +64,7 @@ func setup(players: Dictionary) -> void:
 	for player_id in players:
 		print("PLAYER: " + str(player_id))
 		var other_player = Player.instance()
-		other_player.name = str(player_id)
+		other_player.name = "Player" + str(player_id)
 
 		if player_id == NakamaMatch.get_network_unique_id():
 			my_id = player_id
@@ -87,6 +88,7 @@ func setup(players: Dictionary) -> void:
 	# var my_id: int = NakamaMatch.get_network_unique_id()
 	# var my_player = map.player_cont.get_node(str(my_id))
 
+	my_player.tracking_cam = $GameCamera
 	$GameCamera.set_node_tracking(my_player)
 	$GameCamera.current = true
 
@@ -119,3 +121,11 @@ func _on_player_dead(player_id) -> void:
 		game_over = true
 		var player_keys = players_alive.keys()
 		emit_signal("game_over", player_keys[0])
+
+
+func _on_DashButton_pressed():
+	Input.action_press("move_dash")
+
+
+func _on_DashButton_released():
+	Input.action_release("move_dash")

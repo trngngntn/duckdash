@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=11 format=2]
+[gd_resource type="Theme" load_steps=15 format=2]
 
 [ext_resource path="res://resources/ui/ui_textbox.tres" type="StyleBox" id=1]
 [ext_resource path="res://resources/font/ui_font.tres" type="DynamicFont" id=2]
@@ -10,11 +10,13 @@
 [ext_resource path="res://resources/ui/ui_button_pressed.tres" type="StyleBox" id=8]
 [ext_resource path="res://resources/ui/ui_button_focus.tres" type="StyleBox" id=9]
 [ext_resource path="res://resources/ui/ui_textbox_focus.tres" type="StyleBox" id=10]
+[ext_resource path="res://resources/ui/ui_tab_bg.tres" type="StyleBox" id=11]
+[ext_resource path="res://resources/ui/ui_tab_fg.tres" type="StyleBox" id=12]
+[ext_resource path="res://resources/ui/ui_tab_panel.tres" type="StyleBox" id=13]
+[ext_resource path="res://resources/ui/ui_panel.tres" type="StyleBox" id=14]
 
 [resource]
-Button/colors/font_color = Color( 0.396078, 0.243137, 0.172549, 1 )
-Button/colors/font_color_focus = Color( 0.0117647, 0.482353, 0.670588, 1 )
-Button/colors/font_color_hover = Color( 0.0117647, 0.482353, 0.670588, 1 )
+Button/colors/font_color = Color( 0.956863, 0.956863, 0.956863, 1 )
 Button/fonts/font = ExtResource( 2 )
 Button/styles/focus = ExtResource( 9 )
 Button/styles/hover = ExtResource( 4 )
@@ -24,11 +26,18 @@ Label/fonts/font = ExtResource( 2 )
 LineEdit/fonts/font = ExtResource( 2 )
 LineEdit/styles/focus = ExtResource( 10 )
 LineEdit/styles/normal = ExtResource( 1 )
+Panel/styles/panel = ExtResource( 14 )
 ProgressBar/fonts/font = ExtResource( 2 )
 ProgressBar/styles/bg = ExtResource( 7 )
 ProgressBar/styles/fg = ExtResource( 6 )
 RichTextLabel/fonts/bold_font = ExtResource( 5 )
 RichTextLabel/fonts/normal_font = ExtResource( 2 )
+TabContainer/constants/side_margin = 4
+TabContainer/constants/top_margin = 30
+TabContainer/fonts/font = ExtResource( 2 )
+TabContainer/styles/panel = ExtResource( 13 )
+TabContainer/styles/tab_bg = ExtResource( 11 )
+TabContainer/styles/tab_fg = ExtResource( 12 )
 TextEdit/fonts/font = ExtResource( 2 )
 TextEdit/styles/focus = ExtResource( 10 )
 TextEdit/styles/normal = ExtResource( 1 )

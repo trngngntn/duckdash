@@ -47,7 +47,7 @@ func _physics_process(delta: float) -> void:
 func change_state(target_state_name: String, dat :={}) -> void:
 	if not has_node(target_state_name):
 		return
-
+	# print("CHANGE_STATE: " + target_state_name + " from " + state.name)
 	state.exit()
 	state = get_node(target_state_name)
 	state.enter(dat)

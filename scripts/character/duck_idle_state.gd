@@ -22,5 +22,5 @@ func physics_update(_delta: float) -> void:
 			state_machine.change_state("Move", {})
 
 func _on_joystick_active(data: Vector2) -> void:
-	if data.length() > 0:
+	if data.length() > 0 && state_machine.state.name != "Dash":
 		state_machine.change_state("Move", {})
