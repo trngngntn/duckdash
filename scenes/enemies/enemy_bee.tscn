@@ -1,0 +1,74 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://scenes/enemies/enemy.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/enemies/enemy_bee.gd" type="Script" id=2]
+[ext_resource path="res://assets/sprites/animated/enemies/enemy_wasp_move_right.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/animated/enemies/enemy_wasp_move_left.png" type="Texture" id=4]
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 24, 24 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 4 )
+region = Rect2( 24, 0, 24, 24 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 4 )
+region = Rect2( 48, 0, 24, 24 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 4 )
+region = Rect2( 72, 0, 24, 24 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 24, 24 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 3 )
+region = Rect2( 24, 0, 24, 24 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 3 )
+region = Rect2( 48, 0, 24, 24 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 3 )
+region = Rect2( 72, 0, 24, 24 )
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ],
+"loop": true,
+"name": "move_left",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ],
+"loop": true,
+"name": "move_right",
+"speed": 15.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=10]
+radius = 8.0
+
+[node name="Bee" instance=ExtResource( 1 )]
+collision_layer = 16
+collision_mask = 16
+script = ExtResource( 2 )
+
+[node name="AnimatedSprite" parent="." index="0"]
+scale = Vector2( 2, 4 )
+z_index = 1
+frames = SubResource( 1 )
+animation = "move_right"
+
+[node name="CollisionShape2D" parent="." index="1"]
+shape = SubResource( 10 )
+
+[node name="HitboxArea" parent="." index="2"]
+collision_layer = 4
+
+[node name="CollisionPolygon2D" parent="HitboxArea" index="0"]
+polygon = PoolVector2Array( 16, -4, 14, -24, 0, -24, -6, 0, -2, 10, -6, 16, 4, 36, 18, 36, 20, 30, 6, 10, 8, 0 )

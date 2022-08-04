@@ -5,7 +5,6 @@
 [ext_resource path="res://resources/material/hurt_shader.tres" type="Shader" id=3]
 
 [sub_resource type="ShaderMaterial" id=7]
-resource_local_to_scene = true
 shader = ExtResource( 3 )
 shader_param/enable = false
 
@@ -34,9 +33,10 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 8, 8 )
+extents = Vector2( 5.65685, 5.65685 )
 
 [node name="Slime" type="KinematicBody2D"]
+position = Vector2( 0, -15 )
 script = ExtResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -51,13 +51,12 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HiboxArea2D"]
-visible = false
-position = Vector2( 0, 19 )
-scale = Vector2( 2, 4 )
+position = Vector2( 0, 11.0375 )
+scale = Vector2( 2, 3.31944 )
 polygon = PoolVector2Array( -4, 0, -6, -2, -6, -5, -5, -7, -3, -9, 3, -9, 5, -7, 6, -5, 6, -2, 4, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2( 0, 15 )
+rotation = 0.785398
 scale = Vector2( 1.5, 1.5 )
 shape = SubResource( 6 )

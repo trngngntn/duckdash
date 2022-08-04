@@ -4,3 +4,6 @@
 
 [resource]
 shader = ExtResource( 1 )
+shader_param/color = null
+shader_param/multiplier = 0.5
+shader_param/softness = 10.0

@@ -19,6 +19,7 @@ script = ExtResource( 1 )
 script = ExtResource( 3 )
 
 [node name="NavTileMap" type="TileMap" parent="Navigation"]
+visible = false
 scale = Vector2( 2, 4 )
 mode = 1
 tile_set = ExtResource( 2 )

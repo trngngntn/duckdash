@@ -34,7 +34,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/stat/effect.gd"
 }, {
-"base": "KinematicBody2D",
+"base": "RigidBody2D",
 "class": "Enemy",
 "language": "GDScript",
 "path": "res://scripts/enemies/enemy.gd"
@@ -58,6 +58,11 @@ _global_script_classes=[ {
 "class": "Equipment",
 "language": "GDScript",
 "path": "res://scripts/items/equipment.gd"
+}, {
+"base": "EnemyMovementAI",
+"class": "FlyEnemyMovementAI",
+"language": "GDScript",
+"path": "res://scripts/enemies/enemy_ai/glide_enemy_movement.gd"
 }, {
 "base": "Control",
 "class": "InventoryItem",
@@ -205,6 +210,7 @@ _global_script_class_icons={
 "EnemyMovementAI": "",
 "EnemySpawner": "",
 "Equipment": "",
+"FlyEnemyMovementAI": "",
 "InventoryItem": "",
 "Joystick": "",
 "LandEnemyMovementAI": "",
@@ -330,6 +336,7 @@ attack={
 2d_physics/layer_2="player_hit"
 2d_physics/layer_3="enemy_hit"
 2d_physics/layer_4="pickup"
+2d_physics/layer_5="fly_movement"
 
 [physics]
 
