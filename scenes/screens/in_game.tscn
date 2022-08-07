@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scripts/screens/in_game.gd" type="Script" id=1]
 [ext_resource path="res://scripts/screens/in_game/game_camera.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://scenes/control/virtual_joystick.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/sprites/static/touch_button.png" type="Texture" id=5]
 [ext_resource path="res://scenes/screens/dialog/in_game_menu.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/ui/hp_bar.tscn" type="PackedScene" id=7]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 20.0
@@ -32,7 +33,12 @@ mouse_filter = 2
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 3
 
+[node name="HPBar" parent="CanvasLayer" instance=ExtResource( 7 )]
+margin_top = 20.0
+margin_bottom = 60.0
+
 [node name="Menu" parent="CanvasLayer" instance=ExtResource( 6 )]
+visible = false
 
 [node name="MoveControl" type="Control" parent="CanvasLayer"]
 anchor_top = 1.0

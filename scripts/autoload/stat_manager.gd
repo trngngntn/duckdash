@@ -1,28 +1,74 @@
 extends Node
 
-var atk_damamge: float = 5
-var atk_range: float = 1
-var atk_speed: float = 1
-var fire_rate: float = 1
-var crit_chance: float = 0
-var crit_mul: float = 2
-var proj_speed: float = 1
-var proj_num: float = 1
-var proj_pierce: float = 0
+var perc_modf = PercentageModifier
+var incr_modf = IncrementModifier
 
-var stat_info_list: Dictionary = {}\
+var atk_damamge = perc_modf
+var atk_range = perc_modf
+var atk_speed = perc_modf
+var fire_rate = perc_modf
+var crit_chance = perc_modf
+var crit_mul = perc_modf
+var proj_speed = perc_modf
+var proj_num = incr_modf
+var proj_pierce = incr_modf
 
-func _init():
-	Conn.connect("session_connected", self, "_on_session_created")
 
-# func _ready() -> void:
-	
-# 	yield(Conn.self_instance, "session_connected")
-	
+class StatValues:
+	var atk_damamge: float = 5
+	var atk_range: float = 1
+	var atk_speed: float = 1
+	var fire_rate: float = 1
+	var crit_chance: float = 0
+	var crit_mul: float = 1.5
+	var proj_speed: float = 1
+	var proj_num: float = 1
+	var proj_pierce: float = 0
 
-func _on_session_created(_d) -> void:
-	fetch_stat_info()
+	func _init(is_base: bool):
+		if !is_base:
+			for prop in get_property_list():
+				set(prop["name"], 0)
 
+	func dup() -> StatValues:
+		var new = StatValues.new(true)
+		for prop in get_property_list():
+			new.set(prop["name"], get(prop["name"]))
+		return new
+
+
+var current_stat: StatValues
+var incr_stat: StatValues
+var base_stat: StatValues = StatValues.new(true)
+var stat_info_list: Dictionary = {}
+
+
+func _init() -> void:
+	var _d := Conn.connect("session_connected", self, "_on_session_created")
+
+
+# Calculate new stat from equipped equipment
+func calculate_stat() -> void:
+	current_stat = base_stat.dup()
+	incr_stat = StatValues.new(false)
+	for type in EquipmentManager.equipped.keys():
+		if EquipmentManager.equipped[type] != null:
+			var equipment: Equipment = EquipmentManager.equipped[type]
+
+			for stat in equipment.stat:
+				var s = get(stat.stat_id)
+				if s != null && s is Modifier && s.is_stacked:
+					var new_val = current_stat.get(stat.stat_id) * stat.get_multiply_value()
+					current_stat.set(stat.stat_id, new_val)
+
+			for stat in equipment.stat:
+				var s = get(stat.stat_id)
+				if s != null && s is Modifier && !s.is_stacked:
+					var new_val = current_stat.get(stat.stat_id) + stat.get_add_value()
+					incr_stat.set(stat.stat_id, new_val)
+
+
+# Fetch stat info for displaying items
 func fetch_stat_info() -> void:
 	var response: NakamaAPI.ApiRpc = yield(
 		Conn.nkm_client.rpc_async(Conn.nkm_session, "get_stat_info_list", null), "completed"
@@ -36,9 +82,13 @@ func fetch_stat_info() -> void:
 		for raw_stat_info in result:
 			stat_info_list[raw_stat_info["id"]] = {}
 			stat_info_list[raw_stat_info["id"]]["format"] = raw_stat_info["format"]
-		
 
 
-# Fetch stat of character from Nakama Server
+# Fetch stat of character calculated by server
 func fetch_player_stat() -> void:
 	pass
+
+
+# CALLBACKS
+func _on_session_created(_d) -> void:
+	fetch_stat_info()

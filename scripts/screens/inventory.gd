@@ -5,8 +5,9 @@ const item = preload("res://scenes/ui/inventory_item.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	for i in range(0, 100):
-		$TabContainer/Weapon/Container.add_child(item.instance())
+	# for i in range(0, 100):
+	# 	$TabContainer/Weapon/Container.add_child(item.instance())
+	pass
 
 
 

@@ -53,10 +53,13 @@ func normalize_path(path: PoolVector2Array) -> PoolVector2Array:
 
 func get_cached_simple_path(from: Vector2, to: Vector2) -> PoolVector2Array:
 	for path in path_list:
+		if path.size() == 0:
+			path_list.erase(path)
+			break
 		if from.distance_squared_to(path[0]) < UPDATE_THRESHOLD:
 			return path
-	var new_path = normalize_path(get_simple_path(from, to))
-	# var new_path = get_simple_path(from, to)
+	# var new_path = normalize_path(get_simple_path(from, to))
+	var new_path = get_simple_path(from, to)
 	path_list.append(new_path)
 	# print("NEW_PATH: " + str(path_list.size()))
 	return new_path

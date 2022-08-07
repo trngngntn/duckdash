@@ -13,6 +13,9 @@ var flash_timer: Timer
 
 var hp: float
 var mv_speed: float
+var atk_dmg: float
+var atk_speed: float = 1
+var col_dmg: float = 10
 
 var last_position: Vector2
 
@@ -53,6 +56,9 @@ func _ready() -> void:
 	flash_timer.connect("timeout", self, "_flash_timer_timeout")
 	add_child(flash_timer)
 
+	$CollisionAtkTimer.wait_time = 0.5
+	$DirectAtkTimer.wait_time = 1 / atk_speed
+
 	if movement_ai:
 		add_child(movement_ai)
 		if NakamaMatch.is_network_server():
@@ -92,6 +98,7 @@ func _flash_timer_timeout() -> void:
 	sprite.material.set_shader_param("enable", false)
 	if hp <= 0:
 		kills()
+		set_physics_process(false)
 
 #### Update states functions
 func _force_update() -> void:
@@ -103,3 +110,9 @@ func _force_update() -> void:
 func _update(pos: Vector2) -> void:
 	# print("UPDATE_FORCED")
 	position = pos
+
+
+func _on_HitboxArea_area_entered(area:Area2D):
+	var node = area.get_parent()
+	# if node is Duck:
+	# 	node.hurt()

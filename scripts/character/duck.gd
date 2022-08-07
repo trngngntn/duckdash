@@ -19,6 +19,7 @@ var atk_direction: Vector2
 
 onready var dash_area: Area2D = $DashHitArea2D
 
+
 func _get_custom_rpc_methods() -> Array:
 	return [
 		"_attack",
@@ -90,10 +91,12 @@ func attack() -> void:
 		return
 	NakamaMatch.custom_rpc_sync(self, "_attack", [atk_direction])
 
+
 func _attack(_atk_dir: Vector2) -> void:
 	var attack = attack_res.instance()
 	attack.trigger(self, _atk_dir)
 	pass
+
 
 func on_mouse_attack() -> void:
 	# atk_direction = (((get_viewport().get_mouse_position() + tracking_cam.position) - position) / 2)
@@ -113,3 +116,7 @@ func _on_attack_joystick_active(data: Vector2) -> void:
 		is_attacking = true
 		attack()
 		$AttackTimer.start()
+
+
+func hurt() -> void:
+	pass

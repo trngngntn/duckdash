@@ -32,7 +32,7 @@ _global_script_classes=[ {
 "base": "Stat",
 "class": "Effect",
 "language": "GDScript",
-"path": "res://scripts/stat/effect.gd"
+"path": "res://scripts/stat/effect/effect.gd"
 }, {
 "base": "RigidBody2D",
 "class": "Enemy",
@@ -62,7 +62,17 @@ _global_script_classes=[ {
 "base": "EnemyMovementAI",
 "class": "FlyEnemyMovementAI",
 "language": "GDScript",
+"path": "res://scripts/enemies/enemy_ai/fly_enemy_movement_ai.gd"
+}, {
+"base": "EnemyMovementAI",
+"class": "GlideEnemyMovementAI",
+"language": "GDScript",
 "path": "res://scripts/enemies/enemy_ai/glide_enemy_movement.gd"
+}, {
+"base": "Modifier",
+"class": "IncrementModifier",
+"language": "GDScript",
+"path": "res://scripts/stat/modifier/increment_modf.gd"
 }, {
 "base": "Control",
 "class": "InventoryItem",
@@ -97,7 +107,7 @@ _global_script_classes=[ {
 "base": "Stat",
 "class": "Modifier",
 "language": "GDScript",
-"path": "res://scripts/stat/modifier.gd"
+"path": "res://scripts/stat/modifier/modifier.gd"
 }, {
 "base": "Reference",
 "class": "NakamaAPI",
@@ -179,6 +189,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/ui/panel_equipment_info.gd"
 }, {
+"base": "Modifier",
+"class": "PercentageModifier",
+"language": "GDScript",
+"path": "res://scripts/stat/modifier/percentage_modf.gd"
+}, {
 "base": "Equipment",
 "class": "SkillCaster",
 "language": "GDScript",
@@ -211,6 +226,8 @@ _global_script_class_icons={
 "EnemySpawner": "",
 "Equipment": "",
 "FlyEnemyMovementAI": "",
+"GlideEnemyMovementAI": "",
+"IncrementModifier": "",
 "InventoryItem": "",
 "Joystick": "",
 "LandEnemyMovementAI": "",
@@ -234,6 +251,7 @@ _global_script_class_icons={
 "NakamaWriteStorageObject": "",
 "OpenSimplexNoiseStrategy": "",
 "PanelEquipmentInfo": "",
+"PercentageModifier": "",
 "SkillCaster": "",
 "Stat": "",
 "State": "",

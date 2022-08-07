@@ -1,5 +1,5 @@
 extends EnemyMovementAI
-class_name FlyEnemyMovementAI
+class_name GlideEnemyMovementAI
 
 const UPDATE_INTERVAL = 0.2
 

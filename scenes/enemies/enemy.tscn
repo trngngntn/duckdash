@@ -8,6 +8,7 @@ collision_mask = 0
 script = ExtResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+scale = Vector2( 2, 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
@@ -16,3 +17,9 @@ collision_layer = 0
 collision_mask = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitboxArea"]
+
+[node name="CollisionAtkTimer" type="Timer" parent="."]
+
+[node name="DirectAtkTimer" type="Timer" parent="."]
+
+[connection signal="area_entered" from="HitboxArea" to="." method="_on_HitboxArea_area_entered"]

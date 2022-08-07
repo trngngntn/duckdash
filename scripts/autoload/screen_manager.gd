@@ -48,14 +48,12 @@ func change_screen(screen_res: Resource, go_back := true) -> Node:
 	screen.add_child(current_screen)
 
 	if screen_res == SCREEN_INGAME:
+		go_back = false
 		main.hide_background()
-	else:
-		main.show_background()
-
-	if screen_res == SCREEN_MENU:
+		main.hide_titlebar()
+	elif screen_res == SCREEN_MENU:
 		main.hide_titlebar()
 		go_back = false
-		screen_res_stack.clear()
 	else:
 		main.show_titlebar()
 		main.set_title(str(current_screen.get("TITLE")))
