@@ -9,19 +9,21 @@ const TYPE_ATK_ENHANCER = "atk_enhancer"
 
 var equipment_list: Dictionary = {
 	"skill_caster": [],
-	"body_protector": [],
+	"shield": [],
 	"mv_booster": [],
 	"atk_enhancer": [],
 }
 
 var equipped: Dictionary = {
 	"skill_caster": null,
-	"body_protector": null,
+	"shield": null,
 	"mv_booster": null,
 	"atk_enhancer": null,
 }
 
+signal equipment_updated(type)
 signal equipment_crafted(equipment)
+signal equipment_added(equipment)
 
 
 func equip(equipment: Equipment):
@@ -48,7 +50,7 @@ func parse_equipment(detail: String) -> Dictionary:
 		var stat: Stat
 		if available:
 			stat = available.new(raw_stat["name"], raw_stat["value"])
-		else: 
+		else:
 			stat = Stat.new(raw_stat["name"], raw_stat["value"])
 		equipment.stat.push_back(stat)
 	return {"raw": "", "equipment": equipment}
@@ -66,6 +68,8 @@ func craft_equipment(type: String) -> Equipment:
 	else:
 		print(response.payload)
 		var parse_result = parse_equipment(response.payload)
-		emit_signal("equipment_crafted", parse_result["equipment"])
 		equipment_list[type].append(parse_result["equipment"])
+		emit_signal("equipment_crafted", parse_result["equipment"])
+		emit_signal("equipment_added", parse_result["equipment"])
+		emit_signal("equipment_updated", parse_result["equipment"].type_name)
 		return parse_result["equipment"]

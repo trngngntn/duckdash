@@ -4,7 +4,7 @@
 [ext_resource path="res://scripts/ui/inventory_item.gd" type="Script" id=2]
 [ext_resource path="res://assets/sprites/static/item/weapon.png" type="Texture" id=3]
 
-[node name="InventoryItem" type="Control"]
+[node name="InventoryItem" type="LinkButton"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -21,10 +21,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 120, 120 )
 texture = ExtResource( 1 )
-patch_margin_left = 24
-patch_margin_top = 24
-patch_margin_right = 24
-patch_margin_bottom = 24
+patch_margin_left = 20
+patch_margin_top = 20
+patch_margin_right = 20
+patch_margin_bottom = 20
 
 [node name="TextureRect" type="TextureRect" parent="NinePatchRect"]
 anchor_left = 0.5
@@ -37,3 +37,5 @@ margin_right = 32.0
 margin_bottom = 32.0
 texture = ExtResource( 3 )
 expand = true
+
+[connection signal="pressed" from="." to="." method="_on_InventoryItem_pressed"]
