@@ -81,6 +81,7 @@ func setup(players: Dictionary) -> void:
 		# ).position
 
 		other_player.connect("player_dead", self, "_on_player_dead", [player_id])
+		other_player.add_to_group("player")
 		other_player.finish_setup()
 		# if not GameState.online_play:
 		# 	other_player.player_controlled = true

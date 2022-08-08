@@ -1,4 +1,4 @@
-extends Area2D
+extends Attack
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -6,21 +6,18 @@ extends Area2D
 
 
 func _ready():
-	pass
+	mul_atk = 2
+
+	tween = Tween.new()
+	add_child(tween)
 
 
 func trigger(player: Node, _direction: Vector2) -> void:
 	rotation = _direction.angle() + PI / 2
 	player.add_child(self)
 	$AnimatedSprite.play("move")
-	$Tween.interpolate_property(
-		$CollisionPolygon2D,
-		"position:y",
-		0,
-		-4,
-		0.05	
-	)
-	$Tween.start()
+	tween.interpolate_property($CollisionPolygon2D, "position:y", 0, -4, 0.05)
+	tween.start()
 	pass
 
 
