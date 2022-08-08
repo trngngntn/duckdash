@@ -32,7 +32,7 @@ func _update_sizing() -> void:
 	var item_col = floor((rect_size.x - 20) / (min_gap + item_size))
 	var gap = ((rect_size.x - 20) - item_col * item_size) / (item_col - 1)
 	$GridContainer.columns = item_col
-	print("COLL: " + str(rect_size))
+	# print("COLL: " + str(rect_size))
 	$GridContainer.add_constant_override("hseparation", gap)
 	$GridContainer.add_constant_override("vseparation", gap)
 

@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://resources/ui_theme.tres" type="Theme" id=1]
 [ext_resource path="res://scenes/ui/inventory_item.tscn" type="PackedScene" id=2]
-[ext_resource path="res://resources/font/ui_font_bold.tres" type="DynamicFont" id=3]
 [ext_resource path="res://scripts/ui/panel_equipment_info.gd" type="Script" id=4]
 
 [node name="Panel" type="Panel"]
@@ -15,11 +14,12 @@ script = ExtResource( 4 )
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -200.0
-margin_right = 200.0
+margin_left = -150.0
+margin_right = 150.0
+margin_bottom = -100.0
 
 [node name="Control" type="Control" parent="VBoxContainer"]
-margin_right = 400.0
+margin_right = 300.0
 margin_bottom = 200.0
 rect_min_size = Vector2( 0, 200 )
 
@@ -27,14 +27,27 @@ rect_min_size = Vector2( 0, 200 )
 
 [node name="Name" type="Label" parent="VBoxContainer"]
 margin_top = 204.0
-margin_right = 400.0
-margin_bottom = 304.0
-rect_min_size = Vector2( 0, 100 )
-custom_fonts/font = ExtResource( 3 )
+margin_right = 300.0
+margin_bottom = 264.0
+rect_min_size = Vector2( 0, 60 )
 text = "Skill Caster"
 align = 1
 
 [node name="StatList" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 308.0
-margin_right = 400.0
-margin_bottom = 308.0
+margin_top = 268.0
+margin_right = 300.0
+margin_bottom = 268.0
+
+[node name="EquipButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -100.0
+margin_top = -100.0
+margin_right = 100.0
+margin_bottom = -20.0
+rect_min_size = Vector2( 0, 80 )
+text = "Equip"
+
+[connection signal="pressed" from="EquipButton" to="." method="_on_EquipButton_pressed"]

@@ -62,10 +62,10 @@ func setup(players: Dictionary) -> void:
 	var my_player: Duck
 	var my_id: int
 	for player_id in players:
-		print("PLAYER: " + str(player_id))
+		# print("PLAYER: " + str(player_id))
 		var other_player = Player.instance()
 		other_player.name = "Player" + str(player_id)
-
+		# is current player
 		if player_id == NakamaMatch.get_network_unique_id():
 			my_id = player_id
 			my_player = other_player

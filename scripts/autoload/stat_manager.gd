@@ -79,9 +79,10 @@ func fetch_stat_info() -> void:
 	else:
 		print(response.payload)
 		var result = JSON.parse(response.payload).result
-		for raw_stat_info in result:
-			stat_info_list[raw_stat_info["id"]] = {}
-			stat_info_list[raw_stat_info["id"]]["format"] = raw_stat_info["format"]
+		if result: 
+			for raw_stat_info in result:
+				stat_info_list[raw_stat_info["id"]] = {}
+				stat_info_list[raw_stat_info["id"]]["format"] = raw_stat_info["format"]
 
 
 # Fetch stat of character calculated by server

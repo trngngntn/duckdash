@@ -17,7 +17,7 @@ func _ready() -> void:
 
 
 func squeeze() -> void:
-	$TabContainer.anchor_right = 0.6
+	$TabContainer.anchor_right = 0.7
 	emit_signal("squeezed")
 
 

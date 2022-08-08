@@ -36,7 +36,7 @@ text = "Craft"
 
 [node name="InfoPanel" parent="." instance=ExtResource( 4 )]
 visible = false
-anchor_left = 0.6
+anchor_left = 0.7
 margin_left = 50.0
 
 [connection signal="pressed" from="ButtonCraft" to="." method="_on_ButtonCraft_pressed"]
