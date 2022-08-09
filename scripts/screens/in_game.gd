@@ -127,6 +127,10 @@ func _stop() -> void:
 
 func _on_player_dead(player_id) -> void:
 	emit_signal("player_dead", player_id)
+
+	if player_id == my_id:
+		$CanvasLayer/GameOver.show()
+
 	players_alive.erase(player_id)
 	if not game_over and players_alive.size() == 0:
 		game_over = true
