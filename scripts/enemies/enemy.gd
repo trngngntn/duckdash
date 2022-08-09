@@ -114,5 +114,5 @@ func _update(pos: Vector2) -> void:
 
 func _on_HitboxArea_area_entered(area:Area2D):
 	var node = area.get_parent()
-	# if node is Duck:
-	# 	node.hurt()
+	if node.has_method("hurt"):
+		node.hurt()

@@ -10,10 +10,15 @@ var game_over := false
 var players_alive := {}
 var players_setup := {}
 
+var my_player: Duck
+var my_id: int
+
 signal map_generated
 signal game_started
 signal game_over
 signal player_dead(player_id)
+
+onready var hp_bar := $CanvasLayer/HPBar
 
 
 func _get_custom_rpc_methods() -> Array:
@@ -59,40 +64,45 @@ func setup(players: Dictionary) -> void:
 	players_alive = players
 
 	#reload_map()
-	var my_player: Duck
-	var my_id: int
+	
 	for player_id in players:
-		# print("PLAYER: " + str(player_id))
-		var other_player = Player.instance()
-		other_player.name = "Player" + str(player_id)
-		# is current player
-		if player_id == NakamaMatch.get_network_unique_id():
-			my_id = player_id
-			my_player = other_player
-			my_player.map_move_joystick($CanvasLayer/MoveControl/MoveJoystick)
-			my_player.map_attack_joystick($CanvasLayer/AttackControl/AttackJoystick)
+		var player = Player.instance()
+		player.name = "Player" + str(player_id)
+		
 
-		map.player_cont.add_child(other_player)
-
-		other_player.set_network_master(player_id)
-		other_player.set_player_name(players[player_id])
+		map.player_cont.add_child(player)
+		player.set_network_master(player_id)
+		player.set_player_name(players[player_id])
 		# other_player.position = map.get_node(
 		# 	"PlayerStartPositions/Player" + str(player_id)
 		# ).position
 
-		other_player.connect("player_dead", self, "_on_player_dead", [player_id])
-		other_player.add_to_group("player")
-		other_player.finish_setup()
-		# if not GameState.online_play:
-		# 	other_player.player_controlled = true
-		# 	other_player.input_prefix = "player" + str(player_id) + "_"
-	# var my_id: int = NakamaMatch.get_network_unique_id()
-	# var my_player = map.player_cont.get_node(str(my_id))
+		player.connect("dead", self, "_on_player_dead", [player_id])
+		player.add_to_group("player")
+		if player_id == NakamaMatch.get_network_unique_id():
+			my_id = player_id
+			my_player = player
+		else:
+			player.finish_setup()
+
+	# setup for current player
+	StatManager.calculate_stat()
+
+	my_player.connect("hp_changed", hp_bar, "_on_player_hp_changed")
+	my_player.connect("hp_max_changed", hp_bar, "_on_player_hp_max_changed")
+	hp_bar.value = StatManager.get_stat("max_hp")
+
+	my_player.map_move_joystick($CanvasLayer/MoveControl/MoveJoystick)
+	my_player.map_attack_joystick($CanvasLayer/AttackControl/AttackJoystick)
 
 	my_player.tracking_cam = $GameCamera
 	$GameCamera.set_node_tracking(my_player)
 	$GameCamera.current = true
 
+	my_player.finish_setup()
+
+	
+	# notify other players 
 	NakamaMatch.custom_rpc_id_sync(self, 1, "_finish_setup", [my_id])
 
 
@@ -120,8 +130,9 @@ func _on_player_dead(player_id) -> void:
 	players_alive.erase(player_id)
 	if not game_over and players_alive.size() == 0:
 		game_over = true
+		print("ENDGAMAE")
 		var player_keys = players_alive.keys()
-		emit_signal("game_over", player_keys[0])
+		# emit_signal("game_over", player_keys[0])
 
 
 func _on_DashButton_pressed():

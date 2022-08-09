@@ -16,6 +16,7 @@ func trigger(player: Node, _direction: Vector2) -> void:
 	direction = _direction.normalized()
 	position = player.position + (_direction.normalized() * Vector2(0.5, 1) * 32)
 	$AnimatedSprite.rotation = direction.angle() + PI / 2
+	$CollisionPolygon2D.rotation = direction.angle() + PI / 2
 	$AnimatedSprite.play("move")
 	decay_timer.start()
 

@@ -80,7 +80,7 @@ func craft_equipment(type: String) -> Equipment:
 		print("An error occurred: %s" % response)
 		return null
 	else:
-		print(response.payload)
+		# print(response.payload)
 		var equipment = parse_equipment(response.payload)
 		equipment_list[type].append(equipment)
 		emit_signal("equipment_crafted", equipment)
@@ -97,7 +97,7 @@ func get_inventory():
 		print("An error occurred: %s" % response)
 		return null
 	else:
-		print(response.payload)
+		# print(response.payload)
 		var result = JSON.parse(response.payload).result
 
 		for type in result.keys():

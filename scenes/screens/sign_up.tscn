@@ -71,7 +71,8 @@ anchor_bottom = 1.0
 margin_left = 40.0
 margin_top = 20.0
 margin_right = -40.0
-rect_min_size = Vector2( 400, 110 )
+margin_bottom = -39.0
+rect_min_size = Vector2( 400, 80 )
 text = "Register"
 
 [node name="Control3" type="Control" parent="HBoxContainer"]

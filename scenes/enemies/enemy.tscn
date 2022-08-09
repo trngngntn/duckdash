@@ -13,8 +13,8 @@ scale = Vector2( 2, 4 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
 [node name="HitboxArea" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 0
+collision_layer = 4
+collision_mask = 2
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitboxArea"]
 

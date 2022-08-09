@@ -15,6 +15,11 @@ var proj_pierce = incr_modf
 
 
 class StatValues:
+	var max_hp: float = 100
+	var mv_speed: float = 150
+	var dash_speed: float = 1000
+	var dash_range: float = 250
+
 	var atk_damamge: float = 5
 	var atk_range: float = 1
 	var atk_speed: float = 1
@@ -51,21 +56,27 @@ func _init() -> void:
 func calculate_stat() -> void:
 	current_stat = base_stat.dup()
 	incr_stat = StatValues.new(false)
-	for type in EquipmentManager.equipped.keys():
-		if EquipmentManager.equipped[type] != null:
-			var equipment: Equipment = EquipmentManager.equipped[type]
 
-			for stat in equipment.stat:
-				var s = get(stat.stat_id)
-				if s != null && s is Modifier && s.is_stacked:
-					var new_val = current_stat.get(stat.stat_id) * stat.get_multiply_value()
-					current_stat.set(stat.stat_id, new_val)
+	print("STAT:  " + str(current_stat.max_hp))
 
-			for stat in equipment.stat:
-				var s = get(stat.stat_id)
-				if s != null && s is Modifier && !s.is_stacked:
-					var new_val = current_stat.get(stat.stat_id) + stat.get_add_value()
-					incr_stat.set(stat.stat_id, new_val)
+	# for type in EquipmentManager.equipped.keys():
+	# 	if EquipmentManager.equipped[type] != null:
+	# 		var equipment: Equipment = EquipmentManager.equipped[type]
+
+	# 		for stat in equipment.stat:
+	# 			var s = get(stat.stat_id)
+	# 			if s != null && s is Modifier && s.is_stacked:
+	# 				var new_val = current_stat.get(stat.stat_id) * stat.get_multiply_value()
+	# 				current_stat.set(stat.stat_id, new_val)
+
+	# 		for stat in equipment.stat:
+	# 			var s = get(stat.stat_id)
+	# 			if s != null && s is Modifier && !s.is_stacked:
+	# 				var new_val = current_stat.get(stat.stat_id) + stat.get_add_value()
+	# 				incr_stat.set(stat.stat_id, new_val)
+
+func get_stat(stat_name: String):
+	return current_stat.get(stat_name)
 
 
 # Fetch stat info for displaying items
