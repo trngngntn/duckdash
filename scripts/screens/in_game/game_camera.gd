@@ -8,6 +8,9 @@ func _ready() -> void:
 	add_child(tween)
 
 func _physics_process(delta) -> void:
+	if not is_instance_valid(tracking_node) || tracking_node.is_queued_for_deletion():
+		queue_free()
+		return
 	if tracking_node:
 		tween.interpolate_property(
 			self,

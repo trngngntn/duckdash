@@ -1,16 +1,20 @@
 extends Control
 class_name InventoryItem
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+var equipment: Equipment
+
+var normal_tex = preload("res://assets/sprites/static/ui/ui_item.png")
+var selected_tex = preload("res://assets/sprites/static/ui/ui_item_selected.png")
+
+signal selected(item)
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	pass  # Replace with function body.
 
+func unselect():
+	$NinePatchRect.texture = normal_tex
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _on_InventoryItem_pressed():
+	$NinePatchRect.texture = selected_tex
+	emit_signal("selected", self)

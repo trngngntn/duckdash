@@ -30,19 +30,12 @@ func move_to_target() -> void:
 
 
 func move() -> void:
-	# enemy.linear_velocity = (path[next_point] - enemy.position).normalized() * enemy.mv_speed
-	# enemy.add_central_force(dir - enemy.linear_velocity)
+	# enemy.linear_velocity = dir
+	# # enemy.add_central_force(dir - enemy.linear_velocity)
+	pass
 
-	enemy.move_and_slide(dir, Vector2(0, 0), false, 1, 0.785398, true)
-	
-	# if NakamaMatch.is_network_server():
-	# 	enemy.move_and_slide(dir, Vector2(0, 0), false, 1, 0.785398, true)
-	# 	NakamaMatch.custom_rpc(self, "set_pos", [enemy.position])
-
-
-# func integrate_forces(state) -> void:
-# 	# state.linear_velocity = dir
-# 	pass
+func integrate_forces(state) -> void:
+	state.linear_velocity = dir
 
 
 func update_dir() -> void:

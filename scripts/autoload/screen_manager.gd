@@ -8,6 +8,7 @@ const SCREEN_INGAME = preload("res://scenes/screens/in_game.tscn")
 const SCREEN_CHANGE_EQUIP = preload("res://scenes/screens/equipment_changing.tscn")
 const SCREEN_INVENTORY = preload("res://scenes/screens/inventory.tscn")
 const SCREEN_MARKETPLACE = preload("res://scenes/screens/market_place.tscn")
+const SCREEN_PROFILE = preload("res://scenes/screens/profile_screen.tscn")
 
 const SCREEN_EQUIPMENT_CRAFTING = preload("res://scenes/screens/dialog/equipment_crafting.tscn")
 
@@ -20,15 +21,32 @@ onready var main: Node = get_tree().current_scene
 onready var screen: Node = main.get_node("Screen")
 onready var ui: CanvasLayer = main.get_node("UI")
 onready var dialog: Dialog = main.get_node("UI/Dialog")
+onready var small_dialog: Dialog = main.get_node("UI/SmallDialog")
+onready var notification_dialog = main.get_node("UI/Notification")
+
 onready var self_instance = self
 
 func _ready() -> void:
 	var _result := Conn.connect("dev_auth", self, "_on_NakamaConn_device_authorized")
 	_result = Conn.connect("dev_unauth", self, "_on_NakamaConn_device_unauthorized")
-	_result = Conn.connect("logged_in", self, "_on_NakamaConn_logged_in")
+	_result = Conn.connect("nakama_logged_in", self, "_on_NakamaConn_logged_in")
 	_result = Conn.connect("registered", self, "_on_NakamaConn_registered")
 	_result = main.connect("go_back", self, "_on_ScreenManager_go_back_pressed")
 	Conn.device_auth()
+
+func show_small_dialog(screen_res: Resource) -> void:
+	var scrn = screen_res.instance()
+	small_dialog.append_node(scrn)
+	small_dialog.set_title(str(scrn.get("TITLE")))
+	small_dialog.show()
+
+func show_notification(screen_res: Resource, notification: NakamaAPI.ApiNotification):
+	#var scrn = screen_res.instance()
+	
+	notification_dialog.set_notification_label(notification.subject)
+	notification_dialog.append_node(screen_res)
+	notification_dialog.set_time_remove(5)
+	notification_dialog.show()
 
 func show_screen_dialog(screen_res: Resource) -> void:
 	var scrn = screen_res.instance()
@@ -48,14 +66,12 @@ func change_screen(screen_res: Resource, go_back := true) -> Node:
 	screen.add_child(current_screen)
 
 	if screen_res == SCREEN_INGAME:
+		go_back = false
 		main.hide_background()
-	else:
-		main.show_background()
-
-	if screen_res == SCREEN_MENU:
+		main.hide_titlebar()
+	elif screen_res == SCREEN_MENU:
 		main.hide_titlebar()
 		go_back = false
-		screen_res_stack.clear()
 	else:
 		main.show_titlebar()
 		main.set_title(str(current_screen.get("TITLE")))

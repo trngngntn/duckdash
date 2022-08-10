@@ -9,40 +9,48 @@ var last_speed: float
 var speed: float
 var _shadow = preload("res://scenes/character/duck_dash_shadow.tscn")
 
+var _d
+
 
 func _ready() -> void:
 	effect_timer = Timer.new()
 	effect_timer.wait_time = .01
-	effect_timer.connect("timeout", self, "_cloning")
+	_d = effect_timer.connect("timeout", self, "_cloning")
 	add_child(effect_timer)
 
 	dash_timer = Timer.new()
 	add_child(dash_timer)
 
 	tween = Tween.new()
-	tween.connect("tween_completed", self, "_end_dash")
+	_d = tween.connect("tween_completed", self, "_end_dash")
 	add_child(tween)
 
 
 func init():
-	player.dash_area.connect("body_entered", self, "_on_collision")
+	_d = player.dash_area.connect("body_entered", self, "_on_collision")
 
 
 func enter(dat := {}) -> void:
 	direction = dat.direction.normalized()
-	last_speed = player.dash_speed
+	last_speed = StatManager.current_stat.dash_speed
 
-	var duration := player.dash_range / player.dash_speed
+	var duration: float = StatManager.current_stat.dash_range / StatManager.current_stat.dash_speed
 
 	dash_timer.wait_time = duration
 	dash_timer.one_shot = true
 	dash_timer.start()
 	effect_timer.start()
 
-	tween.interpolate_property(
-		self, "speed", (player.dash_speed + player.speed) / 2, player.dash_speed, duration, Tween.TRANS_CUBIC, Tween.EASE_OUT
+	_d = tween.interpolate_property(
+		self,
+		"speed",
+		(StatManager.current_stat.dash_speed + StatManager.current_stat.mv_speed) / 2,
+		StatManager.current_stat.dash_speed,
+		duration,
+		Tween.TRANS_CUBIC,
+		Tween.EASE_OUT
 	)
-	tween.start()
+	_d = tween.start()
 
 	if dat.direction.x > 0:
 		player.get_node("AnimatedSprite").play("dash_right")
@@ -51,12 +59,11 @@ func enter(dat := {}) -> void:
 
 
 func physics_update(_delta):
-	# player.move_and_slide(speed * direction, Vector2(0,0), false, 4, 0.785398, false)
-	player.move_and_slide(speed * direction)
+	_d = player.move_and_slide(speed * direction)
 
 
 func exit() -> void:
-	tween.stop_all()
+	_d = tween.stop_all()
 	effect_timer.stop()
 
 

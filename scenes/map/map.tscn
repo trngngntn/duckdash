@@ -19,10 +19,12 @@ script = ExtResource( 1 )
 script = ExtResource( 3 )
 
 [node name="NavTileMap" type="TileMap" parent="Navigation"]
+visible = false
 scale = Vector2( 2, 4 )
 mode = 1
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 64, 32 )
+bake_navigation = true
 format = 1
 
 [node name="GroundTileMap" type="TileMap" parent="Navigation"]
@@ -31,6 +33,7 @@ z_index = -2
 mode = 1
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 64, 32 )
+bake_navigation = true
 format = 1
 
 [node name="NavUpdateTimer" type="Timer" parent="Navigation"]

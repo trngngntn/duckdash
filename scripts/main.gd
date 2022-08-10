@@ -17,10 +17,10 @@ func show_background() -> void:
 	$Node2D/Background.visible = true
 
 func hide_titlebar() -> void:
-	$UI/Titlebar.visible = false
+	$UI/Titlebar.hide()
 
 func show_titlebar() -> void:
-	$UI/Titlebar.visible = true
+	$UI/Titlebar.show()
 
 func set_title(title: String) -> void:
 	$UI/Titlebar/Title.text = title

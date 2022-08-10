@@ -91,6 +91,7 @@ func player_ready(session_id: String) -> void:
 
 
 func start_game() -> void:
+	
 	players = NakamaMatch.get_player_names_by_peer_id()
 	in_game_node = ScreenManager.change_screen(ScreenManager.SCREEN_INGAME)
 	if not NakamaMatch.is_network_server():

@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Area2D",
+"class": "Attack",
+"language": "GDScript",
+"path": "res://scripts/character/skills/attack.gd"
+}, {
 "base": "Sprite",
 "class": "DashShadow",
 "language": "GDScript",
@@ -32,9 +37,9 @@ _global_script_classes=[ {
 "base": "Stat",
 "class": "Effect",
 "language": "GDScript",
-"path": "res://scripts/stat/effect.gd"
+"path": "res://scripts/stat/effect/effect.gd"
 }, {
-"base": "KinematicBody2D",
+"base": "RigidBody2D",
 "class": "Enemy",
 "language": "GDScript",
 "path": "res://scripts/enemies/enemy.gd"
@@ -54,10 +59,25 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/enemies/enemy_spawner.gd"
 }, {
-"base": "Node2D",
+"base": "Reference",
 "class": "Equipment",
 "language": "GDScript",
 "path": "res://scripts/items/equipment.gd"
+}, {
+"base": "EnemyMovementAI",
+"class": "FlyEnemyMovementAI",
+"language": "GDScript",
+"path": "res://scripts/enemies/enemy_ai/fly_enemy_movement_ai.gd"
+}, {
+"base": "EnemyMovementAI",
+"class": "GlideEnemyMovementAI",
+"language": "GDScript",
+"path": "res://scripts/enemies/enemy_ai/glide_enemy_movement.gd"
+}, {
+"base": "Modifier",
+"class": "IncrementModifier",
+"language": "GDScript",
+"path": "res://scripts/stat/modifier/increment_modf.gd"
 }, {
 "base": "Control",
 "class": "InventoryItem",
@@ -92,7 +112,7 @@ _global_script_classes=[ {
 "base": "Stat",
 "class": "Modifier",
 "language": "GDScript",
-"path": "res://scripts/stat/modifier.gd"
+"path": "res://scripts/stat/modifier/modifier.gd"
 }, {
 "base": "Reference",
 "class": "NakamaAPI",
@@ -174,6 +194,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/ui/panel_equipment_info.gd"
 }, {
+"base": "Modifier",
+"class": "PercentageModifier",
+"language": "GDScript",
+"path": "res://scripts/stat/modifier/percentage_modf.gd"
+}, {
 "base": "Equipment",
 "class": "SkillCaster",
 "language": "GDScript",
@@ -195,6 +220,7 @@ _global_script_classes=[ {
 "path": "res://scripts/character/state_machine.gd"
 } ]
 _global_script_class_icons={
+"Attack": "",
 "DashShadow": "",
 "Dialog": "",
 "Duck": "",
@@ -205,6 +231,9 @@ _global_script_class_icons={
 "EnemyMovementAI": "",
 "EnemySpawner": "",
 "Equipment": "",
+"FlyEnemyMovementAI": "",
+"GlideEnemyMovementAI": "",
+"IncrementModifier": "",
 "InventoryItem": "",
 "Joystick": "",
 "LandEnemyMovementAI": "",
@@ -228,6 +257,7 @@ _global_script_class_icons={
 "NakamaWriteStorageObject": "",
 "OpenSimplexNoiseStrategy": "",
 "PanelEquipmentInfo": "",
+"PercentageModifier": "",
 "SkillCaster": "",
 "Stat": "",
 "State": "",
@@ -250,6 +280,7 @@ ScreenManager="*res://scripts/autoload/screen_manager.gd"
 MatchManager="*res://scripts/autoload/match_manager.gd"
 EquipmentManager="*res://scripts/autoload/equipment_manager.gd"
 StatManager="*res://scripts/autoload/stat_manager.gd"
+NotificationManager="*res://scripts/autoload/notification_manager.gd"
 
 [display]
 
@@ -330,6 +361,7 @@ attack={
 2d_physics/layer_2="player_hit"
 2d_physics/layer_3="enemy_hit"
 2d_physics/layer_4="pickup"
+2d_physics/layer_5="fly_movement"
 
 [physics]
 
