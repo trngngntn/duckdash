@@ -1,0 +1,176 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/sprites/static/ui/ui_button_close_hover.png" type="Texture" id=1]
+[ext_resource path="res://resources/ui_theme.tres" type="Theme" id=2]
+[ext_resource path="res://assets/sprites/static/ui/logo.png" type="Texture" id=3]
+[ext_resource path="res://scripts/screens/profile_screen.gd" type="Script" id=4]
+[ext_resource path="res://assets/sprites/static/ui/ui_button_close_normal.png" type="Texture" id=5]
+[ext_resource path="res://assets/sprites/static/ui/ui_button_close_pressed.png" type="Texture" id=6]
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0, 0, 0, 1 )
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="ScreenMainMenu" type="Control"]
+anchor_right = 1.187
+anchor_bottom = 1.2
+margin_right = -299.2
+margin_bottom = -180.0
+theme = ExtResource( 2 )
+script = ExtResource( 4 )
+
+[node name="TabContainer" type="TabContainer" parent="."]
+margin_left = 48.0
+margin_top = 156.0
+margin_right = 1589.0
+margin_bottom = 878.0
+tab_align = 0
+
+[node name="Profile" type="Tabs" parent="TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 40.0
+margin_top = 108.0
+margin_right = -40.0
+margin_bottom = -40.0
+
+[node name="Logo" type="TextureRect" parent="TabContainer/Profile"]
+margin_left = 34.0
+margin_top = 137.0
+margin_right = 530.0
+margin_bottom = 417.0
+texture = ExtResource( 3 )
+
+[node name="Panel" type="Panel" parent="TabContainer/Profile"]
+margin_left = 640.0
+margin_top = 33.0
+margin_right = 1270.0
+margin_bottom = 116.0
+custom_styles/panel = SubResource( 2 )
+
+[node name="DisplayNameLabel" type="Label" parent="TabContainer/Profile/Panel"]
+anchor_left = 0.051
+anchor_top = 0.229
+anchor_right = 0.827
+anchor_bottom = 0.819
+margin_left = -0.130001
+margin_top = -0.00699997
+margin_right = -0.0100098
+margin_bottom = 0.022995
+text = "	"
+
+[node name="UserIDLabel2" type="Label" parent="TabContainer/Profile/Panel"]
+anchor_left = -0.002
+anchor_top = 1.517
+anchor_right = 1.0
+anchor_bottom = 2.324
+margin_left = 0.259983
+margin_top = 0.0889664
+margin_right = -580.0
+margin_bottom = 0.107956
+rect_rotation = 0.333774
+rect_pivot_offset = Vector2( 15.839, 33.1911 )
+text = "ID:"
+
+[node name="UserIDLabel" type="Label" parent="TabContainer/Profile/Panel"]
+anchor_left = 0.087
+anchor_top = 1.47
+anchor_right = 0.995
+anchor_bottom = 2.277
+margin_left = 0.189999
+margin_top = -0.0100021
+margin_right = 0.149963
+margin_bottom = 0.00898743
+
+[node name="UserIDLabel3" type="Label" parent="TabContainer/Profile/Panel"]
+anchor_top = 1.277
+anchor_right = 1.0
+anchor_bottom = 2.024
+margin_left = -2.0
+margin_top = 103.009
+margin_right = -518.0
+margin_bottom = 108.008
+rect_rotation = 0.333774
+rect_pivot_offset = Vector2( 15.839, 33.1911 )
+text = "Email:"
+
+[node name="UserEmailLabel" type="Label" parent="TabContainer/Profile/Panel"]
+anchor_left = 0.087
+anchor_top = 1.438
+anchor_right = 0.995
+anchor_bottom = 2.048
+margin_left = 64.19
+margin_top = 85.646
+margin_right = 2.14996
+margin_bottom = 102.016
+
+[node name="TextureButton" type="TextureButton" parent="TabContainer/Profile/Panel"]
+margin_left = 553.0
+margin_top = 10.0
+margin_right = 617.0
+margin_bottom = 74.0
+texture_normal = ExtResource( 5 )
+texture_pressed = ExtResource( 6 )
+texture_hover = ExtResource( 1 )
+
+[node name="Friends" type="Tabs" parent="TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 40.0
+margin_top = 108.0
+margin_right = -40.0
+margin_bottom = -40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Friends"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 30
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Friends/VBoxContainer"]
+margin_right = 1461.0
+margin_bottom = 420.0
+rect_min_size = Vector2( 0, 420 )
+
+[node name="GridContainer" type="GridContainer" parent="TabContainer/Friends/VBoxContainer/ScrollContainer"]
+margin_right = 1461.0
+margin_bottom = 420.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/vseparation = 15
+custom_constants/hseparation = 15
+columns = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Friends/VBoxContainer"]
+margin_top = 450.0
+margin_right = 1461.0
+margin_bottom = 574.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 50
+alignment = 2
+
+[node name="Button" type="Button" parent="TabContainer/Friends/VBoxContainer/HBoxContainer"]
+margin_left = 740.0
+margin_right = 1035.0
+margin_bottom = 124.0
+text = "Add Friend"
+
+[node name="Button2" type="Button" parent="TabContainer/Friends/VBoxContainer/HBoxContainer"]
+margin_left = 1085.0
+margin_right = 1461.0
+margin_bottom = 124.0
+text = "Friend Request"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[connection signal="tab_changed" from="TabContainer" to="." method="_on_TabContainer_tab_changed"]
+[connection signal="pressed" from="TabContainer/Profile/Panel/TextureButton" to="." method="_on_TextureButton_pressed"]
+[connection signal="pressed" from="TabContainer/Friends/VBoxContainer/HBoxContainer/Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="TabContainer/Friends/VBoxContainer/HBoxContainer/Button2" to="." method="_on_Button2_pressed"]
