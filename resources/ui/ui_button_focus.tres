@@ -6,8 +6,8 @@
 content_margin_top = 24.0
 content_margin_bottom = 32.0
 texture = ExtResource( 1 )
-region_rect = Rect2( 0, 0, 192, 128 )
-margin_left = 64.0
-margin_right = 64.0
-margin_top = 60.0
-margin_bottom = 60.0
+region_rect = Rect2( 0, 0, 80, 80 )
+margin_left = 48.0
+margin_right = 50.0
+margin_top = 36.0
+margin_bottom = 46.0

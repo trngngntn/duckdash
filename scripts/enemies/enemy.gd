@@ -67,6 +67,21 @@ func _ready() -> void:
 
 func _physics_process(_delta) -> void:
 	if NakamaMatch.is_network_server():
+		if not is_instance_valid(target) || target.is_queued_for_deletion():
+			var players = get_tree().get_nodes_in_group("player")
+			if players.size() == 0:
+				queue_free()
+				return
+			
+			var min_dist_player = players[0]
+			var min_dist: float = min_dist_player.position.distance_squared_to(position)
+			for player in get_tree().get_nodes_in_group("player"):
+				if player != min_dist_player:
+					var dist = player.position.distance_squared_to(position)
+					if dist < min_dist:
+						min_dist_player = player
+						min_dist = dist
+			target = min_dist_player
 		if position.distance_squared_to(target.position) > DIST_LIMIT_SQ:
 			NakamaMatch.custom_rpc_sync(self, "kills")
 			return
@@ -114,5 +129,5 @@ func _update(pos: Vector2) -> void:
 
 func _on_HitboxArea_area_entered(area:Area2D):
 	var node = area.get_parent()
-	# if node is Duck:
-	# 	node.hurt()
+	if node.has_method("hurt"):
+		node.hurt()

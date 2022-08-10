@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Area2D",
+"class": "Attack",
+"language": "GDScript",
+"path": "res://scripts/character/skills/attack.gd"
+}, {
 "base": "Sprite",
 "class": "DashShadow",
 "language": "GDScript",
@@ -54,7 +59,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/enemies/enemy_spawner.gd"
 }, {
-"base": "Node2D",
+"base": "Reference",
 "class": "Equipment",
 "language": "GDScript",
 "path": "res://scripts/items/equipment.gd"
@@ -215,6 +220,7 @@ _global_script_classes=[ {
 "path": "res://scripts/character/state_machine.gd"
 } ]
 _global_script_class_icons={
+"Attack": "",
 "DashShadow": "",
 "Dialog": "",
 "Duck": "",

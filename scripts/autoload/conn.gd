@@ -53,7 +53,7 @@ func set_nakama_session(_nkm_session: NakamaSession) -> void:
 	
 	emit_signal("session_changed", nkm_session)
 	
-	if nkm_session and not nkm_session.is_exception() and not nkm_session.is_expired():
+	if nkm_session && not nkm_session.is_exception() && not nkm_session.is_expired():
 		print("session_connected")
 		emit_signal("session_connected", nkm_session)
 

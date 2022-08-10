@@ -26,7 +26,16 @@ signal equipment_crafted(equipment)
 signal equipment_added(equipment)
 
 
-func equip(equipment: Equipment):
+func _init() -> void:
+	var _d := Conn.connect("session_connected", self, "_on_session_created")
+	_d = Conn.connect("session_changed", self, "_on_session_changed")
+
+
+func is_equipped(equipment: Equipment) -> bool:
+	return equipment == EquipmentManager.equipped[equipment.type_name]
+
+
+func equip(equipment: Equipment) -> void:
 	if equipment_list[equipment.type_name].has(equipment):
 		equipped[equipment.type_name] = equipment
 	pass
@@ -38,9 +47,14 @@ func get_equipment_list(type_name: String) -> Array:
 	return equipment_list[type_name]
 
 
-func parse_equipment(detail: String) -> Dictionary:
-	var equipment: Equipment = Equipment.new()
+func parse_equipment(detail: String) -> Equipment:
 	var result = JSON.parse(detail).result
+	return dict2equipment(result)
+
+
+func dict2equipment(result: Dictionary) -> Equipment:
+	var equipment: Equipment = Equipment.new()
+	equipment.raw = result["raw"]
 	equipment.type_name = result["type_name"]
 	equipment.sub_type = result["sub_type"]
 	equipment.tier = result["tier"]
@@ -53,7 +67,7 @@ func parse_equipment(detail: String) -> Dictionary:
 		else:
 			stat = Stat.new(raw_stat["name"], raw_stat["value"])
 		equipment.stat.push_back(stat)
-	return {"raw": "", "equipment": equipment}
+	return equipment
 
 
 func craft_equipment(type: String) -> Equipment:
@@ -66,10 +80,41 @@ func craft_equipment(type: String) -> Equipment:
 		print("An error occurred: %s" % response)
 		return null
 	else:
-		print(response.payload)
-		var parse_result = parse_equipment(response.payload)
-		equipment_list[type].append(parse_result["equipment"])
-		emit_signal("equipment_crafted", parse_result["equipment"])
-		emit_signal("equipment_added", parse_result["equipment"])
-		emit_signal("equipment_updated", parse_result["equipment"].type_name)
-		return parse_result["equipment"]
+		# print(response.payload)
+		var equipment = parse_equipment(response.payload)
+		equipment_list[type].append(equipment)
+		emit_signal("equipment_crafted", equipment)
+		emit_signal("equipment_added", equipment)
+		emit_signal("equipment_updated", equipment.type_name)
+		return equipment
+
+
+func get_inventory():
+	var response: NakamaAPI.ApiRpc = yield(
+		Conn.nkm_client.rpc_async(Conn.nkm_session, "get_inventory"), "completed"
+	)
+	if response.is_exception():
+		print("An error occurred: %s" % response)
+		return null
+	else:
+		# print(response.payload)
+		var result = JSON.parse(response.payload).result
+
+		for type in result.keys():
+			for raw_eq in result[type]:
+				var equipment = dict2equipment(raw_eq)
+				equipment_list[type].append(equipment)
+
+
+# CALLBACKS
+func _on_session_created(_d) -> void:
+	get_inventory()
+
+
+func _on_session_changed(_d) -> void:
+	equipment_list = {
+		"skill_caster": [],
+		"shield": [],
+		"mv_booster": [],
+		"atk_enhancer": [],
+	}
