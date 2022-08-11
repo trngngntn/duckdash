@@ -2,10 +2,10 @@ extends Control
 
 const TITLE = "Profile"
 
-var friend_request_dialog = load("res://scenes/screens/dialog/friend_request_dialog.tscn")
-var add_friend_dialog = load("res://scenes/screens/dialog/add_friend_dialog.tscn")
-var edit_profile_dialog = load("res://scenes/screens/dialog/edit_profile_dialog.tscn")
-var friend_node = load("res://scenes/screens/friend/friend_item.tscn")
+const friend_request_dialog = preload("res://scenes/screens/dialog/friend_request_dialog.tscn")
+const add_friend_dialog = preload("res://scenes/screens/dialog/add_friend_dialog.tscn")
+const edit_profile_dialog = preload("res://scenes/screens/dialog/edit_profile_dialog.tscn")
+const friend_node = preload("res://scenes/screens/friend/friend_item.tscn")
 
 onready var grid_container = get_node("TabContainer/Friends/VBoxContainer/ScrollContainer/GridContainer")
 onready var profile_username_label = get_node("TabContainer/Profile/Panel/DisplayNameLabel")
@@ -13,6 +13,9 @@ onready var profile_id_label = get_node("TabContainer/Profile/Panel/UserIDLabel"
 onready var profile_email_label = get_node("TabContainer/Profile/Panel/UserEmailLabel")
 
 func _ready():
+	load_user_profile()
+
+func load_user_profile():
 	var account : NakamaAPI.ApiAccount = yield(Conn.nkm_client.get_account_async(Conn.nkm_session), "completed")
 	
 	if account.is_exception():
@@ -60,4 +63,5 @@ func _on_Button_pressed():
 	ScreenManager.show_screen_dialog(add_friend_dialog)
 
 func _on_TextureButton_pressed():
-	ScreenManager.show_small_dialog(edit_profile_dialog)
+	var scrn = ScreenManager.show_small_dialog(edit_profile_dialog)
+	scrn.connect("edit_username_success", self, "load_user_profile")
