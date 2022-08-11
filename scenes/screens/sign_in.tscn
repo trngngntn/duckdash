@@ -25,7 +25,7 @@ margin_right = -0.5
 margin_right = 745.0
 margin_bottom = 104.0
 align = 1
-placeholder_text = "Username"
+placeholder_text = "Email"
 
 [node name="PasswordLineEdit" type="LineEdit" parent="VBoxContainer"]
 margin_top = 108.0

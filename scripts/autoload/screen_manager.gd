@@ -86,7 +86,7 @@ func change_screen(screen_res: Resource, go_back := true) -> Node:
 	main.back = go_back
 
 	emit_signal("screen_changed")
-	print(screen_res_stack)
+	print(screen_res_stack.size())
 	return current_screen
 
 
