@@ -8,6 +8,13 @@ var nkm_host: String = "minorcircus.duckdns.org"
 var nkm_port: int = 7350
 var nkm_scheme: String = "http"
 
+enum NotificationCode {
+	RESERVED = 0,
+	FRIEND_REQUEST_RECEIVED = -2,
+	FRIEND_REQUEST_ACCEPTED = -3,
+	JOINED_LOBBY = -3,
+}
+
 #Nakama client
 var nkm_client: NakamaClient setget _set_readonly_var, get_nakama_client
 
@@ -55,7 +62,7 @@ func set_nakama_session(_nkm_session: NakamaSession) -> void:
 var nkm_socket: NakamaSocket setget _set_readonly_var
 var _nkm_socket_connecting: bool = false
 signal socket_connected(nkm_socket)
-
+signal received_friend_request_notification(notification)
 
 func connect_nakama_socket() -> void:
 	if nkm_socket != null:
@@ -65,16 +72,36 @@ func connect_nakama_socket() -> void:
 	_nkm_socket_connecting = true
 
 	var new_socket = Nakama.create_socket_from(nkm_client)
-	yield(new_socket.connect_async(nkm_session), "completed")
-	nkm_socket = new_socket
-	_nkm_socket_connecting = false
-
-	emit_signal("socket_connected", nkm_socket)
-
+	var result: NakamaAsyncResult = yield(new_socket.connect_async(nkm_session), "completed")
+	if not result.is_exception():
+		nkm_socket = new_socket
+		_nkm_socket_connecting = false
+		
+		#warning-ignore: return_value_discarded
+		nkm_socket.connect("connected", self, "_on_NakamaSocket_connected")
+		#warning-ignore: return_value_discarded
+		nkm_socket.connect("closed", self, "_on_NakamaSocket_closed")
+		#warning-ignore: return_value_discarded
+		nkm_socket.connect("received_notification", self, "_on_notification")
+	
+		emit_signal("socket_connected", nkm_socket)
 
 func is_nakama_socket_connected() -> bool:
 	return nkm_socket != null && nkm_socket.is_connected_to_host()
 
+# Called when the socket was closed.
+func _on_NakamaSocket_closed() -> void:
+	nkm_socket = null
+
+# Handle notification by code
+func _on_notification(notification : NakamaAPI.ApiNotification):
+	match notification.code:
+		NotificationCode.FRIEND_REQUEST_RECEIVED:
+			emit_signal("received_friend_request_notification", notification)
+		
+# Called when the socket was connected.
+func _on_NakamaSocket_connected() -> void:
+	return
 
 # login
 signal nakama_logged_in()
