@@ -5,37 +5,41 @@
 [ext_resource path="res://scenes/ui/notification.gd" type="Script" id=3]
 
 [node name="Notification" type="Control"]
-anchor_right = 1.0
+anchor_left = 0.646
+anchor_top = 0.08
+anchor_right = 0.997
 anchor_bottom = 1.0
+margin_left = -0.600098
+margin_top = -7.62939e-06
+margin_right = 0.799927
+margin_bottom = -2.0
 theme = ExtResource( 2 )
 script = ExtResource( 3 )
 
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
-anchor_left = 0.654
-anchor_top = 0.092
-anchor_right = 0.654
-anchor_bottom = 0.092
-margin_left = 0.599976
-margin_top = 0.199997
-margin_right = 539.6
-margin_bottom = 147.2
+anchor_right = 0.957
+anchor_bottom = 0.178
+margin_right = 0.208984
+margin_bottom = -0.0279999
+rect_min_size = Vector2( 539, 147 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
 texture = ExtResource( 1 )
 patch_margin_left = 72
 patch_margin_top = 68
 patch_margin_right = 72
 patch_margin_bottom = 68
 
-[node name="Control" type="Control" parent="NinePatchRect"]
-anchor_left = 0.019
-anchor_top = 0.072
-anchor_right = 0.981
-anchor_bottom = 0.928
-margin_left = 18.759
-margin_top = 15.064
-margin_right = -20.759
-margin_bottom = -17.064
-
-[node name="Label" type="Label" parent="NinePatchRect/Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="Label" type="Label" parent="NinePatchRect"]
+anchor_left = 0.056
+anchor_top = 0.197
+anchor_right = 0.95
+anchor_bottom = 0.83
+margin_left = -0.184
+margin_top = -5.959
+margin_right = -0.0500488
+margin_bottom = -0.0100098
+size_flags_horizontal = 3
+size_flags_vertical = 3
 autowrap = true
+max_lines_visible = 2

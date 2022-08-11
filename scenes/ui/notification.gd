@@ -1,8 +1,8 @@
 extends Control
 
 var timer = Timer.new()
-onready var NotificationBody = get_node("NinePatchRect/Control")
-onready var NotificationLabel = get_node("NinePatchRect/Control/Label")
+onready var NotificationBody = get_node("NinePatchRect")
+onready var NotificationLabel = get_node("NinePatchRect/Label")
 
 func _ready():
 	timer.connect("timeout", self, "set_time_remove")

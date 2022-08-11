@@ -34,25 +34,24 @@ func _ready() -> void:
 	_result = main.connect("go_back", self, "_on_ScreenManager_go_back_pressed")
 	Conn.device_auth()
 
-func show_small_dialog(screen_res: Resource) -> void:
+func show_small_dialog(screen_res: Resource) -> Node:
 	var scrn = screen_res.instance()
 	small_dialog.append_node(scrn)
 	small_dialog.set_title(str(scrn.get("TITLE")))
 	small_dialog.show()
+	return scrn
 
-func show_notification(screen_res: Resource, notification: NakamaAPI.ApiNotification):
-	#var scrn = screen_res.instance()
-	
-	notification_dialog.set_notification_label(notification.subject)
-	notification_dialog.append_node(screen_res)
-	notification_dialog.set_time_remove(5)
+func show_notification(message: String, timeout: int):
+	notification_dialog.set_notification_label(message)
+	notification_dialog.set_time_remove(timeout)
 	notification_dialog.show()
 
-func show_screen_dialog(screen_res: Resource) -> void:
+func show_screen_dialog(screen_res: Resource) -> Node:
 	var scrn = screen_res.instance()
 	dialog.append_node(scrn)
 	dialog.set_title(str(scrn.get("TITLE")))
 	dialog.show()
+	return scrn
 
 func change_screen(screen_res: Resource, go_back := true) -> Node:
 	if not screen:
