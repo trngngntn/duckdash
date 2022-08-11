@@ -1,0 +1,14 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type canvas_item;
+uniform bool enable = false;
+
+void fragment(){
+	vec4 color = texture(TEXTURE, UV);
+	if(enable && color.a == 1.0){
+		COLOR = vec4(mix(color.rgb, vec3(1.0,1.0,1.0), 0.85 /** abs(sin(TIME * 15f))*/), 1);
+	} else {
+		COLOR = color
+	}
+}"
