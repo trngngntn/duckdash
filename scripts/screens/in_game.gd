@@ -82,8 +82,8 @@ func setup(players: Dictionary) -> void:
 		if player_id == NakamaMatch.get_network_unique_id():
 			my_id = player_id
 			my_player = player
-		else:
-			player.finish_setup()
+#		else:
+#			player.finish_setup()
 
 	# setup for current player
 	StatManager.calculate_stat()
@@ -98,16 +98,27 @@ func setup(players: Dictionary) -> void:
 	my_player.tracking_cam = $GameCamera
 	$GameCamera.set_node_tracking(my_player)
 	$GameCamera.current = true
+	
+	var my_player_stat = StatManager.current_stat
+	
+	StatManager.players_stat[my_id] = my_player_stat
 
-	my_player.finish_setup()
-
+#	my_player.finish_setup()
+	
+	
 	
 	# notify other players 
-	NakamaMatch.custom_rpc_id_sync(self, 1, "_finish_setup", [my_id])
+	print("My ID: " + str(my_id))
+	print("My Stat: " + str(my_player_stat))
+	NakamaMatch.custom_rpc_id_sync(self, 1, "_finish_setup", [my_id, my_player_stat])
 
+	for player in map.player_cont.get_children():
+		player.finish_setup()
+		
 
 # Records when each player has finished setup so we know when all players are ready.
-func _finish_setup(player_id) -> void:
+func _finish_setup(player_id, player_stat) -> void:
+	StatManager.players_stat[player_id] = player_stat
 	players_setup[player_id] = players_alive[player_id]
 	if players_setup.size() == players_alive.size():
 		# Once all clients have finished setup, tell them to start the game.

@@ -13,6 +13,8 @@ var proj_speed = perc_modf
 var proj_num = incr_modf
 var proj_pierce = incr_modf
 
+var players_stat := {}
+
 
 class StatValues:
 	var max_hp: float = 100

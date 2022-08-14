@@ -125,7 +125,7 @@ var count = 0
 
 
 func _on_MobSpawnerTimer_timeout():
-	if get_tree().get_nodes_in_group("enemy").size() > 100:
+	if get_tree().get_nodes_in_group("enemy").size() > 0:
 		return
 	for player in get_tree().get_nodes_in_group("player"):
 		spawn_enemy_around_player(player, 0)
