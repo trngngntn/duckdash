@@ -21,14 +21,13 @@ var col_dmg: float = 10
 
 var last_position: Vector2
 
-
 var damageble: bool = true
 
 onready var sprite: AnimatedSprite = get_node("AnimatedSprite")
 
 
 func _get_custom_rpc_methods() -> Array:
-	return ["kills", "_update", "hurt"]
+	return ["frees", "kills", "_update", "hurt"]
 
 
 func _init() -> void:
@@ -77,7 +76,7 @@ func _physics_process(_delta) -> void:
 			if players.size() == 0:
 				queue_free()
 				return
-			
+
 			var min_dist_player = players[0]
 			var min_dist: float = min_dist_player.position.distance_squared_to(position)
 			for player in get_tree().get_nodes_in_group("player"):
@@ -88,7 +87,7 @@ func _physics_process(_delta) -> void:
 						min_dist = dist
 			target = min_dist_player
 		if position.distance_squared_to(target.position) > DIST_LIMIT_SQ:
-			MatchManager.custom_rpc_sync(self, "kills")
+			MatchManager.custom_rpc_sync(self, "frees")
 			return
 	if movement_ai:
 		movement_ai.move()
@@ -99,11 +98,29 @@ func _integrate_forces(state):
 		movement_ai.integrate_forces(state)
 
 
-func kills() -> void:
-	for _i in range (0, 5):
+##SERVERONLY
+
+func pre_kill():
+	var info := []
+	var count = get_tree().get_nodes_in_group("drop_item").size()
+	for i in range(1, 6):
+		var rand_vec = Vector2(2 * randf() - 1, 2 * randf() - 1)
+		info.append({"dir":rand_vec, "type": "", "name": str(count + i)})
+	MatchManager.custom_rpc_sync(self, "kills", [position, info])
+
+
+func kills(pos: Vector2, info_list: Array) -> void:
+	for info in info_list:
 		var coin = item_coin.instance()
-		coin.position = position
+		coin.add_to_group("drop_item")
+		coin.name = info["name"]
+		coin.position = pos
+		coin.fdir = info["dir"]
 		get_parent().add_child(coin)
+	queue_free()
+
+
+func frees() -> void:
 	queue_free()
 
 
@@ -121,8 +138,9 @@ func hurt() -> void:
 func _flash_timer_timeout() -> void:
 	sprite.material.set_shader_param("enable", false)
 	if hp <= 0:
-		kills()
+		pre_kill()
 		set_physics_process(false)
+
 
 #### Update states functions
 func _force_update() -> void:
@@ -136,7 +154,7 @@ func _update(pos: Vector2) -> void:
 	position = pos
 
 
-func _on_HitboxArea_area_entered(area:Area2D):
+func _on_HitboxArea_area_entered(area: Area2D):
 	var node = area.get_parent()
 	if node.has_method("hurt"):
 		node.hurt()
