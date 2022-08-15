@@ -33,7 +33,7 @@ func _get_custom_rpc_methods() -> Array:
 
 
 func _ready() -> void:
-	if NakamaMatch.is_network_master_for_node(self):
+	if MatchManager.is_network_master_for_node(self):
 		$AttackTimer.wait_time = .5
 	else:
 		$AttackTimer.stop()
@@ -60,7 +60,7 @@ func map_attack_joystick(_joystick: Joystick) -> void:
 
 
 func _process(_delta):
-	if not NakamaMatch.is_network_master_for_node(self):
+	if not MatchManager.is_network_master_for_node(self):
 		return
 	if not atk_joystick:
 		if Input.is_action_pressed("attack"):
@@ -79,11 +79,11 @@ func _process(_delta):
 
 
 func finish_setup() -> void:
-	print("NETWORK MASTER: " + str(NakamaMatch.get_network_master()))
-	if NakamaMatch.is_network_master_for_node(self):
+	print("NETWORK MASTER: " + str(MatchManager.get_network_master()))
+	if MatchManager.is_network_master_for_node(self):
 		hp = StatManager.current_stat.max_hp
 	else:
-		hp = StatManager.players_stat[NakamaMatch.get_network_master()].max_hp
+		hp = StatManager.players_stat[MatchManager.get_network_master()].max_hp
 	$StateMachine.start()
 
 
@@ -91,10 +91,10 @@ func attack() -> void:
 	if not is_attacking:
 		$AttackTimer.stop()
 		return
-	NakamaMatch.custom_rpc_sync(self, "_attack", [atk_direction])
+	MatchManager.custom_rpc_sync(self, "_attack", [atk_direction])
 	
 func hurt() -> void:
-	NakamaMatch.custom_rpc_sync(self, "_hurt")
+	MatchManager.custom_rpc_sync(self, "_hurt")
 	
 
 

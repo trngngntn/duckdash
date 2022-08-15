@@ -16,6 +16,7 @@ var screen_res_stack: Array = []
 var current_screen: Node
 
 signal screen_changed(screen)
+signal go_back
 
 onready var main: Node = get_tree().current_scene
 onready var screen: Node = main.get_node("Screen")
@@ -26,6 +27,7 @@ onready var notification_dialog = main.get_node("UI/Notification")
 
 onready var self_instance = self
 
+
 func _ready() -> void:
 	var _result := Conn.connect("dev_auth", self, "_on_NakamaConn_device_authorized")
 	_result = Conn.connect("dev_unauth", self, "_on_NakamaConn_device_unauthorized")
@@ -34,6 +36,7 @@ func _ready() -> void:
 	_result = main.connect("go_back", self, "_on_ScreenManager_go_back_pressed")
 	Conn.device_auth()
 
+
 func show_small_dialog(screen_res: Resource) -> Node:
 	var scrn = screen_res.instance()
 	small_dialog.append_node(scrn)
@@ -41,10 +44,12 @@ func show_small_dialog(screen_res: Resource) -> Node:
 	small_dialog.show()
 	return scrn
 
+
 func show_notification(message: String, timeout: int):
 	notification_dialog.set_notification_label(message)
 	notification_dialog.set_time_remove(timeout)
 	notification_dialog.show()
+
 
 func show_screen_dialog(screen_res: Resource) -> Node:
 	var scrn = screen_res.instance()
@@ -53,15 +58,19 @@ func show_screen_dialog(screen_res: Resource) -> Node:
 	dialog.show()
 	return scrn
 
+
 func change_screen(screen_res: Resource, go_back := true) -> Node:
 	if not screen:
 		return null
 
 	if screen.get_child_count() > 0:
 		for child in screen.get_children():
-			child.queue_free()
+			if child.has_method("exit"):
+				child.exit()
+			else:
+				child.queue_free()
 	current_screen = screen_res.instance()
-	print("SCRN_MAN: change screen")
+	print("[LOG][SCREEN_MAN]Change screen")
 	screen.add_child(current_screen)
 
 	if screen_res == SCREEN_INGAME:
@@ -106,6 +115,7 @@ func connect_signal(signal_name: String, method: String) -> void:
 
 func _on_ScreenManager_go_back_pressed() -> void:
 	var _srcn = change_previous_screen()
+	emit_signal("go_back")
 
 
 ####
@@ -117,8 +127,10 @@ func _on_NakamaConn_device_authorized() -> void:
 func _on_NakamaConn_device_unauthorized() -> void:
 	var _scr := change_screen(ScreenManager.SCREEN_LOGIN)
 
+
 func _on_NakamaConn_logged_in() -> void:
 	var _scr := change_screen(ScreenManager.SCREEN_MENU)
+
 
 func _on_NakamaConn_registered() -> void:
 	var _scr := change_screen(ScreenManager.SCREEN_MENU)

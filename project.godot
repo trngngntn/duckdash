@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/character/skills/attack.gd"
 }, {
+"base": "Node",
+"class": "DDMatch",
+"language": "GDScript",
+"path": "res://scripts/connection/match.gd"
+}, {
 "base": "Sprite",
 "class": "DashShadow",
 "language": "GDScript",
@@ -199,6 +204,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/stat/modifier/percentage_modf.gd"
 }, {
+"base": "Reference",
+"class": "PlayerInfo",
+"language": "GDScript",
+"path": "res://scripts/connection/player_info.gd"
+}, {
 "base": "Equipment",
 "class": "SkillCaster",
 "language": "GDScript",
@@ -221,6 +231,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Attack": "",
+"DDMatch": "",
 "DashShadow": "",
 "Dialog": "",
 "Duck": "",
@@ -258,6 +269,7 @@ _global_script_class_icons={
 "OpenSimplexNoiseStrategy": "",
 "PanelEquipmentInfo": "",
 "PercentageModifier": "",
+"PlayerInfo": "",
 "SkillCaster": "",
 "Stat": "",
 "State": "",
@@ -275,12 +287,15 @@ config/icon="res://icon.png"
 
 Nakama="*res://addons/com.heroiclabs.nakama/Nakama.gd"
 Conn="*res://scripts/autoload/conn.gd"
-NakamaMatch="*res://scripts/autoload/nakama_match.gd"
 ScreenManager="*res://scripts/autoload/screen_manager.gd"
-MatchManager="*res://scripts/autoload/match_manager.gd"
+NotificationManager="*res://scripts/autoload/notification_manager.gd"
 EquipmentManager="*res://scripts/autoload/equipment_manager.gd"
 StatManager="*res://scripts/autoload/stat_manager.gd"
-NotificationManager="*res://scripts/autoload/notification_manager.gd"
+MatchManager="*res://scripts/autoload/match_manager.gd"
+
+[debug]
+
+gdscript/warnings/return_value_discarded=false
 
 [display]
 

@@ -48,11 +48,11 @@ func generate_map(map_seed: int) -> void:
 func setup(players: Dictionary) -> void:
 	get_tree().set_pause(true)
 
-	if NakamaMatch.is_network_server():
+	if MatchManager.is_network_server():
 		$CanvasLayer/TestLabel.text = "SERVER_INSTANCE"
 		randomize()
 		var map_seed: int = 100
-		NakamaMatch.custom_rpc_sync(self, "generate_map", [map_seed])
+		MatchManager.custom_rpc_sync(self, "generate_map", [map_seed])
 	elif not map:
 		yield(self, "map_generated")
 
@@ -79,7 +79,7 @@ func setup(players: Dictionary) -> void:
 
 		player.connect("dead", self, "_on_player_dead", [player_id])
 		player.add_to_group("player")
-		if player_id == NakamaMatch.get_network_unique_id():
+		if player_id == MatchManager.get_network_unique_id():
 			my_id = player_id
 			my_player = player
 #		else:
@@ -110,9 +110,9 @@ func setup(players: Dictionary) -> void:
 	# notify other players 
 	print("My ID: " + str(my_id))
 	print("My Stat: " + str(my_player_stat))
-	NakamaMatch.custom_rpc_id_sync(self, 1, "_finish_setup", [my_id, my_player_stat])
+	MatchManager.custom_rpc_id_sync(self, 1, "_finish_setup", [my_id, my_player_stat])
 
-	for player in map.player_cont.get_children():
+	for player in get_tree().get_nodes_in_group("player"):
 		player.finish_setup()
 		
 
@@ -122,7 +122,7 @@ func _finish_setup(player_id, player_stat) -> void:
 	players_setup[player_id] = players_alive[player_id]
 	if players_setup.size() == players_alive.size():
 		# Once all clients have finished setup, tell them to start the game.
-		NakamaMatch.custom_rpc_sync(self, "_start")
+		MatchManager.custom_rpc_sync(self, "_start")
 
 
 func _start() -> void:

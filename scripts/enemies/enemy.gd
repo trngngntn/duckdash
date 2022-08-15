@@ -38,7 +38,7 @@ func _init() -> void:
 
 
 func _set_upd_timer(_upd_timer: Timer) -> void:
-	if NakamaMatch.is_network_server():
+	if MatchManager.is_network_server():
 		upd_timer = _upd_timer
 		upd_timer.connect("timeout", self, "_force_update")
 
@@ -61,12 +61,12 @@ func _ready() -> void:
 
 	if movement_ai:
 		add_child(movement_ai)
-		if NakamaMatch.is_network_server():
+		if MatchManager.is_network_server():
 			movement_ai.move_to_target()
 
 
 func _physics_process(_delta) -> void:
-	if NakamaMatch.is_network_server():
+	if MatchManager.is_network_server():
 		if not is_instance_valid(target) || target.is_queued_for_deletion():
 			var players = get_tree().get_nodes_in_group("player")
 			if players.size() == 0:
@@ -83,7 +83,7 @@ func _physics_process(_delta) -> void:
 						min_dist = dist
 			target = min_dist_player
 		if position.distance_squared_to(target.position) > DIST_LIMIT_SQ:
-			NakamaMatch.custom_rpc_sync(self, "kills")
+			MatchManager.custom_rpc_sync(self, "kills")
 			return
 	if movement_ai:
 		movement_ai.move()
@@ -118,7 +118,7 @@ func _flash_timer_timeout() -> void:
 #### Update states functions
 func _force_update() -> void:
 	if position.distance_squared_to(last_position) > 4:
-		NakamaMatch.custom_rpc(self, "_update", [position])
+		MatchManager.custom_rpc(self, "_update", [position])
 		last_position = position
 
 

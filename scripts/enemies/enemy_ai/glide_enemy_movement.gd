@@ -35,7 +35,7 @@ func move() -> void:
 func update_dir() -> void:
 	dir = (enemy.target.position - enemy.position).normalized() * enemy.mv_speed
 	# if next_point < path.size():
-	# 	NakamaMatch.custom_rpc_sync(
+	# 	MatchManager.custom_rpc_sync(
 	# 		self, "set_dir", []
 	# 	)
 

@@ -15,7 +15,7 @@ var direction: Vector2
 
 
 func _ready():
-	if not NakamaMatch.is_network_server():
+	if not MatchManager.is_network_server():
 		$CollisionPolygon2D.disabled = true
 
 
@@ -26,7 +26,7 @@ func trigger(_player: Node, _direction: Vector2) -> void:
 func _on_Area2D_area_entered(area: Area2D):
 	var node = area.get_parent()
 	if node is Enemy:
-		NakamaMatch.custom_rpc_sync(node, "hurt")
+		MatchManager.custom_rpc_sync(node, "hurt")
 
 
 func _on_AnimatedSprite_animation_finished():

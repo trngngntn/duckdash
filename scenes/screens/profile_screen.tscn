@@ -28,7 +28,6 @@ margin_left = 48.0
 margin_top = 156.0
 margin_right = 1589.0
 margin_bottom = 878.0
-tab_align = 0
 
 [node name="Profile" type="Tabs" parent="TabContainer"]
 anchor_right = 1.0

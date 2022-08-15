@@ -17,7 +17,7 @@ func _get_custom_rpc_methods() -> Array:
 
 
 func _init(_enemy, _nav: Navigation2D).(_enemy):
-	if NakamaMatch.is_network_server():
+	if MatchManager.is_network_server():
 		_nav.timer.connect("timeout", self, "on_NavTimer_timeout")
 		nav = _nav
 
@@ -40,7 +40,7 @@ func integrate_forces(state) -> void:
 
 func update_dir() -> void:
 	if next_point < path.size():
-		NakamaMatch.custom_rpc_sync(
+		MatchManager.custom_rpc_sync(
 			self, "set_dir", [(path[next_point] - enemy.position).normalized() * enemy.mv_speed]
 		)
 
