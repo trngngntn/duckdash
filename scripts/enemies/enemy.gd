@@ -4,6 +4,8 @@ class_name Enemy
 const DIST_LIMIT_SQ = 1000000
 var flash_mat: ShaderMaterial = preload("res://resources/material/hurt_shader_material.tres")
 
+var item_coin = preload("res://scenes/items/coin.tscn")
+
 var attack_ai: EnemyAttackAI
 var movement_ai: EnemyMovementAI
 
@@ -98,6 +100,10 @@ func _integrate_forces(state):
 
 
 func kills() -> void:
+	for _i in range (0, 5):
+		var coin = item_coin.instance()
+		coin.position = position
+		get_parent().add_child(coin)
 	queue_free()
 
 

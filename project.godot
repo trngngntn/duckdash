@@ -84,6 +84,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/ui/inventory_item.gd"
 }, {
+"base": "RigidBody2D",
+"class": "Item",
+"language": "GDScript",
+"path": "res://scenes/items/drop_items.gd"
+}, {
 "base": "Node2D",
 "class": "Joystick",
 "language": "GDScript",
@@ -245,6 +250,7 @@ _global_script_class_icons={
 "GlideEnemyMovementAI": "",
 "IncrementModifier": "",
 "InventoryItem": "",
+"Item": "",
 "Joystick": "",
 "LandEnemyMovementAI": "",
 "Map": "",

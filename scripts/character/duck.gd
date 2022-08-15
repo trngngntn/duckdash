@@ -130,3 +130,8 @@ func _hurt() -> void:
 		emit_signal("dead")
 		queue_free()
 	pass
+
+
+func _on_PickUpArea2D_body_entered(body:Node):
+	if body is Item:
+		body.pick_up(self)
