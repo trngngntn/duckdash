@@ -3,8 +3,8 @@ extends Node
 onready var self_instance = self
 
 var nkm_server_key: String = "duckdash_nakama"
-var nkm_host: String = "10.144.0.2"
-# var nkm_host: String = "minorcircus.duckdns.org"
+# var nkm_host: String = "10.144.0.2"
+var nkm_host: String = "minorcircus.duckdns.org"
 var nkm_port: int = 7350
 var nkm_scheme: String = "http"
 

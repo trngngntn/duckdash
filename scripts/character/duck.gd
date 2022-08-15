@@ -80,10 +80,10 @@ func _process(_delta):
 
 func finish_setup() -> void:
 	print("NETWORK MASTER: " + str(MatchManager.get_network_master()))
-	if MatchManager.is_network_master_for_node(self):
-		hp = StatManager.current_stat.max_hp
-	else:
+	if MatchManager.is_network_server():
 		hp = StatManager.players_stat[MatchManager.get_network_master()].max_hp
+	elif MatchManager.is_network_master_for_node(self):
+		hp = StatManager.current_stat.max_hp
 	$StateMachine.start()
 
 

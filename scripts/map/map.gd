@@ -34,6 +34,7 @@ func _get_custom_rpc_methods() -> Array:
 
 
 func _ready():
+	pause_mode = Node.PAUSE_MODE_STOP
 	_display_map()
 	if not MatchManager.is_network_server():
 		$MobSpawnerTimer.stop()

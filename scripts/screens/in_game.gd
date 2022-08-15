@@ -15,7 +15,6 @@ var my_id: int
 
 signal map_generated
 signal game_started
-signal game_over
 signal player_dead(player_id)
 
 onready var hp_bar := $CanvasLayer/HPBar
@@ -31,7 +30,9 @@ func _get_custom_rpc_methods() -> Array:
 
 
 func _ready() -> void:
+	pause_mode = Node.PAUSE_MODE_PROCESS
 	$CanvasLayer/MoveControl/MoveJoystick.set_snap_step(1)
+	MatchManager.connect("game_over", self, "_on_game_over")
 
 
 func generate_map(map_seed: int) -> void:
@@ -46,7 +47,7 @@ func generate_map(map_seed: int) -> void:
 
 # Initializes the game so that it is ready to really start.
 func setup(players: Dictionary) -> void:
-	get_tree().set_pause(true)
+	get_tree().paused = true
 
 	if MatchManager.is_network_server():
 		$CanvasLayer/TestLabel.text = "SERVER_INSTANCE"
@@ -129,23 +130,27 @@ func _start() -> void:
 	if map.has_method("map_start"):
 		map.map_start()
 	emit_signal("game_started")
-	get_tree().set_pause(false)
-
+	get_tree().paused = false
 
 func _stop() -> void:
 	queue_free()
 
+func _on_game_over() -> void:
+	game_over = true
+	print("ENDGAMAE")
+	$CanvasLayer/GameOver.show()
+	map.queue_free()
+	get_tree().paused = false
 
 func _on_player_dead(player_id) -> void:
 	emit_signal("player_dead", player_id)
 
-	if player_id == my_id:
-		$CanvasLayer/GameOver.show()
+	if player_id == my_id:	
+		MatchManager.current_match.stop_game()
 
 	players_alive.erase(player_id)
 	if not game_over and players_alive.size() == 0:
-		game_over = true
-		print("ENDGAMAE")
+		
 		var player_keys = players_alive.keys()
 		# emit_signal("game_over", player_keys[0])
 
@@ -156,3 +161,10 @@ func _on_DashButton_pressed():
 
 func _on_DashButton_released():
 	Input.action_release("move_dash")
+
+
+func _on_MenuButton_pressed():
+	if MatchManager.match_mode == MatchManager.MatchMode.SINGLE:
+		get_tree().paused = true
+	$CanvasLayer/Menu.show()
+	

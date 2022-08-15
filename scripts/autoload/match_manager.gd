@@ -52,6 +52,8 @@ signal host_disconnected
 signal match_ready(players)
 signal match_not_ready
 
+signal game_over
+
 
 func _set_readonly_var(_value) -> void:
 	pass

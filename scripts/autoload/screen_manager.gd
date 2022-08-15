@@ -29,6 +29,7 @@ onready var self_instance = self
 
 
 func _ready() -> void:
+	pause_mode = Node.PAUSE_MODE_PROCESS
 	var _result := Conn.connect("dev_auth", self, "_on_NakamaConn_device_authorized")
 	_result = Conn.connect("dev_unauth", self, "_on_NakamaConn_device_unauthorized")
 	_result = Conn.connect("nakama_logged_in", self, "_on_NakamaConn_logged_in")
@@ -73,6 +74,8 @@ func change_screen(screen_res: Resource, go_back := true) -> Node:
 	print("[LOG][SCREEN_MAN]Change screen")
 	screen.add_child(current_screen)
 
+	main.show_background()
+
 	if screen_res == SCREEN_INGAME:
 		go_back = false
 		main.hide_background()
@@ -96,6 +99,7 @@ func change_screen(screen_res: Resource, go_back := true) -> Node:
 
 	emit_signal("screen_changed")
 	print(screen_res_stack.size())
+
 	return current_screen
 
 

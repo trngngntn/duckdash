@@ -127,7 +127,7 @@ func start_game() -> void:
 	players = MatchManager.get_player_names_by_peer_id()
 	in_game_node = ScreenManager.change_screen(ScreenManager.SCREEN_INGAME)
 	if not MatchManager.is_network_server():
-		MatchManager.custom_rpc(self, "player_in_game", [MatchManager.self_peer_id])
+		MatchManager.custom_rpc(self, "player_in_game", [self_peer_id])
 	elif MatchManager.match_mode == MatchManager.MatchMode.SINGLE:
 		in_game_node.setup(players)
 
@@ -142,10 +142,8 @@ func player_in_game(_peer_id: int) -> void:
 
 
 func stop_game() -> void:
-	MatchManager.leave()
-	players.clear()
-	players_ready.clear()
-	#game.game_stop()
+	MatchManager.emit_signal("game_over")
+	MatchManager.leave_current_match()
 
 
 func _on_Game_game_started() -> void:

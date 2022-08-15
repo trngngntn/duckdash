@@ -64,6 +64,9 @@ func _ready() -> void:
 		if MatchManager.is_network_server():
 			movement_ai.move_to_target()
 
+	if not MatchManager.is_network_server():
+		$HitboxArea/CollisionPolygon2D.disabled = true
+
 
 func _physics_process(_delta) -> void:
 	if MatchManager.is_network_server():

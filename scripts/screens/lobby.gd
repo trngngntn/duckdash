@@ -150,7 +150,8 @@ func _on_MatchManager_matchmaker_matched(_players: Dictionary) -> void:
 		var player: PlayerInfo = players[player_session_id]
 		if player_session_id != MatchManager.current_match.self_session_id:
 			add_player(player)
-		$PlayerListCont.get_node(player.username).set_status("CONNECTED")
+		if $PlayerListCont.get_node(player.username):
+			$PlayerListCont.get_node(player.username).set_status("CONNECTED")
 
 
 func _on_MatchManager_match_created(match_id: String) -> void:
