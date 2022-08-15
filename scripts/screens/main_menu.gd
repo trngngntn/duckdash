@@ -8,7 +8,10 @@ func _ready() -> void:
 		Conn.connect_nakama_socket()
 
 func _on_ButtonExit_pressed():
+	Conn.device_unlink(Conn.nkm_session)
 	yield(Conn.nkm_client.session_logout_async(Conn.nkm_session), "completed")
+	
+	ScreenManager.screen_res_stack.clear()
 	ScreenManager.change_screen(ScreenManager.SCREEN_LOGIN)
 	
 func _on_ButtonSettings_pressed():

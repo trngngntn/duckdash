@@ -28,7 +28,7 @@ signal dead
 
 func _get_custom_rpc_methods() -> Array:
 	return [
-		"_attack",
+		"_attack", "_hủurt"
 	]
 
 
@@ -79,8 +79,11 @@ func _process(_delta):
 
 
 func finish_setup() -> void:
+	print("NETWORK MASTER: " + str(NakamaMatch.get_network_master()))
 	if NakamaMatch.is_network_master_for_node(self):
 		hp = StatManager.current_stat.max_hp
+	else:
+		hp = StatManager.players_stat[NakamaMatch.get_network_master()].max_hp
 	$StateMachine.start()
 
 
@@ -89,16 +92,18 @@ func attack() -> void:
 		$AttackTimer.stop()
 		return
 	NakamaMatch.custom_rpc_sync(self, "_attack", [atk_direction])
+	
+func hurt() -> void:
+	NakamaMatch.custom_rpc_sync(self, "_hurt")
+	
 
 
 # CALLBACKS
 func on_mouse_attack() -> void:
 	attack()
 
-
 func _on_AttackTimer_timeout():
 	attack()
-
 
 func _on_attack_joystick_active(data: Vector2) -> void:
 	if data == Vector2(0, 0):
@@ -110,18 +115,18 @@ func _on_attack_joystick_active(data: Vector2) -> void:
 		attack()
 		$AttackTimer.start()
 
-
-func hurt() -> void:
-	hp = hp - 1
-	emit_signal("hp_changed", hp)
-
-	if hp < 1:
-		emit_signal("dead")
-		queue_free()
-
-
 # RPC Functions
 func _attack(_atk_dir: Vector2) -> void:
 	var attack = attack_res.instance()
 	attack.trigger(self, _atk_dir)
+	pass
+	
+func _hurt() -> void:
+	hp = hp - 1
+	emit_signal("hp_changed", hp)
+
+	if hp < 1:
+		print("Adios")
+		emit_signal("dead")
+		queue_free()
 	pass

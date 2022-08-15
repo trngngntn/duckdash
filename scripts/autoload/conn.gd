@@ -119,6 +119,7 @@ func login_async(email: String, pwd: String) -> void:
 		emit_signal("nakama_login_err", nkm_session.get_exception().message)
 		nkm_session = null
 	else:
+		device_link(nkm_session)
 		print("LOGIN_LOG: Logged In!")
 		emit_signal("nakama_logged_in")
 
@@ -134,6 +135,7 @@ func device_auth() -> void:
 	else:
 		print("LOGIN_LOG: Logged In using UID!")
 		emit_signal("dev_auth")
+
 
 # register
 signal registered
@@ -162,18 +164,36 @@ func register_async(email: String, usr: String, pwd: String) -> void:
 		emit_signal("register_err", msg)
 
 	else:
-		var device_id: String = OS.get_unique_id() + "_duckdash"
-		var dev_id_linking: NakamaAsyncResult = yield(
-			Conn.nkm_client.link_device_async(nkm_session, device_id), "completed"
-		)
-
-		if dev_id_linking.is_exception():
-			print("LINK_DEV_ID_ERR: " + dev_id_linking.get_exception().message)
-		else:
-			print("LINK_DEV_ID_LOG: Linked!")
+		device_link(nkm_session)
 
 		Conn.nkm_session = nkm_session
 		print("REG_LOG: Registered!")
 		emit_signal("registered")
+
+func device_link(session: NakamaSession) -> bool:
+	var device_id: String = OS.get_unique_id() + "_duckdash"
+	var dev_id_linking: NakamaAsyncResult = yield(
+		Conn.nkm_client.link_device_async(session, device_id), "completed"
+	)
+
+	if dev_id_linking.is_exception():
+		print("LINK_DEV_ID_ERR: " + dev_id_linking.get_exception().message)
+		return false
+	else:
+		print("LINK_DEV_ID_LOG: Linked!")
+		return true
+
+func device_unlink(session: NakamaSession)	-> bool:
+	var device_id: String = OS.get_unique_id() + "_duckdash"
+	var dev_id_unlinking: NakamaAsyncResult = yield(
+		Conn.nkm_client.unlink_device_async(session, device_id), "completed"
+	)
+
+	if dev_id_unlinking.is_exception():
+		print("LINK_DEV_ID_ERR: " + dev_id_unlinking.get_exception().message)
+		return false
+	else:
+		print("LINK_DEV_ID_LOG: Unlinked!")
+		return true
 
 #equipment related

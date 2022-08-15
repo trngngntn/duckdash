@@ -8,6 +8,8 @@ var current_text = ""
 var cursor_line = 0
 var cursor_column = 0
 
+signal edit_username_success()
+
 onready var username = get_node("VBoxContainer/UserName")
 onready var confirm_dialog = get_node("ConfirmationDialog")
 
@@ -36,14 +38,9 @@ func _on_UserName_text_changed():
 	cursor_line = username.cursor_get_line()
 	cursor_column = username.cursor_get_column()
 
-
 func _on_SubmitButton_pressed():
-	print(current_username)
-	print(username.text)
-
 	if current_username != username.text:
 		confirm_dialog.visible = true
-
 
 func _on_ConfirmationDialog_confirmed():
 	var new_username = username.text
@@ -54,3 +51,5 @@ func _on_ConfirmationDialog_confirmed():
 	if update.is_exception():
 		print("An error occurred: %s" % update)
 		return
+		
+	emit_signal("edit_username_success")

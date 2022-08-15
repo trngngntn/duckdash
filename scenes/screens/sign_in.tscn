@@ -15,18 +15,21 @@ script = ExtResource( 3 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_left = 0.25
-anchor_right = 0.75
+anchor_top = 0.121
+anchor_right = 0.747
 anchor_bottom = 0.8
+margin_top = 0.299995
+margin_right = -0.5
 
 [node name="UsernameLineEdit" type="LineEdit" parent="VBoxContainer"]
-margin_right = 750.0
+margin_right = 745.0
 margin_bottom = 104.0
 align = 1
-placeholder_text = "Username"
+placeholder_text = "Email"
 
 [node name="PasswordLineEdit" type="LineEdit" parent="VBoxContainer"]
 margin_top = 108.0
-margin_right = 750.0
+margin_right = 745.0
 margin_bottom = 212.0
 align = 1
 secret = true
