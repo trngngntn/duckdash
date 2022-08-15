@@ -134,4 +134,5 @@ func _hurt() -> void:
 
 func _on_PickUpArea2D_body_entered(body:Node):
 	if body is Item:
-		body.pick_up(self)
+		MatchManager.custom_rpc_sync(body, "pick_up", [self.get_path()])
+		# body.pick_up(self)
