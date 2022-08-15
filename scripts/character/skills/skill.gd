@@ -1,5 +1,5 @@
 extends Area2D
-class_name Attack
+class_name Skill
 
 const base_speed: float = 400.0
 const base_atk: float = 25.0

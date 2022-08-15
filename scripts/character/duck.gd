@@ -6,7 +6,7 @@ var dash_dest: Vector2
 var tracking_cam: Camera2D setget set_tracking_cam
 
 var is_attacking: bool = false
-var attack_res = preload("res://scenes/character/skills/attack_energy_blade.tscn")
+var attack_res = preload("res://scenes/character/skills/skill_attack_energy_blade.tscn")
 
 var move_joystick: Joystick = null
 var atk_joystick: Joystick = null
