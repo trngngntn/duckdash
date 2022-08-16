@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://assets/sprites/animated/character/character_move_right.png" type="Texture" id=1]
 [ext_resource path="res://scripts/character/duck.gd" type="Script" id=2]
@@ -117,6 +117,9 @@ extents = Vector2( 20, 10 )
 radius = 20.0
 height = 10.0
 
+[sub_resource type="CircleShape2D" id=30]
+radius = 82.0
+
 [node name="Duck" type="KinematicBody2D"]
 modulate = Color( 1, 1, 1.5, 1 )
 scale = Vector2( 0.5, 1 )
@@ -138,12 +141,12 @@ text = "player_name"
 align = 1
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -2, -26 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 1 )
 animation = "idle_right"
 
 [node name="MovementHitbox" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 24 )
 shape = SubResource( 3 )
 
 [node name="DashHitArea2D" type="Area2D" parent="."]
@@ -151,7 +154,6 @@ collision_layer = 0
 collision_mask = 0
 
 [node name="DashHitBox" type="CollisionShape2D" parent="DashHitArea2D"]
-position = Vector2( 0, 24 )
 shape = SubResource( 29 )
 
 [node name="HitArea2D" type="Area2D" parent="."]
@@ -160,7 +162,16 @@ collision_mask = 0
 
 [node name="Hitbox" type="CollisionShape2D" parent="HitArea2D"]
 use_parent_material = true
+position = Vector2( 0, -29 )
 shape = SubResource( 2 )
+
+[node name="PickUpArea2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickUpArea2D"]
+scale = Vector2( 1, 0.5 )
+shape = SubResource( 30 )
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 7 )
@@ -177,4 +188,5 @@ script = ExtResource( 6 )
 
 [node name="AttackTimer" type="Timer" parent="."]
 
+[connection signal="body_entered" from="PickUpArea2D" to="." method="_on_PickUpArea2D_body_entered"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]

@@ -1,12 +1,15 @@
 extends ColorRect
 
-func _ready():
-	pass # Replace with function body.
 
+# func _ready():
+# 	pause_mode = Node.PAUSE_MODE_PROCESS
 
 
 func _on_ExitButton_pressed():
-	MatchManager.stop_game()
+	MatchManager.current_match.stop_game()
+
 
 func _on_ResumeButton_pressed():
-	hide() 	
+	hide()
+	if MatchManager.match_mode == MatchManager.MatchMode.SINGLE:
+		get_tree().paused = false

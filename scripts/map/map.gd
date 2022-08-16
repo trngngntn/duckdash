@@ -34,8 +34,9 @@ func _get_custom_rpc_methods() -> Array:
 
 
 func _ready():
+	pause_mode = Node.PAUSE_MODE_STOP
 	_display_map()
-	if not NakamaMatch.is_network_server():
+	if not MatchManager.is_network_server():
 		$MobSpawnerTimer.stop()
 		$Navigation/NavUpdateTimer.stop()
 
@@ -125,7 +126,7 @@ var count = 0
 
 
 func _on_MobSpawnerTimer_timeout():
-	if get_tree().get_nodes_in_group("enemy").size() > 100:
+	if get_tree().get_nodes_in_group("enemy").size() > 0:
 		return
 	for player in get_tree().get_nodes_in_group("player"):
 		spawn_enemy_around_player(player, 0)
@@ -151,13 +152,13 @@ func spawn_enemy_around_player(player: Duck, times: int) -> void:
 		):
 			spawn_enemy_around_player(player, times + 1)
 			return
-	NakamaMatch.custom_rpc_sync(self, "spawn_enemy", [rand_pos, player.name, enemy_id])
+	MatchManager.custom_rpc_sync(self, "spawn_enemy", [rand_pos, player.name, enemy_id])
 	enemy_id += 1
 
 
 #### REMOTE FUNCTIONS
 func spawn_enemy(position: Vector2, target_player_id: String, id: int) -> void:
-	if not NakamaMatch.is_network_server():
+	if not MatchManager.is_network_server():
 		print("REMOTE_SPAWN")
 	var l = preload("res://scenes/enemies/enemy_slime.tscn")
 	var enemy = l.instance().init(

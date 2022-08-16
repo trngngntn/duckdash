@@ -4,6 +4,8 @@ class_name Enemy
 const DIST_LIMIT_SQ = 1000000
 var flash_mat: ShaderMaterial = preload("res://resources/material/hurt_shader_material.tres")
 
+var item_coin = preload("res://scenes/items/coin.tscn")
+
 var attack_ai: EnemyAttackAI
 var movement_ai: EnemyMovementAI
 
@@ -19,14 +21,13 @@ var col_dmg: float = 10
 
 var last_position: Vector2
 
-
 var damageble: bool = true
 
 onready var sprite: AnimatedSprite = get_node("AnimatedSprite")
 
 
 func _get_custom_rpc_methods() -> Array:
-	return ["kills", "_update", "hurt"]
+	return ["frees", "kills", "_update", "hurt"]
 
 
 func _init() -> void:
@@ -38,7 +39,7 @@ func _init() -> void:
 
 
 func _set_upd_timer(_upd_timer: Timer) -> void:
-	if NakamaMatch.is_network_server():
+	if MatchManager.is_network_server():
 		upd_timer = _upd_timer
 		upd_timer.connect("timeout", self, "_force_update")
 
@@ -61,18 +62,21 @@ func _ready() -> void:
 
 	if movement_ai:
 		add_child(movement_ai)
-		if NakamaMatch.is_network_server():
+		if MatchManager.is_network_server():
 			movement_ai.move_to_target()
+
+	if not MatchManager.is_network_server():
+		$HitboxArea/CollisionPolygon2D.disabled = true
 
 
 func _physics_process(_delta) -> void:
-	if NakamaMatch.is_network_server():
+	if MatchManager.is_network_server():
 		if not is_instance_valid(target) || target.is_queued_for_deletion():
 			var players = get_tree().get_nodes_in_group("player")
 			if players.size() == 0:
 				queue_free()
 				return
-			
+
 			var min_dist_player = players[0]
 			var min_dist: float = min_dist_player.position.distance_squared_to(position)
 			for player in get_tree().get_nodes_in_group("player"):
@@ -83,7 +87,7 @@ func _physics_process(_delta) -> void:
 						min_dist = dist
 			target = min_dist_player
 		if position.distance_squared_to(target.position) > DIST_LIMIT_SQ:
-			NakamaMatch.custom_rpc_sync(self, "kills")
+			MatchManager.custom_rpc_sync(self, "frees")
 			return
 	if movement_ai:
 		movement_ai.move()
@@ -94,7 +98,29 @@ func _integrate_forces(state):
 		movement_ai.integrate_forces(state)
 
 
-func kills() -> void:
+##SERVERONLY
+
+func pre_kill():
+	var info := []
+	var count = get_tree().get_nodes_in_group("drop_item").size()
+	for i in range(1, 6):
+		var rand_vec = Vector2(2 * randf() - 1, 2 * randf() - 1)
+		info.append({"dir":rand_vec, "type": "", "name": str(count + i)})
+	MatchManager.custom_rpc_sync(self, "kills", [position, info])
+
+
+func kills(pos: Vector2, info_list: Array) -> void:
+	for info in info_list:
+		var coin = item_coin.instance()
+		coin.add_to_group("drop_item")
+		coin.name = info["name"]
+		coin.position = pos
+		coin.fdir = info["dir"]
+		get_parent().add_child(coin)
+	queue_free()
+
+
+func frees() -> void:
 	queue_free()
 
 
@@ -112,13 +138,14 @@ func hurt() -> void:
 func _flash_timer_timeout() -> void:
 	sprite.material.set_shader_param("enable", false)
 	if hp <= 0:
-		kills()
+		pre_kill()
 		set_physics_process(false)
+
 
 #### Update states functions
 func _force_update() -> void:
 	if position.distance_squared_to(last_position) > 4:
-		NakamaMatch.custom_rpc(self, "_update", [position])
+		MatchManager.custom_rpc(self, "_update", [position])
 		last_position = position
 
 
@@ -127,7 +154,7 @@ func _update(pos: Vector2) -> void:
 	position = pos
 
 
-func _on_HitboxArea_area_entered(area:Area2D):
+func _on_HitboxArea_area_entered(area: Area2D):
 	var node = area.get_parent()
 	if node.has_method("hurt"):
 		node.hurt()

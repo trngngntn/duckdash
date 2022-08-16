@@ -9,10 +9,10 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Area2D",
-"class": "Attack",
+"base": "Node",
+"class": "DDMatch",
 "language": "GDScript",
-"path": "res://scripts/character/skills/attack.gd"
+"path": "res://scripts/connection/match.gd"
 }, {
 "base": "Sprite",
 "class": "DashShadow",
@@ -83,6 +83,11 @@ _global_script_classes=[ {
 "class": "InventoryItem",
 "language": "GDScript",
 "path": "res://scripts/ui/inventory_item.gd"
+}, {
+"base": "RigidBody2D",
+"class": "Item",
+"language": "GDScript",
+"path": "res://scenes/items/drop_items.gd"
 }, {
 "base": "Node2D",
 "class": "Joystick",
@@ -199,6 +204,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/stat/modifier/percentage_modf.gd"
 }, {
+"base": "Reference",
+"class": "PlayerInfo",
+"language": "GDScript",
+"path": "res://scripts/connection/player_info.gd"
+}, {
+"base": "Area2D",
+"class": "Skill",
+"language": "GDScript",
+"path": "res://scripts/character/skills/skill.gd"
+}, {
 "base": "Equipment",
 "class": "SkillCaster",
 "language": "GDScript",
@@ -220,7 +235,7 @@ _global_script_classes=[ {
 "path": "res://scripts/character/state_machine.gd"
 } ]
 _global_script_class_icons={
-"Attack": "",
+"DDMatch": "",
 "DashShadow": "",
 "Dialog": "",
 "Duck": "",
@@ -235,6 +250,7 @@ _global_script_class_icons={
 "GlideEnemyMovementAI": "",
 "IncrementModifier": "",
 "InventoryItem": "",
+"Item": "",
 "Joystick": "",
 "LandEnemyMovementAI": "",
 "Map": "",
@@ -258,6 +274,8 @@ _global_script_class_icons={
 "OpenSimplexNoiseStrategy": "",
 "PanelEquipmentInfo": "",
 "PercentageModifier": "",
+"PlayerInfo": "",
+"Skill": "",
 "SkillCaster": "",
 "Stat": "",
 "State": "",
@@ -275,12 +293,15 @@ config/icon="res://icon.png"
 
 Nakama="*res://addons/com.heroiclabs.nakama/Nakama.gd"
 Conn="*res://scripts/autoload/conn.gd"
-NakamaMatch="*res://scripts/autoload/nakama_match.gd"
 ScreenManager="*res://scripts/autoload/screen_manager.gd"
-MatchManager="*res://scripts/autoload/match_manager.gd"
+NotificationManager="*res://scripts/autoload/notification_manager.gd"
 EquipmentManager="*res://scripts/autoload/equipment_manager.gd"
 StatManager="*res://scripts/autoload/stat_manager.gd"
-NotificationManager="*res://scripts/autoload/notification_manager.gd"
+MatchManager="*res://scripts/autoload/match_manager.gd"
+
+[debug]
+
+gdscript/warnings/return_value_discarded=false
 
 [display]
 
@@ -369,6 +390,7 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+quality/driver/driver_name="GLES2"
 2d/snapping/use_gpu_pixel_snap=true
 vram_compression/import_etc=true
 gles2/compatibility/disable_half_float=true

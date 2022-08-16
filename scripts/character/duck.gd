@@ -6,7 +6,7 @@ var dash_dest: Vector2
 var tracking_cam: Camera2D setget set_tracking_cam
 
 var is_attacking: bool = false
-var attack_res = preload("res://scenes/character/skills/attack_energy_blade.tscn")
+var attack_res = preload("res://scenes/character/skills/skill_attack_energy_blade.tscn")
 
 var move_joystick: Joystick = null
 var atk_joystick: Joystick = null
@@ -28,12 +28,12 @@ signal dead
 
 func _get_custom_rpc_methods() -> Array:
 	return [
-		"_attack",
+		"_attack", "_hủurt"
 	]
 
 
 func _ready() -> void:
-	if NakamaMatch.is_network_master_for_node(self):
+	if MatchManager.is_network_master_for_node(self):
 		$AttackTimer.wait_time = .5
 	else:
 		$AttackTimer.stop()
@@ -60,7 +60,7 @@ func map_attack_joystick(_joystick: Joystick) -> void:
 
 
 func _process(_delta):
-	if not NakamaMatch.is_network_master_for_node(self):
+	if not MatchManager.is_network_master_for_node(self):
 		return
 	if not atk_joystick:
 		if Input.is_action_pressed("attack"):
@@ -79,7 +79,10 @@ func _process(_delta):
 
 
 func finish_setup() -> void:
-	if NakamaMatch.is_network_master_for_node(self):
+	print("NETWORK MASTER: " + str(MatchManager.get_network_master()))
+	if MatchManager.is_network_server():
+		hp = StatManager.players_stat[MatchManager.get_network_master()].max_hp
+	elif MatchManager.is_network_master_for_node(self):
 		hp = StatManager.current_stat.max_hp
 	$StateMachine.start()
 
@@ -88,17 +91,19 @@ func attack() -> void:
 	if not is_attacking:
 		$AttackTimer.stop()
 		return
-	NakamaMatch.custom_rpc_sync(self, "_attack", [atk_direction])
+	MatchManager.custom_rpc_sync(self, "_attack", [atk_direction])
+	
+func hurt() -> void:
+	MatchManager.custom_rpc_sync(self, "_hurt")
+	
 
 
 # CALLBACKS
 func on_mouse_attack() -> void:
 	attack()
 
-
 func _on_AttackTimer_timeout():
 	attack()
-
 
 func _on_attack_joystick_active(data: Vector2) -> void:
 	if data == Vector2(0, 0):
@@ -110,18 +115,24 @@ func _on_attack_joystick_active(data: Vector2) -> void:
 		attack()
 		$AttackTimer.start()
 
-
-func hurt() -> void:
-	hp = hp - 1
-	emit_signal("hp_changed", hp)
-
-	if hp < 1:
-		emit_signal("dead")
-		queue_free()
-
-
 # RPC Functions
 func _attack(_atk_dir: Vector2) -> void:
 	var attack = attack_res.instance()
 	attack.trigger(self, _atk_dir)
 	pass
+	
+func _hurt() -> void:
+	hp = hp - 1
+	emit_signal("hp_changed", hp)
+
+	if hp < 1:
+		print("Adios")
+		emit_signal("dead")
+		queue_free()
+	pass
+
+
+func _on_PickUpArea2D_body_entered(body:Node):
+	if body is Item:
+		MatchManager.custom_rpc_sync(body, "pick_up", [self.get_path()])
+		# body.pick_up(self)

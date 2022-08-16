@@ -1,9 +1,7 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/sprites/animated/item_coin.png" type="Texture" id=1]
-
-[sub_resource type="RectangleShape2D" id=8]
-extents = Vector2( 8, 4 )
+[ext_resource path="res://scenes/items/drop_items.gd" type="Script" id=2]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -37,11 +35,19 @@ animations = [ {
 "speed": 8.0
 } ]
 
-[node name="Coin" type="StaticBody2D"]
+[sub_resource type="CircleShape2D" id=8]
+radius = 16.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 4 )
-shape = SubResource( 8 )
+[node name="Coin" type="RigidBody2D"]
+collision_layer = 8
+collision_mask = 8
+gravity_scale = 0.0
+script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0, -16 )
+scale = Vector2( 2, 4 )
 frames = SubResource( 7 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 8 )

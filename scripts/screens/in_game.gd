@@ -15,7 +15,6 @@ var my_id: int
 
 signal map_generated
 signal game_started
-signal game_over
 signal player_dead(player_id)
 
 onready var hp_bar := $CanvasLayer/HPBar
@@ -31,7 +30,9 @@ func _get_custom_rpc_methods() -> Array:
 
 
 func _ready() -> void:
+	pause_mode = Node.PAUSE_MODE_PROCESS
 	$CanvasLayer/MoveControl/MoveJoystick.set_snap_step(1)
+	MatchManager.connect("game_over", self, "_on_game_over")
 
 
 func generate_map(map_seed: int) -> void:
@@ -46,13 +47,13 @@ func generate_map(map_seed: int) -> void:
 
 # Initializes the game so that it is ready to really start.
 func setup(players: Dictionary) -> void:
-	get_tree().set_pause(true)
+	get_tree().paused = true
 
-	if NakamaMatch.is_network_server():
+	if MatchManager.is_network_server():
 		$CanvasLayer/TestLabel.text = "SERVER_INSTANCE"
 		randomize()
 		var map_seed: int = 100
-		NakamaMatch.custom_rpc_sync(self, "generate_map", [map_seed])
+		MatchManager.custom_rpc_sync(self, "generate_map", [map_seed])
 	elif not map:
 		yield(self, "map_generated")
 
@@ -79,11 +80,11 @@ func setup(players: Dictionary) -> void:
 
 		player.connect("dead", self, "_on_player_dead", [player_id])
 		player.add_to_group("player")
-		if player_id == NakamaMatch.get_network_unique_id():
+		if player_id == MatchManager.get_network_unique_id():
 			my_id = player_id
 			my_player = player
-		else:
-			player.finish_setup()
+#		else:
+#			player.finish_setup()
 
 	# setup for current player
 	StatManager.calculate_stat()
@@ -98,43 +99,58 @@ func setup(players: Dictionary) -> void:
 	my_player.tracking_cam = $GameCamera
 	$GameCamera.set_node_tracking(my_player)
 	$GameCamera.current = true
+	
+	var my_player_stat = StatManager.current_stat
+	
+	StatManager.players_stat[my_id] = my_player_stat
 
-	my_player.finish_setup()
-
+#	my_player.finish_setup()
+	
+	
 	
 	# notify other players 
-	NakamaMatch.custom_rpc_id_sync(self, 1, "_finish_setup", [my_id])
+	print("My ID: " + str(my_id))
+	print("My Stat: " + str(my_player_stat))
+	MatchManager.custom_rpc_id_sync(self, 1, "_finish_setup", [my_id, my_player_stat])
 
+	for player in get_tree().get_nodes_in_group("player"):
+		player.finish_setup()
+		
 
 # Records when each player has finished setup so we know when all players are ready.
-func _finish_setup(player_id) -> void:
+func _finish_setup(player_id, player_stat) -> void:
+	StatManager.players_stat[player_id] = player_stat
 	players_setup[player_id] = players_alive[player_id]
 	if players_setup.size() == players_alive.size():
 		# Once all clients have finished setup, tell them to start the game.
-		NakamaMatch.custom_rpc_sync(self, "_start")
+		MatchManager.custom_rpc_sync(self, "_start")
 
 
 func _start() -> void:
 	if map.has_method("map_start"):
 		map.map_start()
 	emit_signal("game_started")
-	get_tree().set_pause(false)
-
+	get_tree().paused = false
 
 func _stop() -> void:
 	queue_free()
 
+func _on_game_over() -> void:
+	game_over = true
+	print("ENDGAMAE")
+	$CanvasLayer/GameOver.show()
+	map.queue_free()
+	get_tree().paused = false
 
 func _on_player_dead(player_id) -> void:
 	emit_signal("player_dead", player_id)
 
-	if player_id == my_id:
-		$CanvasLayer/GameOver.show()
+	if player_id == my_id:	
+		MatchManager.current_match.stop_game()
 
 	players_alive.erase(player_id)
 	if not game_over and players_alive.size() == 0:
-		game_over = true
-		print("ENDGAMAE")
+		
 		var player_keys = players_alive.keys()
 		# emit_signal("game_over", player_keys[0])
 
@@ -145,3 +161,10 @@ func _on_DashButton_pressed():
 
 func _on_DashButton_released():
 	Input.action_release("move_dash")
+
+
+func _on_MenuButton_pressed():
+	if MatchManager.match_mode == MatchManager.MatchMode.SINGLE:
+		get_tree().paused = true
+	$CanvasLayer/Menu.show()
+	

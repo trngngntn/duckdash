@@ -22,7 +22,7 @@ func _ready() -> void:
 		child.state_machine = self
 
 func start() -> void:
-	# is_remote = NakamaMatch.self_peer_id != self.get_network_master()
+	# is_remote = MatchManager.self_peer_id != self.get_network_master()
 	for child in get_children():
 		child.init()
 	print("INIT_STATE: " + str(state))
@@ -51,7 +51,7 @@ func change_state(target_state_name: String, dat :={}) -> void:
 	state.exit()
 	state = get_node(target_state_name)
 	state.enter(dat)
-	NakamaMatch.custom_rpc(self, "_remote_change_state", [target_state_name, dat])
+	MatchManager.custom_rpc(self, "_remote_change_state", [target_state_name, dat])
 	emit_signal("transitioned", state.name)
 
 func _remote_change_state(target_state_name: String, dat :={}) -> void:

@@ -49,6 +49,7 @@ tile_set = ExtResource( 2 )
 cell_size = Vector2( 64, 32 )
 cell_tile_origin = 1
 cell_y_sort = true
+collision_layer = 9
 collision_mask = 0
 format = 1
 

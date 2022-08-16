@@ -4,6 +4,13 @@ var back : bool setget _set_back
 
 signal go_back()
 
+# func _ready():
+# 	var s =var2str([Vector2(0,0), [Enemy.DropInfo.new(Vector2(0,0), "", "5")]])
+# 	print(s)
+# 	var ss = str2var(s)[1][0] as Enemy.DropInfo
+# 	print(ss.direction)
+
+
 func _set_back(flag : bool) -> void:
 	back = flag
 	$UI/Titlebar/BackButton.visible = back
