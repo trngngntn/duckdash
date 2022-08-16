@@ -28,7 +28,7 @@ signal dead
 
 func _get_custom_rpc_methods() -> Array:
 	return [
-		"_attack", "_hủurt"
+		"_attack", "_hurt"
 	]
 
 
@@ -133,6 +133,7 @@ func _hurt() -> void:
 
 
 func _on_PickUpArea2D_body_entered(body:Node):
-	if body is Item:
+	if body is NonConsumable:
+		StatManager.calculate_stat_from_looting(body.modifier)
 		MatchManager.custom_rpc_sync(body, "pick_up", [self.get_path()])
 		# body.pick_up(self)
