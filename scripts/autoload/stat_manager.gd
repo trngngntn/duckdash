@@ -122,6 +122,15 @@ func calculate_stat() -> void:
 	current_stat.hp = current_stat.max_hp
 
 
+func calculate_stat_from_looting(modifier) -> void:
+	if modifier != null && modifier is Modifier:
+		if modifier.is_stacked:
+			var new_val = current_stat.get(modifier.stat_id) * modifier.get_multiply_value()
+			current_stat.set(modifier.stat_id, new_val)
+		else:
+			var new_val = current_stat.get(modifier.stat_id) + modifier.get_add_value()
+			current_stat.set(modifier.stat_id, new_val)
+
 func get_stat(stat_name: String):
 	return current_stat.get(stat_name)
 

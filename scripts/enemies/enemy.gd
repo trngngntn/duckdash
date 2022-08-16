@@ -4,8 +4,6 @@ class_name Enemy
 const DIST_LIMIT_SQ = 1000000
 var flash_mat: ShaderMaterial = preload("res://resources/material/hurt_shader_material.tres")
 
-var item_coin = preload("res://scenes/items/coin.tscn")
-
 var attack_ai: EnemyAttackAI
 var movement_ai: EnemyMovementAI
 
@@ -109,22 +107,21 @@ func _integrate_forces(state):
 
 
 func pre_kill():
-	var info := []
 	var count = get_tree().get_nodes_in_group("drop_item").size()
-	for i in range(1, 6):
-		var rand_vec = Vector2(2 * randf() - 1, 2 * randf() - 1)
-		info.append({"dir": rand_vec, "type": "", "name": str(count + i)})
+	var rand_vec = Vector2(2 * randf() - 1, 2 * randf() - 1)
+	var info = {"dir": rand_vec, "type": "", "name": str(count + 1)}
 	MatchManager.custom_rpc_sync(self, "kills", [position, info])
 
 
-func kills(pos: Vector2, info_list: Array) -> void:
-	for info in info_list:
-		var coin = item_coin.instance()
-		coin.add_to_group("drop_item")
-		coin.name = info["name"]
-		coin.position = pos
-		coin.fdir = info["dir"]
-		get_parent().add_child(coin)
+func kills(pos: Vector2, info: Dictionary) -> void:
+	var item = MatchManager.rand_looting()
+	if item != null:
+		var drop = item.instance()
+		drop.add_to_group("drop_item")
+		drop.name = info["name"]
+		drop.position = pos
+		drop.fdir = info["dir"]
+		get_parent().add_child(drop)
 	queue_free()
 
 

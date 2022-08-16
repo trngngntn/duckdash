@@ -4,6 +4,15 @@ const CLIENT_VERSION = "dev"
 
 var current_match: DDMatch setget set_current_match
 
+# Looting
+var looting_ruby = preload("res://scenes/items/nonconsumables/ruby.tscn")
+var looting_emerald = preload("res://scenes/items/nonconsumables/emerald.tscn")
+var looting_amber = preload("res://scenes/items/nonconsumables/amber.tscn")
+
+var ruby_chance = 30
+var emerald_chance = ruby_chance + 30
+var amber_chance = emerald_chance + 30
+
 #Nakama
 var nkm_socket: NakamaSocket setget _set_readonly_var
 
@@ -190,6 +199,18 @@ func start_matchmaking(_nkm_socket: NakamaSocket, data: Dictionary = {}) -> void
 		print("MATCH_TICKET: " + str(result.ticket))
 		ticket = result.ticket
 
+func rand_looting() -> PackedScene:
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+	var value = rng.randi_range(1, 100)
+
+	if value <= ruby_chance:
+		return looting_ruby
+	elif value > ruby_chance && value < emerald_chance:
+		return looting_emerald
+	elif value > emerald_chance && value < amber_chance:
+		return looting_amber
+	return null
 
 ####-----------------------------------------------------------------------------------------------
 # NakamaConn callbacks
