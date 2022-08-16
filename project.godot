@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Reference",
+"class": "AtkInfo",
+"language": "GDScript",
+"path": "res://scripts/stat/atk_info.gd"
+}, {
 "base": "Node",
 "class": "DDMatch",
 "language": "GDScript",
@@ -73,6 +78,11 @@ _global_script_classes=[ {
 "class": "GlideEnemyMovementAI",
 "language": "GDScript",
 "path": "res://scripts/enemies/enemy_ai/glide_enemy_movement.gd"
+}, {
+"base": "Node2D",
+"class": "InGame",
+"language": "GDScript",
+"path": "res://scripts/screens/in_game.gd"
 }, {
 "base": "Modifier",
 "class": "IncrementModifier",
@@ -235,6 +245,7 @@ _global_script_classes=[ {
 "path": "res://scripts/character/state_machine.gd"
 } ]
 _global_script_class_icons={
+"AtkInfo": "",
 "DDMatch": "",
 "DashShadow": "",
 "Dialog": "",
@@ -248,6 +259,7 @@ _global_script_class_icons={
 "Equipment": "",
 "FlyEnemyMovementAI": "",
 "GlideEnemyMovementAI": "",
+"InGame": "",
 "IncrementModifier": "",
 "InventoryItem": "",
 "Item": "",

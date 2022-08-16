@@ -7,6 +7,8 @@ const TILE_GROUND = 0
 
 const SPAWN_DISTANCE = 600
 
+export var enemy_limit = 100
+
 var _map_data = []
 var ground_tile_id = 0
 var wall_tile_id = 1
@@ -126,7 +128,7 @@ var count = 0
 
 
 func _on_MobSpawnerTimer_timeout():
-	if get_tree().get_nodes_in_group("enemy").size() > 0:
+	if get_tree().get_nodes_in_group("enemy").size() > enemy_limit:
 		return
 	for player in get_tree().get_nodes_in_group("player"):
 		spawn_enemy_around_player(player, 0)

@@ -22,14 +22,12 @@ func _ready():
 func _integrate_forces(_state):
 	if MatchManager.is_network_server() && not synced && linear_velocity.length_squared() < 4:
 		MatchManager.custom_rpc(self, "sync", [position])
-		print("[LOG][SYNC]" + str(position))
 
 	if not MatchManager.is_network_server() && synced:
 		position = sync_pos
 
 func pick_up(node_path: NodePath):
 	var node = get_node(node_path)
-	print("[LOG][MUST_SYNC]" + str(position))
 	$CollisionShape2D.set_deferred("disabled", true)
 	var tween = create_tween()
 	tween.connect("finished", self, "_on_finish")

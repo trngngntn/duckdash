@@ -52,7 +52,7 @@ signal host_disconnected
 signal match_ready(players)
 signal match_not_ready
 
-signal game_over
+signal game_over(reason)
 
 
 func _set_readonly_var(_value) -> void:
@@ -194,7 +194,7 @@ func start_matchmaking(_nkm_socket: NakamaSocket, data: Dictionary = {}) -> void
 ####-----------------------------------------------------------------------------------------------
 # NakamaConn callbacks
 func _on_match_created(data: NakamaRTAPI.Match) -> void:
-	self.current_match = DDMatch.new(data.self_user.session_id, data.match_id, 1)
+	self.current_match = DDMatch.new(nkm_socket, data.self_user.session_id, data.match_id, 1)
 	var self_player = PlayerInfo.new().from_presence(data.self_user, 1)
 	current_match.set_self_player(self_player)
 	print("[LOG][MATCH_MAN]Match created")
@@ -220,7 +220,7 @@ func _on_matchmaker_matched(data: NakamaRTAPI.MatchmakerMatched) -> void:
 		push_error("Matchmaker error")
 		return
 
-	self.current_match = DDMatch.new(data.self_user.presence.session_id, "", -1)
+	self.current_match = DDMatch.new(nkm_socket, data.self_user.presence.session_id, "", -1)
 	current_match.set_players(data.users)
 
 	emit_signal("matchmaker_matched", current_match.players)
@@ -263,32 +263,37 @@ func _on_nakama_match_presence(data: NakamaRTAPI.MatchPresenceEvent) -> void:
 		elif match_mode == MatchMode.MATCHMAKER:
 			emit_signal("player_joined", current_match.players[user.session_id])
 
-	for user in data.leaves:
-		if user.session_id == current_match.self_session_id:
-			continue
-		if not current_match.players.has(user.session_id):
-			continue
+	if data.leaves.size() > 0:
+		if match_state == MatchState.PLAYING:
+			current_match.stop_game(InGame.REASON_PLAYER_LOST_CONN)
+			return
 
-		var player = current_match.players[user.session_id]
+		for user in data.leaves:
+			if user.session_id == current_match.self_session_id:
+				continue
+			if not current_match.players.has(user.session_id):
+				continue
 
-		# If the host disconnects, this is the end!
-		emit_signal("player_left", player)
-		print("[LOG][MATCH_MAN]Emitting player left signal")
-		if player.peer_id == 1:
-			leave_current_match()
-			if match_state != MatchState.PLAYING:
-				match_state = MatchState.LOBBY
-				start_matchmaking(nkm_socket, cached_data)
-			emit_signal("host_disconnected")
-			
-		else:
-			current_match.players.erase(user.session_id)
+			var player = current_match.players[user.session_id]
 
-			if current_match.players.size() < min_player:
-				# If state was previously ready, but this brings us below the minimum players,
-				# then we aren't ready anymore.
-				if match_state == MatchState.READY || match_state == MatchState.PLAYING:
-					emit_signal("match_not_ready")
+			# If the host disconnects, this is the end!
+			emit_signal("player_left", player)
+			print("[LOG][MATCH_MAN]Emitting player left signal")
+			if player.peer_id == 1:
+				leave_current_match()
+				if match_state != MatchState.PLAYING:
+					match_state = MatchState.LOBBY
+					start_matchmaking(nkm_socket, cached_data)
+				emit_signal("host_disconnected")
+
+			else:
+				current_match.players.erase(user.session_id)
+
+				if current_match.players.size() < min_player:
+					# If state was previously ready, but this brings us below the minimum players,
+					# then we aren't ready anymore.
+					if match_state == MatchState.READY || match_state == MatchState.PLAYING:
+						emit_signal("match_not_ready")
 
 
 func _on_match_state_received(data: NakamaRTAPI.MatchData) -> void:

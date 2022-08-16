@@ -8,6 +8,8 @@ var tracking_cam: Camera2D setget set_tracking_cam
 var is_attacking: bool = false
 var attack_res = preload("res://scenes/character/skills/skill_attack_energy_blade.tscn")
 
+var flash_mat: ShaderMaterial = preload("res://resources/material/hurt_shader_material.tres")
+
 var move_joystick: Joystick = null
 var atk_joystick: Joystick = null
 
@@ -27,9 +29,7 @@ signal dead
 
 
 func _get_custom_rpc_methods() -> Array:
-	return [
-		"_attack", "_hủurt"
-	]
+	return ["_attack", "_hurt"]
 
 
 func _ready() -> void:
@@ -92,18 +92,20 @@ func attack() -> void:
 		$AttackTimer.stop()
 		return
 	MatchManager.custom_rpc_sync(self, "_attack", [atk_direction])
-	
-func hurt() -> void:
-	MatchManager.custom_rpc_sync(self, "_hurt")
-	
+
+
+func hurt(info: AtkInfo) -> void:
+	MatchManager.custom_rpc_sync(self, "_hurt", [info.to_dict()])
 
 
 # CALLBACKS
 func on_mouse_attack() -> void:
 	attack()
 
+
 func _on_AttackTimer_timeout():
 	attack()
+
 
 func _on_attack_joystick_active(data: Vector2) -> void:
 	if data == Vector2(0, 0):
@@ -115,24 +117,35 @@ func _on_attack_joystick_active(data: Vector2) -> void:
 		attack()
 		$AttackTimer.start()
 
+
 # RPC Functions
 func _attack(_atk_dir: Vector2) -> void:
 	var attack = attack_res.instance()
 	attack.trigger(self, _atk_dir)
 	pass
-	
-func _hurt() -> void:
-	hp = hp - 1
+
+
+func _hurt(raw_info: Dictionary) -> void:
+	var info = AtkInfo.new().from_dict(raw_info)
+	hp = hp - info.dmg
 	emit_signal("hp_changed", hp)
 
 	if hp < 1:
-		print("Adios")
 		emit_signal("dead")
 		queue_free()
-	pass
+		return
+
+	$AnimatedSprite.material = flash_mat.duplicate()
+	$AnimatedSprite.material.set_shader_param("enable", true)
+
+	$FlashTimer.start()
 
 
-func _on_PickUpArea2D_body_entered(body:Node):
+func _on_PickUpArea2D_body_entered(body: Node):
 	if body is Item:
 		MatchManager.custom_rpc_sync(body, "pick_up", [self.get_path()])
 		# body.pick_up(self)
+
+
+func _on_FlashTimer_timeout():
+	$AnimatedSprite.material = null

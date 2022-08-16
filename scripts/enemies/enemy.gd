@@ -11,13 +11,14 @@ var movement_ai: EnemyMovementAI
 
 var target: Node2D
 var upd_timer: Timer setget _set_upd_timer
+var atk_timer: Timer
 var flash_timer: Timer
 
 var hp: float
 var mv_speed: float
-var atk_dmg: float
+var atk_dmg: float = 5
 var atk_speed: float = 1
-var col_dmg: float = 10
+var col_dmg: float = 5
 
 var last_position: Vector2
 
@@ -65,7 +66,13 @@ func _ready() -> void:
 		if MatchManager.is_network_server():
 			movement_ai.move_to_target()
 
-	if not MatchManager.is_network_server():
+	if MatchManager.is_network_server():
+		atk_timer = Timer.new()
+		atk_timer.wait_time = 1 / atk_speed
+		atk_timer.one_shot = false
+		atk_timer.connect("timeout", self, "_on_atk_timer_timeout")
+		add_child(atk_timer)
+	else:
 		$HitboxArea/CollisionPolygon2D.disabled = true
 
 
@@ -100,12 +107,13 @@ func _integrate_forces(state):
 
 ##SERVERONLY
 
+
 func pre_kill():
 	var info := []
 	var count = get_tree().get_nodes_in_group("drop_item").size()
 	for i in range(1, 6):
 		var rand_vec = Vector2(2 * randf() - 1, 2 * randf() - 1)
-		info.append({"dir":rand_vec, "type": "", "name": str(count + i)})
+		info.append({"dir": rand_vec, "type": "", "name": str(count + i)})
 	MatchManager.custom_rpc_sync(self, "kills", [position, info])
 
 
@@ -135,6 +143,10 @@ func hurt() -> void:
 	flash_timer.start()
 
 
+func get_atk_info() -> AtkInfo:
+	return AtkInfo.new().create(atk_dmg, [])
+
+
 func _flash_timer_timeout() -> void:
 	sprite.material.set_shader_param("enable", false)
 	if hp <= 0:
@@ -154,7 +166,24 @@ func _update(pos: Vector2) -> void:
 	position = pos
 
 
+var colliding: Array = []
+
+
 func _on_HitboxArea_area_entered(area: Area2D):
 	var node = area.get_parent()
 	if node.has_method("hurt"):
-		node.hurt()
+		colliding.append(node)
+		node.hurt(get_atk_info())
+		atk_timer.start()
+
+
+func _on_HitboxArea_area_exited(area: Area2D):
+	var node = area.get_parent()
+	colliding.erase(node)
+	if colliding.size() == 0:
+		atk_timer.stop()
+
+
+func _on_atk_timer_timeout():
+	for node in colliding:
+		node.hurt(get_atk_info())

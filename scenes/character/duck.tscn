@@ -188,5 +188,10 @@ script = ExtResource( 6 )
 
 [node name="AttackTimer" type="Timer" parent="."]
 
+[node name="FlashTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
 [connection signal="body_entered" from="PickUpArea2D" to="." method="_on_PickUpArea2D_body_entered"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
+[connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]
