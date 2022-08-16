@@ -23,8 +23,9 @@ func _set_readonly_var(_value) -> void:
 	pass
 
 
-func _init(session_id: String, _match_id: String, peer_id: int):
+func _init(socket: NakamaSocket, session_id: String, _match_id: String, peer_id: int):
 	print("[LOG][MATCH]New match " + _match_id)
+	socket.connect("closed", self, "stop_game", [InGame.REASON_LOST_CONN])
 	self_session_id = session_id
 	match_id = _match_id
 	self_peer_id = peer_id
@@ -141,28 +142,25 @@ func player_in_game(_peer_id: int) -> void:
 			MatchManager.custom_rpc_sync(in_game_node, "setup", [players])
 
 
-func stop_game() -> void:
-	MatchManager.emit_signal("game_over")
+func stop_game(reason: String) -> void:
+	MatchManager.emit_signal("game_over", reason)
 	MatchManager.leave_current_match()
 
+# func _on_Game_game_started() -> void:
+# 	#ui_layer.hide_screen()
+# 	#ui_layer.hide_all()
+# 	#ui_layer.show_back_button()
 
-func _on_Game_game_started() -> void:
-	#ui_layer.hide_screen()
-	#ui_layer.hide_all()
-	#ui_layer.show_back_button()
+# 	if not match_started:
+# 		match_started = true
 
-	if not match_started:
-		match_started = true
+# func _on_Game_player_dead(player_id: int) -> void:
+# 	var my_id = MatchManager.get_network_unique_id()
+# 	if player_id == my_id:
+# 		#ui_layer.show_message("You lose!")
+# 		pass
 
-
-func _on_Game_player_dead(player_id: int) -> void:
-	var my_id = MatchManager.get_network_unique_id()
-	if player_id == my_id:
-		#ui_layer.show_message("You lose!")
-		pass
-
-
-func _on_Game_game_over(player_id: int) -> void:
-	players_ready.clear()
-	if MatchManager.is_network_server():
-		var player_session_id = MatchManager.get_session_id(player_id)
+# func _on_Game_game_over(player_id: int) -> void:
+# 	players_ready.clear()
+# 	if MatchManager.is_network_server():
+# 		var player_session_id = MatchManager.get_session_id(player_id)

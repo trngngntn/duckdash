@@ -36,7 +36,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=8]
-radius = 16.0
+radius = 9.0
 
 [node name="Coin" type="RigidBody2D"]
 collision_layer = 8
