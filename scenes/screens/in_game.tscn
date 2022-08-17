@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scripts/screens/in_game.gd" type="Script" id=1]
 [ext_resource path="res://scripts/screens/in_game/game_camera.gd" type="Script" id=2]
@@ -12,6 +12,10 @@
 [ext_resource path="res://assets/sprites/static/ui/ui_button_menu_normal.png" type="Texture" id=10]
 [ext_resource path="res://assets/sprites/static/ui/ui_button_menu_pressed.png" type="Texture" id=11]
 [ext_resource path="res://scenes/ui/kinetic_bar.tscn" type="PackedScene" id=12]
+[ext_resource path="res://resources/ui_theme.tres" type="Theme" id=13]
+[ext_resource path="res://assets/sprites/static/ui/ui_icon_coin.png" type="Texture" id=14]
+[ext_resource path="res://assets/sprites/static/ui/ui_icon_soul.png" type="Texture" id=15]
+[ext_resource path="res://resources/font/ui_font_small.tres" type="DynamicFont" id=16]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 20.0
@@ -39,7 +43,7 @@ mouse_filter = 2
 layer = 3
 
 [node name="HPBar" parent="CanvasLayer" instance=ExtResource( 7 )]
-margin_top = 15.0
+margin_top = 16.0
 margin_bottom = 60.0
 
 [node name="KineticBar" parent="CanvasLayer" instance=ExtResource( 12 )]
@@ -90,11 +94,72 @@ scale = Vector2( 4, 4 )
 normal = ExtResource( 5 )
 shape = SubResource( 1 )
 
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+margin_left = 50.0
+margin_top = 16.0
+margin_right = 254.0
+margin_bottom = 114.0
+theme = ExtResource( 13 )
+
+[node name="IconCont" type="VBoxContainer" parent="CanvasLayer/Panel"]
+anchor_right = 0.4
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = 1.0
+margin_right = -0.200005
+margin_bottom = -1.0
+custom_constants/separation = 0
+
+[node name="Coin" type="TextureRect" parent="CanvasLayer/Panel/IconCont"]
+margin_right = 61.0
+margin_bottom = 48.0
+texture = ExtResource( 14 )
+
+[node name="Soul" type="TextureRect" parent="CanvasLayer/Panel/IconCont"]
+margin_top = 48.0
+margin_right = 61.0
+margin_bottom = 96.0
+texture = ExtResource( 15 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Panel"]
+anchor_left = 0.4
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -0.200005
+margin_top = 1.0
+margin_right = -30.0
+margin_bottom = -1.0
+custom_constants/separation = 0
+
+[node name="Label" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
+margin_right = 92.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 0, 48 )
+custom_fonts/font = ExtResource( 16 )
+text = "0000"
+align = 2
+valign = 1
+
+[node name="Label2" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
+margin_top = 48.0
+margin_right = 92.0
+margin_bottom = 96.0
+rect_min_size = Vector2( 0, 48 )
+custom_fonts/font = ExtResource( 16 )
+text = "0000"
+align = 2
+valign = 1
+
 [node name="TestLabel" type="Label" parent="CanvasLayer"]
 modulate = Color( 1, 0, 0, 1 )
-margin_right = 330.0
-margin_bottom = 106.0
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = -115.0
+margin_right = 340.0
+margin_bottom = -9.0
 custom_fonts/font = ExtResource( 9 )
+valign = 2
 
 [node name="GameOver" parent="CanvasLayer" instance=ExtResource( 8 )]
 visible = false

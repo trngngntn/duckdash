@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/item_soul.png-66bd5d47f154b3c1197d76838bcedca3.stex"
+path="res://.import/item_emerald.png-b90795a8049ad049f0a88e0dff8bb8a3.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/animated/item_soul.png"
-dest_files=[ "res://.import/item_soul.png-66bd5d47f154b3c1197d76838bcedca3.stex" ]
+source_file="res://assets/sprites/animated/items/item_emerald.png"
+dest_files=[ "res://.import/item_emerald.png-b90795a8049ad049f0a88e0dff8bb8a3.stex" ]
 
 [params]
 

@@ -3,22 +3,16 @@ extends Node
 onready var self_instance = self
 
 const TYPE_SKILL_CASTER = "skill_caster"
-const TYPE_BODY_PROTECTER = "body_protector"
-const TYPE_MV_BOOSTER = "mv_booster"
-const TYPE_ATK_ENHANCER = "atk_enhancer"
+const TYPE_ENHANCER = "enhancer"
 
 var equipment_list: Dictionary = {
 	"skill_caster": [],
-	"shield": [],
-	"mv_booster": [],
-	"atk_enhancer": [],
+	"enhancer": [],
 }
 
 var equipped: Dictionary = {
-	"skill_caster": null,
-	"shield": null,
-	"mv_booster": null,
-	"atk_enhancer": null,
+	"skill_caster": [],
+	"enhancer": [],
 }
 
 signal equipment_updated(type)
@@ -32,13 +26,25 @@ func _init() -> void:
 
 
 func is_equipped(equipment: Equipment) -> bool:
-	return equipment == EquipmentManager.equipped[equipment.type_name]
+	return EquipmentManager.equipped[equipment.type_name].has(equipment)
 
 
 func equip(equipment: Equipment) -> void:
-	if equipment_list[equipment.type_name].has(equipment):
-		equipped[equipment.type_name] = equipment
-	pass
+	match equipment.type_name:
+		TYPE_SKILL_CASTER:
+			equipped[TYPE_SKILL_CASTER] = [equipment]
+		TYPE_ENHANCER:
+			if equipped[TYPE_ENHANCER].size() == 3 || is_equipped(equipment):
+				return
+			equipped[TYPE_ENHANCER].append(equipment)
+
+
+func unequip(equipment: Equipment) -> void:
+	match equipment.type_name:
+		TYPE_SKILL_CASTER:
+			return
+		TYPE_ENHANCER:
+			equipped[TYPE_ENHANCER].erase(equipment)
 
 
 func get_equipment_list(type_name: String) -> Array:
@@ -114,7 +120,5 @@ func _on_session_created(_d) -> void:
 func _on_session_changed(_d) -> void:
 	equipment_list = {
 		"skill_caster": [],
-		"shield": [],
-		"mv_booster": [],
-		"atk_enhancer": [],
+		"enhancer": [],
 	}

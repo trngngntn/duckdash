@@ -48,6 +48,9 @@ var players_stat := {}
 
 
 class StatValues:
+	var coin: int = 0
+	var soul: int = 0
+
 	var max_hp: float = 100
 	var hp: float
 	var armour: int = 0
@@ -73,7 +76,6 @@ class StatValues:
 
 	var enlargement: float = 1
 	var atk_dir: int = 1
-
 
 	func _init(is_base: bool):
 		if !is_base:
@@ -104,21 +106,20 @@ func calculate_stat() -> void:
 
 	print("STAT:  " + str(current_stat.max_hp))
 
-	# for type in EquipmentManager.equipped.keys():
-	# 	if EquipmentManager.equipped[type] != null:
-	# 		var equipment: Equipment = EquipmentManager.equipped[type]
+	for type in EquipmentManager.equipped.keys():
+		if EquipmentManager.equipped[type] != null:
+			for equipment in EquipmentManager.equipped[type]:
+				for stat in equipment.stat:
+					var s = get(stat.stat_id)
+					if s != null && s is Modifier && s.is_stacked:
+						var new_val = current_stat.get(stat.stat_id) * stat.get_multiply_value()
+						current_stat.set(stat.stat_id, new_val)
 
-	# 		for stat in equipment.stat:
-	# 			var s = get(stat.stat_id)
-	# 			if s != null && s is Modifier && s.is_stacked:
-	# 				var new_val = current_stat.get(stat.stat_id) * stat.get_multiply_value()
-	# 				current_stat.set(stat.stat_id, new_val)
-
-	# 		for stat in equipment.stat:
-	# 			var s = get(stat.stat_id)
-	# 			if s != null && s is Modifier && !s.is_stacked:
-	# 				var new_val = current_stat.get(stat.stat_id) + stat.get_add_value()
-	# 				incr_stat.set(stat.stat_id, new_val)
+				for stat in equipment.stat:
+					var s = get(stat.stat_id)
+					if s != null && s is Modifier && !s.is_stacked:
+						var new_val = current_stat.get(stat.stat_id) + stat.get_add_value()
+						incr_stat.set(stat.stat_id, new_val)
 	current_stat.hp = current_stat.max_hp
 
 
@@ -130,6 +131,7 @@ func calculate_stat_from_looting(modifier) -> void:
 		else:
 			var new_val = current_stat.get(modifier.stat_id) + modifier.get_add_value()
 			current_stat.set(modifier.stat_id, new_val)
+
 
 func get_stat(stat_name: String):
 	return current_stat.get(stat_name)

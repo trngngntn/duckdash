@@ -20,9 +20,9 @@ func _ready():
 	$ButtonContainer/PlayButton.connect(
 		"pressed", self, "_on_match_button_pressed", [MatchManager.MatchMode.SINGLE]
 	)
-	$ButtonContainer/MatchmakingButton.connect(
-		"pressed", self, "_on_match_button_pressed", [MatchManager.MatchMode.MATCHMAKER]
-	)
+	# $ButtonContainer/MatchmakingButton.connect(
+	# 	"pressed", self, "_on_match_button_pressed", [MatchManager.MatchMode.MATCHMAKER]
+	# )
 
 	MatchManager.connect("match_created", self, "_on_MatchManager_match_created")
 	MatchManager.connect("matchmaker_matched", self, "_on_MatchManager_matchmaker_matched")
@@ -90,7 +90,7 @@ func reset_buttons() -> void:
 func update_party_size(size: int) -> void:
 	if size >= 1 && size <= 4:
 		party_size = size
-		$MarginContainer/PartySizeControl/Status.text = "Party size: " + str(size)
+		$PartyControl/PartySizeControl/Status.text = "Party size: " + str(size)
 		reset_buttons()
 		if size == 1:
 			$ButtonContainer/PlayButton.visible = true
@@ -141,11 +141,26 @@ func _on_ReadyButton_toggled(button_pressed: bool):
 		)
 
 
+func _on_MatchmakingButton_toggled(button_pressed: bool):
+	if button_pressed:
+		_start_matchmaking()
+		$ButtonContainer/MatchmakingButton.text = ""
+		$ButtonContainer/MatchmakingButton/LoadingDots.show()
+		$PartyControl/PartySizeControl/AddButton.disabled = true
+		$PartyControl/PartySizeControl/SubButton.disabled = true
+	else:
+		MatchManager.leave_current_match()
+		$ButtonContainer/MatchmakingButton/LoadingDots.hide()
+		$ButtonContainer/MatchmakingButton.text = "Find Game"
+		$PartyControl/PartySizeControl/AddButton.disabled = false
+		$PartyControl/PartySizeControl/SubButton.disabled = false
+
+
 ####-----------------------------------------------------------------------------------------------
 # MatchManager callbacks
 func _on_MatchManager_matchmaker_matched(_players: Dictionary) -> void:
+	$PartyControl.hide()
 	players = _players
-
 	for player_session_id in players:
 		var player: PlayerInfo = players[player_session_id]
 		if player_session_id != MatchManager.current_match.self_session_id:
