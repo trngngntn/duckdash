@@ -141,9 +141,11 @@ func _hurt(raw_info: Dictionary) -> void:
 
 	$FlashTimer.start()
 
-
 func _on_PickUpArea2D_body_entered(body: Node):
 	if body is Item:
+func _on_PickUpArea2D_body_entered(body:Node):
+	if body is NonConsumable:
+		StatManager.calculate_stat_from_looting(body.modifier)
 		MatchManager.custom_rpc_sync(body, "pick_up", [self.get_path()])
 
 
