@@ -1,4 +1,4 @@
-extends Skill
+extends Attack
 
 
 func _ready() -> void:

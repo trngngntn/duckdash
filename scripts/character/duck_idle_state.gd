@@ -1,7 +1,7 @@
 extends DuckState
 
 func init() -> void:
-	if player.move_joystick && MatchManager.is_network_master_for_node(self):
+	if player.move_joystick && NakamaMatch.is_network_master_for_node(self):
 		player.move_joystick.connect("active", self, "_on_joystick_active")
 		
 func enter(_dat := {}) -> void:
@@ -10,7 +10,7 @@ func enter(_dat := {}) -> void:
 
 
 func physics_update(_delta: float) -> void:
-	if not MatchManager.is_network_master_for_node(self):
+	if not NakamaMatch.is_network_master_for_node(self):
 		return
 	if not player.move_joystick:	
 		if (

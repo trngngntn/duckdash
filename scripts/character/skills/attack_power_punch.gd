@@ -1,4 +1,4 @@
-extends Skill
+extends Attack
 
 # Declare member variables here. Examples:
 # var a = 2

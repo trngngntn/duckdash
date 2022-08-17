@@ -33,7 +33,7 @@ func get_nakama_client() -> NakamaClient:
 			Nakama.DEFAULT_TIMEOUT,
 			NakamaLogger.LOG_LEVEL.ERROR
 		)
-		nkm_client.timeout = 300
+
 	return nkm_client
 
 
@@ -54,20 +54,15 @@ func set_nakama_session(_nkm_session: NakamaSession) -> void:
 	emit_signal("session_changed", nkm_session)
 	
 	if nkm_session && not nkm_session.is_exception() && not nkm_session.is_expired():
-		print("[LOG][CONN]Session connected")
+		print("session_connected")
 		emit_signal("session_connected", nkm_session)
 
 
 #Nakama socket
-var nkm_socket: NakamaSocket setget _set_readonly_var, get_socket
+var nkm_socket: NakamaSocket setget _set_readonly_var
 var _nkm_socket_connecting: bool = false
 signal socket_connected(nkm_socket)
 signal received_friend_request_notification(notification)
-
-func get_socket() -> NakamaSocket:
-	if not nkm_socket:
-		connect_nakama_socket()
-	return nkm_socket
 
 func connect_nakama_socket() -> void:
 	if nkm_socket != null:

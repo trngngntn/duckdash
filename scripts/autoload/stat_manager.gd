@@ -77,15 +77,6 @@ func calculate_stat() -> void:
 	# 				var new_val = current_stat.get(stat.stat_id) + stat.get_add_value()
 	# 				incr_stat.set(stat.stat_id, new_val)
 
-func calculate_stat_from_looting(modifier) -> void:
-	if modifier != null && modifier is Modifier:
-		if modifier.is_stacked:
-			var new_val = current_stat.get(modifier.stat_id) * modifier.get_multiply_value()
-			current_stat.set(modifier.stat_id, new_val)
-		else:
-			var new_val = current_stat.get(modifier.stat_id) + modifier.get_add_value()
-			current_stat.set(modifier.stat_id, new_val)
-
 func get_stat(stat_name: String):
 	return current_stat.get(stat_name)
 

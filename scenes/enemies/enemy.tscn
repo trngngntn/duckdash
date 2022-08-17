@@ -23,4 +23,3 @@ collision_mask = 2
 [node name="DirectAtkTimer" type="Timer" parent="."]
 
 [connection signal="area_entered" from="HitboxArea" to="." method="_on_HitboxArea_area_entered"]
-[connection signal="area_exited" from="HitboxArea" to="." method="_on_HitboxArea_area_exited"]

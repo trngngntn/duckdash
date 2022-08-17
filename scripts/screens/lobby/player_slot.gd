@@ -4,8 +4,11 @@ onready var _player_name = $PanelContainer/MarginContainer/HSplit/PlayerName
 onready var _status = $PanelContainer/MarginContainer/HSplit/Status
 
 func _ready():
+	$PanelContainer.modulate.a = 0
+
+func set_player_name(name : String) -> void:
+	$PanelContainer.modulate.a = 1
 	_player_name.text = name
-	pass
 
 func hide_status() -> void:
 	_status.visible = false;

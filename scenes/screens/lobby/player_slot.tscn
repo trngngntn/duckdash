@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://resources/ui_player_slot.tres" type="StyleBox" id=1]
-[ext_resource path="res://scripts/ui/player_slot.gd" type="Script" id=2]
+[ext_resource path="res://scripts/screens/lobby/player_slot.gd" type="Script" id=2]
 [ext_resource path="res://scenes/ui/loading_dots.tscn" type="PackedScene" id=3]
 
 [node name="PlayerSlot" type="MarginContainer"]
@@ -47,6 +47,7 @@ margin_top = 388.0
 margin_right = 1480.0
 margin_bottom = 402.0
 size_flags_horizontal = 3
+text = "Status"
 align = 2
 valign = 1
 

@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/ui/slot_shallow.tscn" type="PackedScene" id=1]
 [ext_resource path="res://resources/ui_theme.tres" type="Theme" id=2]
 [ext_resource path="res://scripts/screens/lobby.gd" type="Script" id=3]
+[ext_resource path="res://scenes/screens/lobby/player_slot.tscn" type="PackedScene" id=4]
 
 [node name="Lobby" type="Control"]
 anchor_right = 1.0
@@ -18,6 +19,36 @@ script = ExtResource( 3 )
 anchor_right = 0.6
 anchor_bottom = 0.85
 margin_right = -25.0
+
+[node name="PlayerSlot1" parent="PlayerListCont" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 875.0
+margin_bottom = 158.0
+
+[node name="PlayerSlot2" parent="PlayerListCont" instance=ExtResource( 4 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 138.0
+margin_right = 900.0
+margin_bottom = 272.0
+
+[node name="PlayerSlot3" parent="PlayerListCont" instance=ExtResource( 4 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 276.0
+margin_right = 900.0
+margin_bottom = 410.0
+
+[node name="PlayerSlot4" parent="PlayerListCont" instance=ExtResource( 4 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 414.0
+margin_right = 900.0
+margin_bottom = 548.0
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_top = 0.85
