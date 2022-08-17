@@ -9,16 +9,16 @@ var movement_ai: EnemyMovementAI
 
 var target: Node2D
 var upd_timer: Timer setget _set_upd_timer
+var atk_timer: Timer
 var flash_timer: Timer
 
 var hp: float
 var mv_speed: float
-var atk_dmg: float
+var atk_dmg: float = 5
 var atk_speed: float = 1
-var col_dmg: float = 10
+var col_dmg: float = 5
 
 var last_position: Vector2
-
 
 var damageble: bool = true
 
@@ -26,7 +26,7 @@ onready var sprite: AnimatedSprite = get_node("AnimatedSprite")
 
 
 func _get_custom_rpc_methods() -> Array:
-	return ["kills", "_update", "hurt"]
+	return ["frees", "kills", "_update", "hurt"]
 
 
 func _init() -> void:
@@ -38,7 +38,7 @@ func _init() -> void:
 
 
 func _set_upd_timer(_upd_timer: Timer) -> void:
-	if NakamaMatch.is_network_server():
+	if MatchManager.is_network_server():
 		upd_timer = _upd_timer
 		upd_timer.connect("timeout", self, "_force_update")
 
@@ -61,18 +61,27 @@ func _ready() -> void:
 
 	if movement_ai:
 		add_child(movement_ai)
-		if NakamaMatch.is_network_server():
+		if MatchManager.is_network_server():
 			movement_ai.move_to_target()
+
+	if MatchManager.is_network_server():
+		atk_timer = Timer.new()
+		atk_timer.wait_time = 1 / atk_speed
+		atk_timer.one_shot = false
+		atk_timer.connect("timeout", self, "_on_atk_timer_timeout")
+		add_child(atk_timer)
+	else:
+		$HitboxArea/CollisionPolygon2D.disabled = true
 
 
 func _physics_process(_delta) -> void:
-	if NakamaMatch.is_network_server():
+	if MatchManager.is_network_server():
 		if not is_instance_valid(target) || target.is_queued_for_deletion():
 			var players = get_tree().get_nodes_in_group("player")
 			if players.size() == 0:
 				queue_free()
 				return
-			
+
 			var min_dist_player = players[0]
 			var min_dist: float = min_dist_player.position.distance_squared_to(position)
 			for player in get_tree().get_nodes_in_group("player"):
@@ -83,7 +92,7 @@ func _physics_process(_delta) -> void:
 						min_dist = dist
 			target = min_dist_player
 		if position.distance_squared_to(target.position) > DIST_LIMIT_SQ:
-			NakamaMatch.custom_rpc_sync(self, "kills")
+			MatchManager.custom_rpc_sync(self, "frees")
 			return
 	if movement_ai:
 		movement_ai.move()
@@ -94,7 +103,29 @@ func _integrate_forces(state):
 		movement_ai.integrate_forces(state)
 
 
-func kills() -> void:
+##SERVERONLY
+
+
+func pre_kill():
+	var count = get_tree().get_nodes_in_group("drop_item").size()
+	var rand_vec = Vector2(2 * randf() - 1, 2 * randf() - 1)
+	var info = {"dir": rand_vec, "type": "", "name": str(count + 1)}
+	MatchManager.custom_rpc_sync(self, "kills", [position, info])
+
+
+func kills(pos: Vector2, info: Dictionary) -> void:
+	var item = MatchManager.rand_looting()
+	if item != null:
+		var drop = item.instance()
+		drop.add_to_group("drop_item")
+		drop.name = info["name"]
+		drop.position = pos
+		drop.fdir = info["dir"]
+		get_parent().add_child(drop)
+	queue_free()
+
+
+func frees() -> void:
 	queue_free()
 
 
@@ -109,16 +140,21 @@ func hurt() -> void:
 	flash_timer.start()
 
 
+func get_atk_info() -> AtkInfo:
+	return AtkInfo.new().create(atk_dmg, [])
+
+
 func _flash_timer_timeout() -> void:
 	sprite.material.set_shader_param("enable", false)
 	if hp <= 0:
-		kills()
+		pre_kill()
 		set_physics_process(false)
+
 
 #### Update states functions
 func _force_update() -> void:
 	if position.distance_squared_to(last_position) > 4:
-		NakamaMatch.custom_rpc(self, "_update", [position])
+		MatchManager.custom_rpc(self, "_update", [position])
 		last_position = position
 
 
@@ -127,7 +163,24 @@ func _update(pos: Vector2) -> void:
 	position = pos
 
 
-func _on_HitboxArea_area_entered(area:Area2D):
+var colliding: Array = []
+
+
+func _on_HitboxArea_area_entered(area: Area2D):
 	var node = area.get_parent()
 	if node.has_method("hurt"):
-		node.hurt()
+		colliding.append(node)
+		node.hurt(get_atk_info())
+		atk_timer.start()
+
+
+func _on_HitboxArea_area_exited(area: Area2D):
+	var node = area.get_parent()
+	colliding.erase(node)
+	if colliding.size() == 0:
+		atk_timer.stop()
+
+
+func _on_atk_timer_timeout():
+	for node in colliding:
+		node.hurt(get_atk_info())

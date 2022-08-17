@@ -27,7 +27,7 @@ func _remote_physics_update(_direction: Vector2, position: Vector2) -> void:
 	update_sprite()
 
 func physics_update(_delta) -> void:
-	if not NakamaMatch.is_network_master_for_node(self):
+	if not MatchManager.is_network_master_for_node(self):
 		return
 	if not player.move_joystick:
 		direction = Vector2()
@@ -49,7 +49,7 @@ func physics_update(_delta) -> void:
 		update_sprite()
 		# player.move_and_slide(direction * player.speed, Vector2(0,0), false, 4, 0.785398, false)
 		player.move_and_slide(direction * StatManager.current_stat.mv_speed)
-		NakamaMatch.custom_rpc(self, "_remote_physics_update", [direction, player.position])
+		MatchManager.custom_rpc(self, "_remote_physics_update", [direction, player.position])
 	else:
 		state_machine.change_state("Idle", {})
 

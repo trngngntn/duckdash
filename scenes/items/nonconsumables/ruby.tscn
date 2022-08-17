@@ -1,53 +1,50 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://assets/sprites/animated/item_coin.png" type="Texture" id=1]
-[ext_resource path="res://scenes/items/drop_items.gd" type="Script" id=2]
+[ext_resource path="res://assets/sprites/animated/items/nonconsumables/item_nonconsumable_ruby.png" type="Texture" id=1]
+[ext_resource path="res://scenes/items/nonconsumables/nonconsumable.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scripts/items/nonconsumables/ruby.gd" type="Script" id=3]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 12, 12 )
+region = Rect2( 0, 0, 12, 14 )
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 1 )
-region = Rect2( 12, 0, 12, 12 )
+region = Rect2( 12, 0, 12, 14 )
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 1 )
-region = Rect2( 0, 12, 12, 12 )
+region = Rect2( 24, 0, 12, 14 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 1 )
-region = Rect2( 12, 12, 12, 12 )
+region = Rect2( 36, 0, 12, 14 )
 
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 1 )
-region = Rect2( 0, 24, 12, 12 )
+region = Rect2( 48, 0, 12, 14 )
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 1 )
-region = Rect2( 12, 24, 12, 12 )
+region = Rect2( 60, 0, 12, 14 )
 
 [sub_resource type="SpriteFrames" id=7]
 animations = [ {
 "frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ],
 "loop": true,
 "name": "default",
-"speed": 8.0
+"speed": 5.0
 } ]
 
 [sub_resource type="CircleShape2D" id=8]
-radius = 9.0
+radius = 8.06226
 
-[node name="Coin" type="RigidBody2D"]
-collision_layer = 8
-collision_mask = 8
-gravity_scale = 0.0
-script = ExtResource( 2 )
+[node name="Ruby" instance=ExtResource( 2 )]
+script = ExtResource( 3 )
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+[node name="AnimatedSprite" parent="." index="0"]
 position = Vector2( 0, -16 )
-scale = Vector2( 2, 4 )
 frames = SubResource( 7 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" parent="." index="1"]
 shape = SubResource( 8 )
