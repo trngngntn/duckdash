@@ -50,7 +50,6 @@ func enter(dat := {}) -> void:
 		Tween.TRANS_CUBIC,
 		Tween.EASE_OUT
 	)
-	StatManager.current_stat.kinetic += StatManager.current_stat.dash_kin
 	_d = tween.start()
 
 	if dat.direction.x > 0:

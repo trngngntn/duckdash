@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scripts/screens/in_game.gd" type="Script" id=1]
 [ext_resource path="res://scripts/screens/in_game/game_camera.gd" type="Script" id=2]
@@ -11,7 +11,6 @@
 [ext_resource path="res://resources/font/ui_font_error.tres" type="DynamicFont" id=9]
 [ext_resource path="res://assets/sprites/static/ui/ui_button_menu_normal.png" type="Texture" id=10]
 [ext_resource path="res://assets/sprites/static/ui/ui_button_menu_pressed.png" type="Texture" id=11]
-[ext_resource path="res://scenes/ui/kinetic_bar.tscn" type="PackedScene" id=12]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 20.0
@@ -39,11 +38,8 @@ mouse_filter = 2
 layer = 3
 
 [node name="HPBar" parent="CanvasLayer" instance=ExtResource( 7 )]
-margin_top = 15.0
+margin_top = 20.0
 margin_bottom = 60.0
-
-[node name="KineticBar" parent="CanvasLayer" instance=ExtResource( 12 )]
-margin_top = 70.0
 
 [node name="MenuButton" type="TextureButton" parent="CanvasLayer"]
 anchor_left = 1.0
@@ -90,14 +86,14 @@ scale = Vector2( 4, 4 )
 normal = ExtResource( 5 )
 shape = SubResource( 1 )
 
+[node name="GameOver" parent="CanvasLayer" instance=ExtResource( 8 )]
+visible = false
+
 [node name="TestLabel" type="Label" parent="CanvasLayer"]
 modulate = Color( 1, 0, 0, 1 )
 margin_right = 330.0
 margin_bottom = 106.0
 custom_fonts/font = ExtResource( 9 )
-
-[node name="GameOver" parent="CanvasLayer" instance=ExtResource( 8 )]
-visible = false
 
 [connection signal="pressed" from="CanvasLayer/MenuButton" to="." method="_on_MenuButton_pressed"]
 [connection signal="pressed" from="CanvasLayer/AttackControl/DashButton" to="." method="_on_DashButton_pressed"]

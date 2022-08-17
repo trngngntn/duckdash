@@ -13,9 +13,9 @@ var flash_mat: ShaderMaterial = preload("res://resources/material/hurt_shader_ma
 var move_joystick: Joystick = null
 var atk_joystick: Joystick = null
 
-var atk_direction: Vector2
+var hp: float
 
-var stat: StatManager.StatValues
+var atk_direction: Vector2
 
 onready var dash_area: Area2D = $DashHitArea2D
 
@@ -59,19 +59,9 @@ func map_attack_joystick(_joystick: Joystick) -> void:
 		set_physics_process(false)
 
 
-func finish_setup() -> void:
-	print("NETWORK MASTER: " + str(MatchManager.get_network_master()))
-	if MatchManager.is_network_server():
-		stat = StatManager.players_stat[MatchManager.get_network_master()]
-	elif MatchManager.is_network_master_for_node(self):
-		stat = StatManager.current_stat
-	$StateMachine.start()
-
-
-func _physics_process(delta):
+func _process(_delta):
 	if not MatchManager.is_network_master_for_node(self):
 		return
-	stat.kinetic -= delta*stat.kin_rate
 	if not atk_joystick:
 		if Input.is_action_pressed("attack"):
 			atk_direction = (
@@ -86,6 +76,15 @@ func _physics_process(delta):
 				$AttackTimer.start()
 		else:
 			is_attacking = false
+
+
+func finish_setup() -> void:
+	print("NETWORK MASTER: " + str(MatchManager.get_network_master()))
+	if MatchManager.is_network_server():
+		hp = StatManager.players_stat[MatchManager.get_network_master()].max_hp
+	elif MatchManager.is_network_master_for_node(self):
+		hp = StatManager.current_stat.max_hp
+	$StateMachine.start()
 
 
 func attack() -> void:
@@ -128,10 +127,10 @@ func _attack(_atk_dir: Vector2) -> void:
 
 func _hurt(raw_info: Dictionary) -> void:
 	var info = AtkInfo.new().from_dict(raw_info)
-	stat.hp -= info.dmg
-	emit_signal("hp_changed", stat.hp)
+	hp = hp - info.dmg
+	emit_signal("hp_changed", hp)
 
-	if stat.hp < 1:
+	if hp < 1:
 		emit_signal("dead")
 		queue_free()
 		return
@@ -147,6 +146,7 @@ func _on_PickUpArea2D_body_entered(body:Node):
 	if body is NonConsumable:
 		StatManager.calculate_stat_from_looting(body.modifier)
 		MatchManager.custom_rpc_sync(body, "pick_up", [self.get_path()])
+		# body.pick_up(self)
 
 
 func _on_FlashTimer_timeout():
