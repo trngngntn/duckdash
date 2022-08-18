@@ -99,12 +99,12 @@ animations = [ {
 "frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ) ],
 "loop": true,
 "name": "move_left",
-"speed": 20.0
+"speed": 15.0
 }, {
 "frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ],
 "loop": true,
 "name": "move_right",
-"speed": 20.0
+"speed": 15.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=3]
@@ -141,10 +141,10 @@ text = "player_name"
 align = 1
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( -2, -26 )
+position = Vector2( 0, -26 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 1 )
-animation = "idle_right"
+animation = "idle_left"
 
 [node name="MovementHitbox" type="CollisionShape2D" parent="."]
 shape = SubResource( 3 )

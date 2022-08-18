@@ -1,6 +1,18 @@
 extends RigidBody2D
 class_name Enemy
 
+const ITEM_COIN = {"id": "COIN", "res": preload("res://scenes/items/auto_pickup/coin.tscn")}
+const ITEM_SOUL = {"id": "SOUL", "res": preload("res://scenes/items/auto_pickup/soul.tscn")}
+const ITEM_EMERALD = {
+	"id": "EMERALD", "res": preload("res://scenes/items/auto_pickup/emerald.tscn")
+}
+
+const ITEM_LIST = {
+	"COIN": ITEM_COIN,
+	"SOUL": ITEM_SOUL,
+	"EMERALD": ITEM_EMERALD,
+}
+
 const DIST_LIMIT_SQ = 1000000
 var flash_mat: ShaderMaterial = preload("res://resources/material/hurt_shader_material.tres")
 
@@ -17,6 +29,11 @@ var mv_speed: float
 var atk_dmg: float = 5
 var atk_speed: float = 1
 var col_dmg: float = 5
+
+var loot_tbl := {
+	ITEM_COIN.id: [0.5, 0.1, 0.1],
+	ITEM_SOUL.id: [0.1, 0.01],
+}
 
 var last_position: Vector2
 
@@ -107,21 +124,25 @@ func _integrate_forces(state):
 
 
 func pre_kill():
-	var count = get_tree().get_nodes_in_group("drop_item").size()
-	var rand_vec = Vector2(2 * randf() - 1, 2 * randf() - 1)
-	var info = {"dir": rand_vec, "type": "", "name": str(count + 1)}
+	var info := []
+	var map = MatchManager.current_match.in_game_node.map
+	var rand_drop_item = Randomizer.rand_loot_table(loot_tbl)
+	print("FINISH_RAND")
+	for item in rand_drop_item:
+		var rand_vec = Vector2(2 * randf() - 1, 2 * randf() - 1)
+		map.drop_count += 1
+		info.append({"dir": rand_vec, "type": item, "name": str(map.drop_count)})
 	MatchManager.custom_rpc_sync(self, "kills", [position, info])
 
 
-func kills(pos: Vector2, info: Dictionary) -> void:
-	var item = MatchManager.rand_looting()
-	if item != null:
-		var drop = item.instance()
-		drop.add_to_group("drop_item")
-		drop.name = info["name"]
-		drop.position = pos
-		drop.fdir = info["dir"]
-		get_parent().add_child(drop)
+func kills(pos: Vector2, info_list: Array) -> void:
+	for info in info_list:
+		var item = get("ITEM_" + info["type"]).res.instance()
+		item.add_to_group("drop_item")
+		item.name = info["name"]
+		item.position = pos
+		item.fdir = info["dir"]
+		get_parent().add_child(item)
 	queue_free()
 
 

@@ -144,8 +144,8 @@ func _hurt(raw_info: Dictionary) -> void:
 
 func _on_PickUpArea2D_body_entered(body:Node):
 	if body is DropItem:
-		StatManager.calculate_stat_from_looting(body.modifier)
-		MatchManager.custom_rpc_sync(body, "pick_up", [self.get_path()])
+		# StatManager.calculate_stat_from_looting(body.modifier)
+		MatchManager.custom_rpc_sync(body, "pick_up", [self.get_path(), get_network_master()])
 
 
 func _on_FlashTimer_timeout():

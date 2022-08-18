@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://scripts/screens/in_game.gd" type="Script" id=1]
 [ext_resource path="res://scripts/screens/in_game/game_camera.gd" type="Script" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://assets/sprites/static/ui/ui_icon_coin.png" type="Texture" id=14]
 [ext_resource path="res://assets/sprites/static/ui/ui_icon_soul.png" type="Texture" id=15]
 [ext_resource path="res://resources/font/ui_font_small.tres" type="DynamicFont" id=16]
+[ext_resource path="res://scripts/screens/in_game/in_game_stat_panel.gd" type="Script" id=17]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 20.0
@@ -100,6 +101,7 @@ margin_top = 16.0
 margin_right = 254.0
 margin_bottom = 114.0
 theme = ExtResource( 13 )
+script = ExtResource( 17 )
 
 [node name="IconCont" type="VBoxContainer" parent="CanvasLayer/Panel"]
 anchor_right = 0.4
@@ -131,22 +133,22 @@ margin_right = -30.0
 margin_bottom = -1.0
 custom_constants/separation = 0
 
-[node name="Label" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
+[node name="GoldCount" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
 margin_right = 92.0
 margin_bottom = 48.0
 rect_min_size = Vector2( 0, 48 )
 custom_fonts/font = ExtResource( 16 )
-text = "0000"
+text = "0"
 align = 2
 valign = 1
 
-[node name="Label2" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
+[node name="SoulCount" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
 margin_top = 48.0
 margin_right = 92.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 0, 48 )
 custom_fonts/font = ExtResource( 16 )
-text = "0000"
+text = "0"
 align = 2
 valign = 1
 

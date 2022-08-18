@@ -1,12 +1,10 @@
-[gd_resource type="Theme" load_steps=16 format=2]
+[gd_resource type="Theme" load_steps=14 format=2]
 
 [ext_resource path="res://resources/ui/ui_textbox.tres" type="StyleBox" id=1]
 [ext_resource path="res://resources/font/ui_font.tres" type="DynamicFont" id=2]
 [ext_resource path="res://resources/ui/ui_button_normal.tres" type="StyleBox" id=3]
 [ext_resource path="res://resources/ui/ui_button_hover.tres" type="StyleBox" id=4]
 [ext_resource path="res://resources/font/ui_font_bold.tres" type="DynamicFont" id=5]
-[ext_resource path="res://resources/ui_progress_fg.tres" type="StyleBox" id=6]
-[ext_resource path="res://resources/ui_progress_bg.tres" type="StyleBox" id=7]
 [ext_resource path="res://resources/ui/ui_button_pressed.tres" type="StyleBox" id=8]
 [ext_resource path="res://resources/ui/ui_button_focus.tres" type="StyleBox" id=9]
 [ext_resource path="res://resources/ui/ui_textbox_focus.tres" type="StyleBox" id=10]
@@ -30,8 +28,6 @@ LineEdit/styles/focus = ExtResource( 10 )
 LineEdit/styles/normal = ExtResource( 1 )
 Panel/styles/panel = ExtResource( 14 )
 ProgressBar/fonts/font = ExtResource( 2 )
-ProgressBar/styles/bg = ExtResource( 7 )
-ProgressBar/styles/fg = ExtResource( 6 )
 RichTextLabel/fonts/bold_font = ExtResource( 5 )
 RichTextLabel/fonts/normal_font = ExtResource( 2 )
 TabContainer/constants/side_margin = 4

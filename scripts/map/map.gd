@@ -9,6 +9,8 @@ const SPAWN_DISTANCE = 600
 
 export var enemy_limit = 100
 
+var drop_count = 0
+
 var _map_data = []
 var ground_tile_id = 0
 var wall_tile_id = 1
@@ -135,10 +137,10 @@ func _on_MobSpawnerTimer_timeout():
 
 
 func spawn_enemy_around_player(player: Duck, times: int) -> void:
-	print("SPAWN")
+	# print("SPAWN")
 	if times == 50:
 		return
-	print("PLAYER" + str(player))
+	# print("PLAYER" + str(player))
 	var rand_pos: Vector2 = (
 		(Vector2(2 * randf() - 1, 2 * randf() - 1).normalized() * SPAWN_DISTANCE)
 		+ player.position
@@ -160,8 +162,8 @@ func spawn_enemy_around_player(player: Duck, times: int) -> void:
 
 #### REMOTE FUNCTIONS
 func spawn_enemy(position: Vector2, target_player_id: String, id: int) -> void:
-	if not MatchManager.is_network_server():
-		print("REMOTE_SPAWN")
+	# if not MatchManager.is_network_server():
+	# 	# print("REMOTE_SPAWN")
 	var l = preload("res://scenes/enemies/enemy_slime.tscn")
 	var enemy = l.instance().init(
 		$Navigation, player_cont.get_node(target_player_id), $ForceUpdateTimer

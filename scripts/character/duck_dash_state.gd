@@ -83,6 +83,7 @@ func _cloning() -> void:
 	var anim: AnimatedSprite = player.get_node("AnimatedSprite")
 	shad.texture = anim.frames.get_frame(anim.animation, anim.frame)
 	shad.position = player.position
+	shad.position.y -= 26
 	shad.scale = player.scale * 4
 	player.get_parent().get_parent().add_child(shad)
 

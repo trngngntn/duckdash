@@ -46,6 +46,8 @@ var shifting
 
 var players_stat := {}
 
+signal stat_change(name, change_value, new_value)
+
 
 class StatValues:
 	var coin: int = 0
@@ -123,14 +125,17 @@ func calculate_stat() -> void:
 	current_stat.hp = current_stat.max_hp
 
 
-func calculate_stat_from_looting(modifier) -> void:
-	if modifier != null && modifier is Modifier:
-		if modifier.is_stacked:
-			var new_val = current_stat.get(modifier.stat_id) * modifier.get_multiply_value()
-			current_stat.set(modifier.stat_id, new_val)
-		else:
-			var new_val = current_stat.get(modifier.stat_id) + modifier.get_add_value()
-			current_stat.set(modifier.stat_id, new_val)
+func update_stat(peer_id: int, stat_name: String, change_value) -> void:
+	var stat = current_stat.get(stat_name)
+	if stat == null:
+		return
+	if peer_id == MatchManager.current_match.self_peer_id:
+		current_stat.set(stat_name, stat + change_value)
+		emit_signal("stat_change", stat_name, change_value, stat + change_value)
+		# print("AFTER_UPDATE_STAT   " + stat_name + "   " + str(current_stat.get(stat_name)))
+
+	if MatchManager.is_network_server():
+		players_stat[peer_id].set(stat_name, stat + change_value)
 
 
 func get_stat(stat_name: String):

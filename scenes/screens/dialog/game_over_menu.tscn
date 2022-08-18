@@ -46,25 +46,25 @@ margin_bottom = -32.0
 custom_constants/separation = 25
 
 [node name="Count" type="Label" parent="Panel/CategoryCont"]
-margin_right = 318.0
+margin_right = 317.0
 margin_bottom = 48.0
 text = "Monster killed"
 
 [node name="Dmg" type="Label" parent="Panel/CategoryCont"]
 margin_top = 73.0
-margin_right = 318.0
+margin_right = 317.0
 margin_bottom = 121.0
 text = "Damage dealt"
 
 [node name="Coin" type="Label" parent="Panel/CategoryCont"]
 margin_top = 146.0
-margin_right = 318.0
+margin_right = 317.0
 margin_bottom = 194.0
 text = "Coin collected"
 
 [node name="Soul" type="Label" parent="Panel/CategoryCont"]
 margin_top = 219.0
-margin_right = 318.0
+margin_right = 317.0
 margin_bottom = 267.0
 text = "Soul collected"
 

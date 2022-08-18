@@ -28,7 +28,7 @@ func _intergrate_forces(_state) -> void:
 		position = sync_pos
 
 
-func pick_up(node_path: NodePath) -> void:
+func pick_up(node_path: NodePath, peer_id: int) -> void:
 	var node = get_node(node_path)
 	print("[LOG][MUST_SYNC] " + str(position))
 	$CollisionShape2D.set_deferred("disabled", true)
@@ -36,12 +36,13 @@ func pick_up(node_path: NodePath) -> void:
 	tween.connect("finished", self, "_on_finish")
 	var dir = node.position - position
 	var end_pos = position + dir - dir.normalized() * 20
+	tween.connect("finished", self, "_on_picked_up", [peer_id])
 	tween.tween_property(self, "position", end_pos, 0.1).set_trans(Tween.TRANS_CUBIC).set_ease(
 		Tween.EASE_IN
 	)
 
 
-func _on_picked_up() -> void:
+func _on_picked_up(peer_id: int) -> void:
 	pass
 
 
