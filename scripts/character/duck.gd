@@ -143,14 +143,13 @@ func _on_StatManager_stat_change(stat_name: String, _change, new_value):
 	if stat_name == "kinetic":
 		if $StateMachine.state.name != "Stabilize" && abs(new_value) >= stat.kin_thres - 0.5:
 			$StateMachine.change_state("Stabilize")
-			return
 
 		var delta: float = stat.kin_thres - abs(stat.kinetic)
 		var kin2 = 2 * stat.dash_kin
 		if delta <= kin2:
-			var portion = 1 - (delta / (2 * stat.dash_kin))
-			sprite.material.set_shader_param("amount", portion * 20)
-			sprite.material.set_shader_param("size", portion * 9 + 1)
+			var portion = delta / kin2
+			sprite.material.set_shader_param("amount", (1 - portion) * 20)
+			sprite.material.set_shader_param("size", portion * -9 + 1)
 		else:
 			sprite.material.set_shader_param("size", 0)
 
