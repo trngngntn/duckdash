@@ -8,16 +8,17 @@ var tracking_cam: Camera2D setget set_tracking_cam
 var is_attacking: bool = false
 var attack_res = preload("res://scenes/character/skills/skill_attack_energy_blade.tscn")
 
-var flash_mat: ShaderMaterial = preload("res://resources/material/hurt_shader_material.tres")
-
 var move_joystick: Joystick = null
 var atk_joystick: Joystick = null
 
 var atk_direction: Vector2
 
-var stat: StatManager.StatValues
+var attackable: bool = true
+
+var stat
 
 onready var dash_area: Area2D = $DashHitArea2D
+onready var sprite: AnimatedSprite = $AnimatedSprite
 
 signal hp_max_changed(new_value)
 signal hp_changed(new_value)
@@ -33,6 +34,7 @@ func _get_custom_rpc_methods() -> Array:
 
 
 func _ready() -> void:
+	StatManager.connect("stat_change", self, "_on_StatManager_stat_change")
 	if MatchManager.is_network_master_for_node(self):
 		$AttackTimer.wait_time = .5
 	else:
@@ -60,11 +62,12 @@ func map_attack_joystick(_joystick: Joystick) -> void:
 
 
 func finish_setup() -> void:
-	print("NETWORK MASTER: " + str(MatchManager.get_network_master()))
-	if MatchManager.is_network_server():
-		stat = StatManager.players_stat[MatchManager.get_network_master()]
-	elif MatchManager.is_network_master_for_node(self):
-		stat = StatManager.current_stat
+	stat = StatManager.players_stat[get_network_master()]
+	# print("NETWORK MASTER: " + str(MatchManager.get_network_master()))
+	# if MatchManager.is_network_server():
+	# 	stat = StatManager.players_stat[MatchManager.get_network_master()]
+	# elif MatchManager.is_network_master_for_node(self):
+	# 	stat = StatManager.current_stat
 	$StateMachine.start()
 
 
@@ -78,11 +81,12 @@ func _physics_process(delta):
 		* pow(1 + stat.kin_rate, 3 * clamp(stat.kinetic / -stat.kin_thres, -1, 1))
 		* delta
 	)
-	print("[LOG][KIN] " + str(-kin_delta))
-	StatManager.update_stat(get_network_master(), "kinetic", -kin_delta)
+
+	if $StateMachine.state.name != "Stabilize":
+		StatManager.update_stat(get_network_master(), "kinetic", -kin_delta)
 
 	if not atk_joystick:
-		if Input.is_action_pressed("attack"):
+		if Input.is_action_pressed("attack") && attackable:
 			atk_direction = (
 				get_viewport().get_mouse_position()
 				- get_viewport().size / 2
@@ -118,7 +122,10 @@ func on_mouse_attack() -> void:
 
 
 func _on_AttackTimer_timeout():
-	attack()
+	if attackable:
+		attack()
+	else:
+		$AttackTimer.stop()
 
 
 func _on_attack_joystick_active(data: Vector2) -> void:
@@ -126,10 +133,26 @@ func _on_attack_joystick_active(data: Vector2) -> void:
 		is_attacking = false
 		return
 	atk_direction = data / 2
-	if $AttackTimer.is_stopped():
+	if attackable && $AttackTimer.is_stopped():
 		is_attacking = true
 		attack()
 		$AttackTimer.start()
+
+
+func _on_StatManager_stat_change(stat_name: String, _change, new_value):
+	if stat_name == "kinetic":
+		if $StateMachine.state.name != "Stabilize" && abs(new_value) >= stat.kin_thres - 0.5:
+			$StateMachine.change_state("Stabilize")
+			return
+
+		var delta: float = stat.kin_thres - abs(stat.kinetic)
+		var kin2 = 2 * stat.dash_kin
+		if delta <= kin2:
+			var portion = 1 - (delta / (2 * stat.dash_kin))
+			sprite.material.set_shader_param("amount", portion * 20)
+			sprite.material.set_shader_param("size", portion * 9 + 1)
+		else:
+			sprite.material.set_shader_param("size", 0)
 
 
 # RPC Functions
@@ -147,8 +170,8 @@ func _hurt(raw_info: Dictionary) -> void:
 		queue_free()
 		return
 
-	$AnimatedSprite.material = flash_mat.duplicate()
-	$AnimatedSprite.material.set_shader_param("enable", true)
+	if sprite.material:
+		sprite.material.set_shader_param("hurt", true)
 
 	$FlashTimer.start()
 
@@ -160,4 +183,5 @@ func _on_PickUpArea2D_body_entered(body: Node):
 
 
 func _on_FlashTimer_timeout():
-	$AnimatedSprite.material = null
+	if sprite.material:
+		sprite.material.set_shader_param("hurt", false)

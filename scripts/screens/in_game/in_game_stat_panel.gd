@@ -6,7 +6,6 @@ func _ready():
 
 
 func _on_stat_change(stat_name: String, _change, new_value) -> void:
-	print("LOG:   " + stat_name)
 	match stat_name:
 		"coin":
 			$VBoxContainer/GoldCount.text = str(new_value)

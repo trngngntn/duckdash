@@ -80,24 +80,15 @@ func setup(players: Dictionary) -> void:
 		map.player_cont.add_child(player)
 		player.set_network_master(player_id)
 		player.set_player_name(players[player_id])
-		# other_player.position = map.get_node(
-		# 	"PlayerStartPositions/Player" + str(player_id)
-		# ).position
 
 		player.connect("dead", self, "_on_player_dead", [player_id])
 		player.add_to_group("player")
 		if player_id == MatchManager.get_network_unique_id():
 			my_id = player_id
 			my_player = player
-#		else:
-#			player.finish_setup()
 
 	# setup for current player
 	StatManager.calculate_stat()
-
-	# my_player.connect("hp_changed", hp_bar, "_on_player_hp_changed")
-	# my_player.connect("hp_max_changed", hp_bar, "_on_player_hp_max_changed")
-	hp_bar.value = StatManager.get_stat("max_hp")
 
 	my_player.map_move_joystick($CanvasLayer/MoveControl/MoveJoystick)
 	my_player.map_attack_joystick($CanvasLayer/AttackControl/AttackJoystick)
@@ -106,33 +97,25 @@ func setup(players: Dictionary) -> void:
 	$GameCamera.set_node_tracking(my_player)
 	$GameCamera.current = true
 
-	var my_player_stat = StatManager.current_stat
-
-	StatManager.players_stat[my_id] = my_player_stat
-
-#	my_player.finish_setup()
-
-	# notify other players
-	print("My ID: " + str(my_id))
-	print("My Stat: " + str(my_player_stat))
-	MatchManager.custom_rpc_id_sync(self, 1, "_finish_setup", [my_id, my_player_stat])
-
-	for player in get_tree().get_nodes_in_group("player"):
-		player.finish_setup()
+	MatchManager.custom_rpc_sync(self, "_finish_setup", [my_id, StatManager.current_stat.to_dict()])
 
 
 # Records when each player has finished setup so we know when all players are ready.
-func _finish_setup(player_id, player_stat) -> void:
-	StatManager.players_stat[player_id] = player_stat
-	players_setup[player_id] = players_alive[player_id]
-	if players_setup.size() == players_alive.size():
-		# Once all clients have finished setup, tell them to start the game.
-		MatchManager.custom_rpc_sync(self, "_start")
+func _finish_setup(peer_id: int, player_stat_dict: Dictionary) -> void:
+	if MatchManager.current_match.self_peer_id != peer_id:
+		var player_stat = StatManager.StatValues.new().from_dict(player_stat_dict)
+		StatManager.players_stat[peer_id] = player_stat
+	if MatchManager.is_network_server():
+		players_setup[peer_id] = players_alive[peer_id]
+		if players_setup.size() == players_alive.size():
+			MatchManager.custom_rpc_sync(self, "_start")
 
 
 func _start() -> void:
 	if map.has_method("map_start"):
 		map.map_start()
+	for player in get_tree().get_nodes_in_group("player"):
+		player.finish_setup()
 	emit_signal("game_started")
 	get_tree().paused = false
 

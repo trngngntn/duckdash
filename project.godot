@@ -47,7 +47,7 @@ _global_script_classes=[ {
 "base": "State",
 "class": "DuckState",
 "language": "GDScript",
-"path": "res://scripts/character/duck_state.gd"
+"path": "res://scripts/character/state_machine/duck_state.gd"
 }, {
 "base": "Stat",
 "class": "Effect",
@@ -247,12 +247,12 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "State",
 "language": "GDScript",
-"path": "res://scripts/character/state.gd"
+"path": "res://scripts/character/state_machine/state.gd"
 }, {
 "base": "Node",
 "class": "StateMachine",
 "language": "GDScript",
-"path": "res://scripts/character/state_machine.gd"
+"path": "res://scripts/character/state_machine/state_machine.gd"
 } ]
 _global_script_class_icons={
 "AtkInfo": "",

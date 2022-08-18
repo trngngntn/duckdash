@@ -80,7 +80,7 @@ class StatValues:
 	var enlargement: float = 1
 	var atk_dir: int = 1
 
-	func _init(is_base: bool):
+	func _init(is_base: bool = true):
 		if !is_base:
 			for prop in get_property_list():
 				set(prop["name"], 0)
@@ -91,10 +91,22 @@ class StatValues:
 			new.set(prop["name"], get(prop["name"]))
 		return new
 
+	func to_dict() -> Dictionary:
+		var result: Dictionary = {}
+		for prop in get_property_list():
+			if prop["name"] != "Reference" && prop["name"] != "script" && prop["name"] != "Script Variables":
+				result[prop["name"]] = get(prop["name"])
+		return result
+
+	func from_dict(dict: Dictionary) -> StatValues:
+		for prop in dict.keys():
+			set(prop, dict[prop])
+		return self
+
 
 var current_stat: StatValues
 var incr_stat: StatValues
-var base_stat: StatValues = StatValues.new(true)
+var base_stat: StatValues = StatValues.new()
 var stat_info_list: Dictionary = {}
 
 
@@ -106,8 +118,6 @@ func _init() -> void:
 func calculate_stat() -> void:
 	current_stat = base_stat.dup()
 	incr_stat = StatValues.new(false)
-
-	print("STAT:  " + str(current_stat.max_hp))
 
 	for type in EquipmentManager.equipped.keys():
 		if EquipmentManager.equipped[type] != null:
@@ -126,21 +136,27 @@ func calculate_stat() -> void:
 
 	current_stat.hp = current_stat.max_hp
 	emit_signal("stat_calculated")
+	players_stat[MatchManager.current_match.self_peer_id] = current_stat
 
 
 func update_stat(peer_id: int, stat_name: String, change_value) -> void:
 	var stat = current_stat.get(stat_name)
 	if stat == null:
 		return
-	if stat_name == "hp":
+	elif stat_name == "hp":
 		change_value = clamp(change_value, -stat, current_stat.max_hp - stat)
+	elif stat_name == "kinetic":
+		change_value = clamp(
+			change_value, -current_stat.kin_thres - stat, current_stat.kin_thres - stat
+		)
+
 	if peer_id == MatchManager.current_match.self_peer_id:
 		current_stat.set(stat_name, stat + change_value)
 		emit_signal("stat_change", stat_name, change_value, stat + change_value)
 		# print("AFTER_UPDATE_STAT   " + stat_name + "   " + str(current_stat.get(stat_name)))
 
-	if MatchManager.is_network_server():
-		players_stat[peer_id].set(stat_name, stat + change_value)
+	# if MatchManager.is_network_server():
+	players_stat[peer_id].set(stat_name, stat + change_value)
 
 	if stat_name == "max_hp" && stat + change_value < current_stat.hp:
 		update_stat(peer_id, "hp", stat + change_value - current_stat.hp)

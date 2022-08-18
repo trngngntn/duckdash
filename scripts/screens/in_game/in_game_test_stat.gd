@@ -27,6 +27,7 @@ func _on_stat_ready() -> void:
 		$ValueCont.add_child(label)
 
 func _on_stat_change(stat_name: String, _change, new_value) -> void:
-	var label = $ValueCont.get_node(stat_name)
-	if label:
-		label.text = str(new_value)
+	if $ValueCont.has_node(stat_name):
+		var label = $ValueCont.get_node(stat_name)
+		if label:
+			label.text = str(new_value)

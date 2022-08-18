@@ -32,9 +32,17 @@ func init():
 
 func enter(dat := {}) -> void:
 	direction = dat.direction.normalized()
-	last_speed = StatManager.current_stat.dash_speed
+	last_speed = StatManager.players_stat[get_network_master()].dash_speed
 
-	var duration: float = StatManager.current_stat.dash_range / StatManager.current_stat.dash_speed
+	if dat.direction.x > 0:
+		player.sprite.play("dash_right")
+	else:
+		player.sprite.play("dash_left")
+
+	var duration: float = (
+		StatManager.players_stat[get_network_master()].dash_range
+		/ StatManager.players_stat[get_network_master()].dash_speed
+	)
 
 	dash_timer.wait_time = duration
 	dash_timer.one_shot = true
@@ -50,13 +58,13 @@ func enter(dat := {}) -> void:
 		Tween.TRANS_CUBIC,
 		Tween.EASE_OUT
 	)
-	StatManager.current_stat.kinetic += StatManager.current_stat.dash_kin
+
+	StatManager.update_stat(
+		get_network_master(), "kinetic", StatManager.players_stat[get_network_master()].dash_kin
+	)
 	_d = tween.start()
 
-	if dat.direction.x > 0:
-		player.get_node("AnimatedSprite").play("dash_right")
-	else:
-		player.get_node("AnimatedSprite").play("dash_left")
+	# if state_machine.state.name != "Stabilize":
 
 
 func physics_update(_delta):
@@ -70,12 +78,14 @@ func exit() -> void:
 
 func _on_Timer_timeout() -> void:
 	print("DASH_TIMER_TIMEOUT")
-	state_machine.change_state("Idle")
+	if state_machine.state.name != "Stabilize":
+		state_machine.change_state("Idle")
 
 
 func _end_dash(_o, _k) -> void:
 	print("DASH_TWEEN_TIMEOUT")
-	state_machine.change_state("Idle")
+	if state_machine.state.name != "Stabilize":
+		state_machine.change_state("Idle")
 
 
 func _cloning() -> void:

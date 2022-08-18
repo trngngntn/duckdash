@@ -1,12 +1,13 @@
 extends DuckState
 
+
+
 func init() -> void:
 	if player.move_joystick && MatchManager.is_network_master_for_node(self):
 		player.move_joystick.connect("active", self, "_on_joystick_active")
 		
 func enter(_dat := {}) -> void:
-	player.get_node("AnimatedSprite").play("idle_right")
-	#player.velocity = Vector2(0,0)
+	player.sprite.play("idle_right")
 
 
 func physics_update(_delta: float) -> void:
@@ -21,6 +22,6 @@ func physics_update(_delta: float) -> void:
 		):
 			state_machine.change_state("Move", {})
 
-func _on_joystick_active(data: Vector2) -> void:
-	if data.length() > 0 && state_machine.state.name != "Dash":
+func _on_joystick_active(_data: Vector2) -> void:
+	if state_machine.state == self:
 		state_machine.change_state("Move", {})

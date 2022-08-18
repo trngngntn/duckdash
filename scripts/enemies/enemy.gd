@@ -155,7 +155,7 @@ func frees() -> void:
 func hurt() -> void:
 	sprite.material = flash_mat.duplicate()
 	# sprite.material.resource_local_to_scene = true
-	sprite.material.set_shader_param("enable", true)
+	sprite.material.set_shader_param("hurt", true)
 	hp -= 50
 	if hp <= 0:
 		damageble = false
@@ -168,7 +168,7 @@ func get_atk_info(peer_id: int) -> AtkInfo:
 
 
 func _flash_timer_timeout() -> void:
-	sprite.material.set_shader_param("enable", false)
+	sprite.material.set_shader_param("hurt", false)
 	if hp <= 0:
 		pre_kill()
 		set_physics_process(false)
