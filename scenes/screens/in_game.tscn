@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://scripts/screens/in_game.gd" type="Script" id=1]
 [ext_resource path="res://scripts/screens/in_game/game_camera.gd" type="Script" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://assets/sprites/static/ui/ui_icon_soul.png" type="Texture" id=15]
 [ext_resource path="res://resources/font/ui_font_small.tres" type="DynamicFont" id=16]
 [ext_resource path="res://scripts/screens/in_game/in_game_stat_panel.gd" type="Script" id=17]
+[ext_resource path="res://scripts/screens/in_game/in_game_test_stat.gd" type="Script" id=18]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 20.0
@@ -162,6 +163,24 @@ margin_right = 340.0
 margin_bottom = -9.0
 custom_fonts/font = ExtResource( 9 )
 valign = 2
+
+[node name="TestStat" type="Control" parent="CanvasLayer"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -225.0
+margin_top = 93.0
+margin_right = -29.0
+margin_bottom = 453.0
+script = ExtResource( 18 )
+
+[node name="LabelCont" type="VBoxContainer" parent="CanvasLayer/TestStat"]
+anchor_right = 0.6
+anchor_bottom = 1.0
+
+[node name="ValueCont" type="VBoxContainer" parent="CanvasLayer/TestStat"]
+anchor_left = 0.6
+anchor_right = 1.0
+anchor_bottom = 1.0
 
 [node name="GameOver" parent="CanvasLayer" instance=ExtResource( 8 )]
 visible = false

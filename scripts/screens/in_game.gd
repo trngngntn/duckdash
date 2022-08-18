@@ -95,8 +95,8 @@ func setup(players: Dictionary) -> void:
 	# setup for current player
 	StatManager.calculate_stat()
 
-	my_player.connect("hp_changed", hp_bar, "_on_player_hp_changed")
-	my_player.connect("hp_max_changed", hp_bar, "_on_player_hp_max_changed")
+	# my_player.connect("hp_changed", hp_bar, "_on_player_hp_changed")
+	# my_player.connect("hp_max_changed", hp_bar, "_on_player_hp_max_changed")
 	hp_bar.value = StatManager.get_stat("max_hp")
 
 	my_player.map_move_joystick($CanvasLayer/MoveControl/MoveJoystick)

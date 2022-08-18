@@ -3,15 +3,16 @@ class_name Enemy
 
 const ITEM_COIN = {"id": "COIN", "res": preload("res://scenes/items/auto_pickup/coin.tscn")}
 const ITEM_SOUL = {"id": "SOUL", "res": preload("res://scenes/items/auto_pickup/soul.tscn")}
+const ITEM_HEART = {"id": "HEART", "res": preload("res://scenes/items/auto_pickup/heart.tscn")}
 const ITEM_EMERALD = {
 	"id": "EMERALD", "res": preload("res://scenes/items/auto_pickup/emerald.tscn")
 }
 
-const ITEM_LIST = {
-	"COIN": ITEM_COIN,
-	"SOUL": ITEM_SOUL,
-	"EMERALD": ITEM_EMERALD,
-}
+# const ITEM_LIST = {
+# 	"COIN": ITEM_COIN,
+# 	"SOUL": ITEM_SOUL,
+# 	"EMERALD": ITEM_EMERALD,
+# }
 
 const DIST_LIMIT_SQ = 1000000
 var flash_mat: ShaderMaterial = preload("res://resources/material/hurt_shader_material.tres")
@@ -31,8 +32,9 @@ var atk_speed: float = 1
 var col_dmg: float = 5
 
 var loot_tbl := {
-	ITEM_COIN.id: [0.5, 0.1, 0.1],
+	ITEM_COIN.id: [0.4, 0.1, 0.05],
 	ITEM_SOUL.id: [0.1, 0.01],
+	ITEM_HEART.id: [0.15, 0.05],
 }
 
 var last_position: Vector2
@@ -161,8 +163,8 @@ func hurt() -> void:
 	flash_timer.start()
 
 
-func get_atk_info() -> AtkInfo:
-	return AtkInfo.new().create(atk_dmg, [])
+func get_atk_info(peer_id: int) -> AtkInfo:
+	return AtkInfo.new().create(-1, peer_id, atk_dmg, [])
 
 
 func _flash_timer_timeout() -> void:
@@ -191,7 +193,7 @@ func _on_HitboxArea_area_entered(area: Area2D):
 	var node = area.get_parent()
 	if node.has_method("hurt"):
 		colliding.append(node)
-		node.hurt(get_atk_info())
+		node.hurt(get_atk_info(node.get_network_master()))
 		atk_timer.start()
 
 
@@ -204,4 +206,4 @@ func _on_HitboxArea_area_exited(area: Area2D):
 
 func _on_atk_timer_timeout():
 	for node in colliding:
-		node.hurt(get_atk_info())
+		node.hurt(get_atk_info(node.get_network_master()))

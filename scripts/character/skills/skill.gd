@@ -19,7 +19,7 @@ func _ready():
 		$CollisionPolygon2D.disabled = true
 
 
-func trigger(_player: Node, _direction: Vector2) -> void:
+func trigger(_player: Node, _direction: Vector2, _info: AtkInfo) -> void:
 	pass
 
 

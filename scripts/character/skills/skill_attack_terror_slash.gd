@@ -7,7 +7,7 @@ func _ready():
 	add_child(tween)
 
 
-func trigger(player: Node, _direction: Vector2) -> void:
+func trigger(player: Node, _direction: Vector2, _info: AtkInfo) -> void:
 	$CollisionPolygon2D.rotation = PI * (13.0 / 18) - _direction.angle()
 	$AnimatedSprite.rotation = _direction.angle() + PI / 2
 	player.add_child(self)

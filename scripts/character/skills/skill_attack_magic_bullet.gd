@@ -12,7 +12,7 @@ func _ready() -> void:
 	add_child(decay_timer)
 
 
-func trigger(player: Node, _direction: Vector2) -> void:
+func trigger(player: Node, _direction: Vector2, _info: AtkInfo) -> void:
 	player.get_parent().add_child(self)
 	direction = _direction.normalized()
 	position = player.position + (_direction.normalized() * Vector2(0.5, 1) * 32)

@@ -20,9 +20,10 @@ func _process(_delta):
 
 
 func update_value(value: float):
-	if abs(value) < 0.5:
+	var delta: float = stat.kin_thres - abs(stat.kinetic)
+	if delta > 2 * stat.dash_kin:
 		$Progress.texture = good
-	elif abs(value) < 0.8:
+	elif delta > stat.dash_kin:
 		$Progress.texture = norm
 	else:
 		$Progress.texture = bad
@@ -32,17 +33,13 @@ func update_value(value: float):
 			$Progress, "margin_left", -24 + ((rect_size.x - 48) / 2) * value, 0.1
 		)
 		# $Progress.margin_left = -24 + ((rect_size.x - 48) / 2) * value
-		create_tween().tween_property(
-			$Progress, "margin_right", 24.0, 0.1
-		)
+		create_tween().tween_property($Progress, "margin_right", 24.0, 0.1)
 	if value >= 0:
 		create_tween().tween_property(
 			$Progress, "margin_right", 24 + ((rect_size.x - 48) / 2) * value, 0.1
 		)
 		# $Progress.margin_right = 24 + ((rect_size.x - 48) / 2) * value
-		create_tween().tween_property(
-			$Progress, "margin_left", -24.0, 0.1
-		)
+		create_tween().tween_property($Progress, "margin_left", -24.0, 0.1)
 	create_tween().tween_property(
 		$Indicator, "rect_position:x", (rect_size.x - 48) * ((value + 1) / 2), 0.1
 	)

@@ -17,6 +17,8 @@ var is_match = false
 
 
 func _ready():
+	
+
 	$ButtonContainer/PlayButton.connect(
 		"pressed", self, "_on_match_button_pressed", [MatchManager.MatchMode.SINGLE]
 	)
@@ -35,19 +37,22 @@ func _ready():
 
 	#Match
 	if Conn.nkm_session == null or Conn.nkm_session.is_expired():
+		Conn.device_auth()
 		#ui_layer.show_screen("ConnectionScreen", { reconnect = true, next_screen = null })
 
 		# Wait to see if we get a new valid session.
 		yield(Conn, "session_changed")
 		if Conn.nkm_session == null:
 			#TODO: show a try again dialog
+			ScreenManager.change_screen(ScreenManager.SCREEN_MENU)
 			return
+
 
 	# Connect socket to realtime Nakama API if not connected.
 	if not Conn.is_nakama_socket_connected():
 		Conn.connect_nakama_socket()
 		yield(Conn, "socket_connected")
-	print("[LOG][LOBBY]Add slot")
+
 	add_player_slot(Conn.nkm_session.username)
 
 
@@ -62,6 +67,7 @@ func set_status(id, st) -> void:
 
 
 func add_player_slot(usr: String) -> void:
+	print("[LOG][LOBBY]Add slot " + usr)
 	var slot = player_slot.instance()
 	slot.name = usr
 	print("SLOOT")

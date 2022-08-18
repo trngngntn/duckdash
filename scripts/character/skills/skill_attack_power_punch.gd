@@ -12,7 +12,7 @@ func _ready():
 	add_child(tween)
 
 
-func trigger(player: Node, _direction: Vector2) -> void:
+func trigger(player: Node, _direction: Vector2, _info: AtkInfo) -> void:
 	rotation = _direction.angle() + PI / 2
 	player.add_child(self)
 	$AnimatedSprite.play("move")

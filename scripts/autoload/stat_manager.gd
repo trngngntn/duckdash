@@ -3,7 +3,7 @@ extends Node
 var perc_modf = PercentageModifier
 var incr_modf = IncrementModifier
 
-var atk_damamge = perc_modf
+var atk_damage = perc_modf
 var atk_range = perc_modf
 var atk_speed = perc_modf
 var fire_rate = perc_modf
@@ -47,6 +47,7 @@ var shifting
 var players_stat := {}
 
 signal stat_change(name, change_value, new_value)
+signal stat_calculated
 
 
 class StatValues:
@@ -61,12 +62,12 @@ class StatValues:
 	var mv_speed: float = 100
 	var dash_speed: float = 1000
 	var dash_range: float = 250
-	var dash_kin: float = 25
+	var dash_kin: float = 15
 	var kinetic: float = 0
-	var kin_rate: float = 10
+	var kin_rate: float = 1
 	var kin_thres: float = 50
 
-	var atk_damamge: float = 5
+	var atk_damage: float = 5
 	var atk_range: float = 1
 	var atk_speed: float = 1
 	var fire_rate: float = 1
@@ -122,13 +123,17 @@ func calculate_stat() -> void:
 					if s != null && s is Modifier && !s.is_stacked:
 						var new_val = current_stat.get(stat.stat_id) + stat.get_add_value()
 						incr_stat.set(stat.stat_id, new_val)
+
 	current_stat.hp = current_stat.max_hp
+	emit_signal("stat_calculated")
 
 
 func update_stat(peer_id: int, stat_name: String, change_value) -> void:
 	var stat = current_stat.get(stat_name)
 	if stat == null:
 		return
+	if stat_name == "hp":
+		change_value = clamp(change_value, -stat, current_stat.max_hp - stat)
 	if peer_id == MatchManager.current_match.self_peer_id:
 		current_stat.set(stat_name, stat + change_value)
 		emit_signal("stat_change", stat_name, change_value, stat + change_value)
@@ -136,6 +141,9 @@ func update_stat(peer_id: int, stat_name: String, change_value) -> void:
 
 	if MatchManager.is_network_server():
 		players_stat[peer_id].set(stat_name, stat + change_value)
+
+	if stat_name == "max_hp" && stat + change_value < current_stat.hp:
+		update_stat(peer_id, "hp", stat + change_value - current_stat.hp)
 
 
 func get_stat(stat_name: String):
