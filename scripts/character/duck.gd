@@ -15,16 +15,10 @@ var atk_direction: Vector2
 
 var attackable: bool = true
 
-var stat
+var stat: StatManager.StatValues
 
 onready var dash_area: Area2D = $DashHitArea2D
 onready var sprite: AnimatedSprite = $AnimatedSprite
-
-signal hp_max_changed(new_value)
-signal hp_changed(new_value)
-
-signal kinetic_threshold_changed(new_value)
-signal kinetic_changed(new_value)
 
 signal dead
 
@@ -58,16 +52,10 @@ func map_attack_joystick(_joystick: Joystick) -> void:
 	if OS.has_touchscreen_ui_hint():
 		atk_joystick = _joystick
 		atk_joystick.connect("active", self, "_on_attack_joystick_active")
-		# set_physics_process(false)
 
 
 func finish_setup() -> void:
 	stat = StatManager.players_stat[get_network_master()]
-	# print("NETWORK MASTER: " + str(MatchManager.get_network_master()))
-	# if MatchManager.is_network_server():
-	# 	stat = StatManager.players_stat[MatchManager.get_network_master()]
-	# elif MatchManager.is_network_master_for_node(self):
-	# 	stat = StatManager.current_stat
 	$StateMachine.start()
 
 
@@ -75,7 +63,6 @@ func _physics_process(delta):
 	if not MatchManager.is_network_master_for_node(self):
 		return
 
-	# stat.kinetic -= delta * stat.kin_rate
 	var kin_delta = (
 		6
 		* pow(1 + stat.kin_rate, 3 * clamp(stat.kinetic / -stat.kin_thres, -1, 1))

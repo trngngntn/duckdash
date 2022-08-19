@@ -15,10 +15,12 @@ func _ready():
 
 
 func _on_receiveFriendRequest_notification(notification: NakamaAPI.ApiNotification):
-	ScreenManager.show_notification(notification.subject, DEFAULT_NOTIFICATION_TIMEOUT)
+	ScreenManager.show_notification("Friend request", notification.subject)
+
 
 func _on_receiveLogin_error(errorMessage: String):
-	ScreenManager.show_notification(errorMessage, DEFAULT_NOTIFICATION_TIMEOUT)
+	ScreenManager.show_notification("Error", errorMessage)
+
 
 func _on_receiveRegister_error(errorMessage: String):
-	ScreenManager.show_notification(errorMessage, DEFAULT_NOTIFICATION_TIMEOUT)
+	ScreenManager.show_notification("Error", errorMessage)

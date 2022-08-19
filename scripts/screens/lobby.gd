@@ -17,8 +17,6 @@ var is_match = false
 
 
 func _ready():
-	
-
 	$ButtonContainer/PlayButton.connect(
 		"pressed", self, "_on_match_button_pressed", [MatchManager.MatchMode.SINGLE]
 	)
@@ -46,7 +44,6 @@ func _ready():
 			#TODO: show a try again dialog
 			ScreenManager.change_screen(ScreenManager.SCREEN_MENU)
 			return
-
 
 	# Connect socket to realtime Nakama API if not connected.
 	if not Conn.is_nakama_socket_connected():
@@ -137,14 +134,24 @@ func _on_match_button_pressed(mode) -> void:
 		MatchManager.MatchMode.MATCHMAKER:
 			_start_matchmaking()
 		MatchManager.MatchMode.SINGLE:
-			_create_match()
+			if EquipmentManager.equipped["skill_caster"].size() == 0:
+				$ButtonContainer/ReadyButton.pressed = false
+				ScreenManager.show_notification("Equipment", "Please select a weapon")
+			else:
+				_create_match()
 
 
 func _on_ReadyButton_toggled(button_pressed: bool):
 	if button_pressed:
-		MatchManager.custom_rpc_sync(
-			MatchManager.current_match, "player_ready", [MatchManager.current_match.self_session_id]
-		)
+		if EquipmentManager.equipped["skill_caster"].size() == 0:
+			$ButtonContainer/ReadyButton.pressed = false
+			ScreenManager.show_notification("Equipment", "Please select a weapon")
+		else:
+			MatchManager.custom_rpc_sync(
+				MatchManager.current_match,
+				"player_ready",
+				[MatchManager.current_match.self_session_id]
+			)
 
 
 func _on_MatchmakingButton_toggled(button_pressed: bool):

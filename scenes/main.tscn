@@ -57,6 +57,11 @@ visible = false
 visible = false
 
 [node name="Notification" parent="UI" instance=ExtResource( 5 )]
-visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.0
+margin_left = -350.0
+margin_top = -116.0
+margin_right = 350.0
 
 [connection signal="pressed" from="UI/Titlebar/BackButton" to="." method="_on_BackButton_pressed"]

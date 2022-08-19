@@ -1,27 +1,39 @@
 extends Control
 
-var timer = Timer.new()
+var timer: Timer
 onready var NotificationBody = get_node("NinePatchRect")
-onready var NotificationLabel = get_node("NinePatchRect/Label")
+onready var title = $Title
+onready var content = $Content
+
 
 func _ready():
-	timer.connect("timeout", self, "set_time_remove")
+	timer = Timer.new()
+	timer.connect("timeout", self, "_on_timeout")
 	timer.wait_time = 3
 	timer.one_shot = true
 	add_child(timer)
 	timer.start()
 
+
 func append_node(screen: Node) -> void:
-	 NotificationBody.add_child(screen)
+	NotificationBody.add_child(screen)
 
-func set_notification_label(content: String):
-	NotificationLabel.text = content
 
-func remove_notification() -> void:
-	hide()
+func show_notif(_title: String, _content: String, auto_hide: bool = true):
+	title.text = _title
+	content.text = _content
+	get_tree().create_tween().tween_property(self, "rect_position:y", 0.0, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	if auto_hide:
+		timer.start()
 
-func set_time_remove(second: int) -> void:
-	timer.connect("timeout", self, "remove_notification")
-	timer.wait_time = second
-	add_child(timer)
-	timer.start()
+
+func hide_notif() -> void:
+	get_tree().create_tween().tween_property(self, "rect_position:y", -rect_size.y, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+
+func _on_timeout() -> void:
+	hide_notif()
+
+
+func _on_ButtonClose_pressed():
+	hide_notif()
