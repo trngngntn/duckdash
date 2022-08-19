@@ -119,6 +119,12 @@ func calculate_stat() -> void:
 	current_stat = base_stat.dup()
 	incr_stat = StatValues.new(false)
 
+	var skill_caster = EquipmentManager.equipped["skill_caster"][0]
+	var inst = SkillCaster.SUB_TYPE[skill_caster.sub_type]["res"].instance()
+	current_stat.atk_damage *= inst.mul_atk
+	current_stat.atk_speed *= inst.mul_atk_speed
+	current_stat.fire_rate *= inst.mul_atk_speed
+
 	for type in EquipmentManager.equipped.keys():
 		if EquipmentManager.equipped[type] != null:
 			for equipment in EquipmentManager.equipped[type]:
@@ -133,7 +139,9 @@ func calculate_stat() -> void:
 					if s != null && s is Modifier && !s.is_stacked:
 						var new_val = current_stat.get(stat.stat_id) + stat.get_add_value()
 						incr_stat.set(stat.stat_id, new_val)
+	
 
+	
 	current_stat.hp = current_stat.max_hp
 	emit_signal("stat_calculated")
 	players_stat[MatchManager.current_match.self_peer_id] = current_stat

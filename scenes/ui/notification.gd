@@ -1,6 +1,11 @@
 class_name Notification extends Control
 
 const DEFAULT_NOTIFICATION_TIMEOUT = 3
+const ID_CUSTOM_NOTIF = 100
+
+const NOTIF_NO_EQUIPMENT = {
+	"title": "Equipment", "content": "Please select a weapon to play", "id": 110
+}
 
 var timer: Timer
 onready var NotificationBody = get_node("NinePatchRect")

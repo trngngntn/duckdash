@@ -136,7 +136,7 @@ func _on_match_button_pressed(mode) -> void:
 		MatchManager.MatchMode.SINGLE:
 			if EquipmentManager.equipped["skill_caster"].size() == 0:
 				$ButtonContainer/ReadyButton.pressed = false
-				NotificationManager.show_notification("Equipment", "Please select a weapon")
+				NotificationManager.show_notification(Notification.NOTIF_NO_EQUIPMENT)
 			else:
 				_create_match()
 
@@ -145,7 +145,7 @@ func _on_ReadyButton_toggled(button_pressed: bool):
 	if button_pressed:
 		if EquipmentManager.equipped["skill_caster"].size() == 0:
 			$ButtonContainer/ReadyButton.pressed = false
-			NotificationManager.show_notification("Equipment", "Please select a weapon")
+			NotificationManager.show_notification(Notification.NOTIF_NO_EQUIPMENT)
 		else:
 			MatchManager.custom_rpc_sync(
 				MatchManager.current_match,

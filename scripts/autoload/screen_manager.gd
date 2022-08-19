@@ -11,6 +11,7 @@ const SCREEN_MARKETPLACE = preload("res://scenes/screens/market_place.tscn")
 const SCREEN_PROFILE = preload("res://scenes/screens/profile_screen.tscn")
 
 const SCREEN_EQUIPMENT_CRAFTING = preload("res://scenes/screens/dialog/equipment_crafting.tscn")
+const SCREEN_EQUIPMENT_SELECTOR = preload("res://scenes/screens/dialog/equipment_selector.tscn")
 
 var screen_res_stack: Array = []
 var current_screen: Node

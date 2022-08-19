@@ -5,6 +5,7 @@ const base_speed: float = 400.0
 const base_atk: float = 25.0
 const base_decay: float = 0.25
 
+var mul_atk_speed: float = 1
 var mul_speed: float = 1
 var mul_decay: float = 1
 var mul_atk: float = 1

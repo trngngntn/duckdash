@@ -1,5 +1,6 @@
 extends Node
 
+var current_id: int
 onready var notif: Notification = ScreenManager.main.get_node("UI/Notification")
 
 
@@ -13,12 +14,18 @@ func _ready():
 	Conn.connect("register_err", self, "_on_receiveRegister_error")
 
 
-func show_notification(title: String, content: String, auto_hide: bool = true):
+func show_notification(info: Dictionary):
+	notif.show_notif(info["title"], info["content"])
+	current_id = info["id"]
+
+
+func show_custom_notification(title: String, content: String, auto_hide: bool = true):
 	notif.show_notif(title, content, auto_hide)
+	current_id = Notification.ID_CUSTOM_NOTIF
 
 
 func connect_pressed_signal(node: Node, method: String) -> void:
-	notif.connect("pressed", node, method)
+	notif.connect("pressed", node, method, [current_id])
 
 
 func _on_receiveFriendRequest_notification(notification: NakamaAPI.ApiNotification):

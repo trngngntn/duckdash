@@ -6,7 +6,7 @@ var dash_dest: Vector2
 var tracking_cam: Camera2D setget set_tracking_cam
 
 var is_attacking: bool = false
-var attack_res = preload("res://scenes/character/skills/skill_attack_energy_blade.tscn")
+var attack_res
 
 var move_joystick: Joystick = null
 var atk_joystick: Joystick = null
@@ -29,10 +29,6 @@ func _get_custom_rpc_methods() -> Array:
 
 func _ready() -> void:
 	StatManager.connect("stat_change", self, "_on_StatManager_stat_change")
-	if MatchManager.is_network_master_for_node(self):
-		$AttackTimer.wait_time = .5
-	else:
-		$AttackTimer.stop()
 
 
 func set_tracking_cam(cam: Camera2D) -> void:
@@ -56,6 +52,17 @@ func map_attack_joystick(_joystick: Joystick) -> void:
 
 func finish_setup() -> void:
 	stat = StatManager.players_stat[get_network_master()]
+	var skill_caster = EquipmentManager.equipped["skill_caster"][0]
+	attack_res = skill_caster.SUB_TYPE[skill_caster.sub_type]["res"]
+
+	if MatchManager.is_network_master_for_node(self):
+		if skill_caster.sub_type == "POWER_PUNCH" || skill_caster.sub_type == "TERROR_SLASH":
+			$AttackTimer.wait_time = 1 / stat.atk_speed
+		else:
+			$AttackTimer.wait_time = 1 / stat.fire_rate
+	else:
+		$AttackTimer.stop()
+
 	$StateMachine.start()
 
 

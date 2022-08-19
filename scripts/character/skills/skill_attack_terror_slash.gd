@@ -1,6 +1,10 @@
 extends Skill
 
 
+func _init():
+	mul_atk_speed = 2
+
+
 func _ready():
 	tween = Tween.new()
 	var _d = tween.connect("tween_all_completed", self, "_on_tween_all_completed")

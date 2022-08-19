@@ -190,11 +190,12 @@ var colliding: Array = []
 
 
 func _on_HitboxArea_area_entered(area: Area2D):
-	var node = area.get_parent()
-	if node.has_method("hurt"):
-		colliding.append(node)
-		node.hurt(get_atk_info(node.get_network_master()))
-		atk_timer.start()
+	if not area.name == "Skill":
+		var node = area.get_parent()
+		if node.has_method("hurt"):
+			colliding.append(node)
+			node.hurt(get_atk_info(node.get_network_master()))
+			atk_timer.start()
 
 
 func _on_HitboxArea_area_exited(area: Area2D):

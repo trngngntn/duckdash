@@ -1,13 +1,12 @@
 extends Skill
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+
+func _init():
+	mul_atk = 2
+	mul_atk_speed = 3
 
 
 func _ready():
-	mul_atk = 2
-
 	tween = Tween.new()
 	add_child(tween)
 

@@ -109,7 +109,9 @@ func get_inventory():
 		for type in result.keys():
 			for raw_eq in result[type]:
 				var equipment = dict2equipment(raw_eq)
-				equipment_list[type].append(equipment)
+				match type:
+					"skill_caster":
+						equipment_list[type].append(SkillCaster.new(equipment))
 
 
 # CALLBACKS

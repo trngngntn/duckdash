@@ -1,9 +1,11 @@
 extends Skill
 
 
-func _ready() -> void:
+func _init():
 	mul_atk = 0.75
 
+
+func _ready() -> void:
 	decay_timer = Timer.new()
 	decay_timer.one_shot = true
 	decay_timer.wait_time = base_decay * mul_decay

@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scripts/character/skills/skill.gd" type="Script" id=1]
 
-[node name="Attack" type="Area2D"]
+[node name="Skill" type="Area2D"]
 collision_layer = 0
 collision_mask = 4
 script = ExtResource( 1 )
