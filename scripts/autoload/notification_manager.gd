@@ -1,26 +1,33 @@
 extends Node
 
-const DEFAULT_NOTIFICATION_TIMEOUT = 5
+onready var notif: Notification = ScreenManager.main.get_node("UI/Notification")
 
 
 func _ready():
-	#warning-ignore: return_value_discarded
 	Conn.connect(
 		"received_friend_request_notification", self, "_on_receiveFriendRequest_notification"
 	)
-	#warning-ignore: return_value_discarded
+
 	Conn.connect("nakama_login_err", self, "_on_receiveLogin_error")
-	#warning-ignore: return_value_discarded
+
 	Conn.connect("register_err", self, "_on_receiveRegister_error")
 
 
+func show_notification(title: String, content: String, auto_hide: bool = true):
+	notif.show_notif(title, content, auto_hide)
+
+
+func connect_pressed_signal(node: Node, method: String) -> void:
+	notif.connect("pressed", node, method)
+
+
 func _on_receiveFriendRequest_notification(notification: NakamaAPI.ApiNotification):
-	ScreenManager.show_notification("Friend request", notification.subject)
+	notif.show_notification("Friend request", notification.subject)
 
 
 func _on_receiveLogin_error(errorMessage: String):
-	ScreenManager.show_notification("Error", errorMessage)
+	notif.show_notification("Error", errorMessage)
 
 
 func _on_receiveRegister_error(errorMessage: String):
-	ScreenManager.show_notification("Error", errorMessage)
+	notif.show_notification("Error", errorMessage)

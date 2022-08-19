@@ -209,6 +209,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/com.heroiclabs.nakama/api/NakamaWriteStorageObject.gd"
 }, {
+"base": "Control",
+"class": "Notification",
+"language": "GDScript",
+"path": "res://scenes/ui/notification.gd"
+}, {
 "base": "MapGenStrategy",
 "class": "OpenSimplexNoiseStrategy",
 "language": "GDScript",
@@ -295,6 +300,7 @@ _global_script_class_icons={
 "NakamaSocketAdapter": "",
 "NakamaStorageObjectId": "",
 "NakamaWriteStorageObject": "",
+"Notification": "",
 "OpenSimplexNoiseStrategy": "",
 "PanelEquipmentInfo": "",
 "PercentageModifier": "",

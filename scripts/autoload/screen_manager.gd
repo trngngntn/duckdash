@@ -23,7 +23,7 @@ onready var screen: Node = main.get_node("Screen")
 onready var ui: CanvasLayer = main.get_node("UI")
 onready var dialog: Dialog = main.get_node("UI/Dialog")
 onready var small_dialog: Dialog = main.get_node("UI/SmallDialog")
-onready var notification = main.get_node("UI/Notification")
+
 
 onready var self_instance = self
 
@@ -45,9 +45,6 @@ func show_small_dialog(screen_res: Resource) -> Node:
 	small_dialog.show()
 	return scrn
 
-
-func show_notification(title: String, content: String, auto_hide: bool = true):
-	notification.show_notif(title, content, auto_hide)
 
 
 func show_screen_dialog(screen_res: Resource) -> Node:
