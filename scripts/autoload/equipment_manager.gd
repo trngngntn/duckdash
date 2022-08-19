@@ -19,6 +19,9 @@ signal equipment_updated(type)
 signal equipment_crafted(equipment)
 signal equipment_added(equipment)
 
+signal equipment_equipped(type, equipment)
+signal equipment_unequipped(type, equipment)
+
 
 func _init() -> void:
 	var _d := Conn.connect("session_connected", self, "_on_session_created")
@@ -37,6 +40,7 @@ func equip(equipment: Equipment) -> void:
 			if equipped[TYPE_ENHANCER].size() == 3 || is_equipped(equipment):
 				return
 			equipped[TYPE_ENHANCER].append(equipment)
+	emit_signal("equipment_equipped", equipment.type_name, equipment)
 
 
 func unequip(equipment: Equipment) -> void:
@@ -45,6 +49,7 @@ func unequip(equipment: Equipment) -> void:
 			return
 		TYPE_ENHANCER:
 			equipped[TYPE_ENHANCER].erase(equipment)
+			emit_signal("equipment_equipped", equipment.type_name, equipment)
 
 
 func get_equipment_list(type_name: String) -> Array:

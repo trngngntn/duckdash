@@ -19,6 +19,8 @@ func set_equipment(_equipment: Equipment) -> void:
 		label.align = Label.ALIGN_CENTER
 	$ScrollContainer/VBoxContainer/StatList.add_child(label)
 
+	$ScrollContainer/VBoxContainer/Control/InventoryItem.equipment = equipment
+
 	for stat in equipment.stat:
 		label = Label.new()
 		label.set("custom_fonts/font", font)

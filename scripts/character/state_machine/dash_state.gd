@@ -77,13 +77,11 @@ func exit() -> void:
 
 
 func _on_Timer_timeout() -> void:
-	print("DASH_TIMER_TIMEOUT")
 	if state_machine.state.name != "Stabilize":
 		state_machine.change_state("Idle")
 
 
 func _end_dash(_o, _k) -> void:
-	print("DASH_TWEEN_TIMEOUT")
 	if state_machine.state.name != "Stabilize":
 		state_machine.change_state("Idle")
 

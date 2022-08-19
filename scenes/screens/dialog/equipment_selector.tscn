@@ -18,4 +18,24 @@ margin_bottom = 0.0
 [node name="InfoPanel" parent="." instance=ExtResource( 3 )]
 anchor_left = 0.7
 
+[node name="ScrollContainer" parent="InfoPanel" index="0"]
+margin_top = 10.0
+
+[node name="VBoxContainer" parent="InfoPanel/ScrollContainer" index="0"]
+margin_bottom = 184.0
+
+[node name="Control" parent="InfoPanel/ScrollContainer/VBoxContainer" index="0"]
+margin_bottom = 128.0
+rect_min_size = Vector2( 0, 128 )
+
+[node name="Name" parent="InfoPanel/ScrollContainer/VBoxContainer" index="1"]
+margin_top = 132.0
+margin_bottom = 180.0
+
+[node name="StatList" parent="InfoPanel/ScrollContainer/VBoxContainer" index="2"]
+margin_top = 184.0
+margin_bottom = 184.0
+
 [connection signal="item_selected" from="ItemContainer" to="." method="_on_ItemContainer_item_selected"]
+
+[editable path="InfoPanel"]

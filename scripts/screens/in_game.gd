@@ -129,7 +129,8 @@ func _on_game_over(reason: String) -> void:
 	print("ENDGAMAE")
 	$CanvasLayer/GameOver.set_reason(reason)
 	$CanvasLayer/GameOver.show()
-	map.queue_free()
+	if not is_instance_valid(map) || map.is_queued_for_deletion():
+		map.queue_free()
 	get_tree().paused = false
 
 

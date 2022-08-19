@@ -1,6 +1,8 @@
 extends Equipment
 class_name SkillCaster
 
+const TEX = [preload("res://assets/sprites/static/item/weapon.png")]
+
 const SUB_TYPE = {
 	"POWER_PUNCH":
 	{

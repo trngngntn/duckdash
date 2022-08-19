@@ -11,3 +11,12 @@ rect_min_size = Vector2( 80, 80 )
 texture_normal = ExtResource( 2 )
 texture_pressed = ExtResource( 1 )
 script = ExtResource( 3 )
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 24.0
+margin_top = 24.0
+margin_right = -24.0
+margin_bottom = -24.0
+expand = true

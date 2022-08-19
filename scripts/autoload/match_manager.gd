@@ -370,7 +370,9 @@ func get_player_names_by_peer_id() -> Dictionary:
 
 
 func is_network_master_for_node(node: Node) -> bool:
-	return node.get_network_master() == current_match.self_peer_id
+	if is_instance_valid(node) || not node.is_queued_for_deletion():
+		return node.get_network_master() == current_match.self_peer_id
+	return false
 
 
 ####-----------------------------------------------------------------------------------------------

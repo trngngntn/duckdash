@@ -26,7 +26,8 @@ var atk_timer: Timer
 var flash_timer: Timer
 
 var hp: float
-var mv_speed: float
+var mv_speed: float = 150
+var mul_mv_speed: float = 1
 var atk_dmg: float = 5
 var atk_speed: float = 1
 var col_dmg: float = 5
@@ -68,6 +69,8 @@ func _set_movement_ai(_ai: EnemyMovementAI) -> void:
 
 func _ready() -> void:
 	last_position = position
+
+	mv_speed *= mul_mv_speed
 
 	flash_timer = Timer.new()
 	flash_timer.wait_time = .2
@@ -129,7 +132,6 @@ func pre_kill():
 	var info := []
 	var map = MatchManager.current_match.in_game_node.map
 	var rand_drop_item = Randomizer.rand_loot_table(loot_tbl)
-	print("FINISH_RAND")
 	for item in rand_drop_item:
 		var rand_vec = Vector2(2 * randf() - 1, 2 * randf() - 1)
 		map.drop_count += 1

@@ -12,6 +12,9 @@ func _ready():
 
 
 func trigger(player: Node, _direction: Vector2, _info: AtkInfo) -> void:
+	peer_id = player.get_network_master()
+	
+	position.y = -26 
 	$CollisionPolygon2D.rotation = PI * (13.0 / 18) - _direction.angle()
 	$AnimatedSprite.rotation = _direction.angle() + PI / 2
 	player.add_child(self)

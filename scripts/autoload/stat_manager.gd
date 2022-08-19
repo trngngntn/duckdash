@@ -94,7 +94,11 @@ class StatValues:
 	func to_dict() -> Dictionary:
 		var result: Dictionary = {}
 		for prop in get_property_list():
-			if prop["name"] != "Reference" && prop["name"] != "script" && prop["name"] != "Script Variables":
+			if (
+				prop["name"] != "Reference"
+				&& prop["name"] != "script"
+				&& prop["name"] != "Script Variables"
+			):
 				result[prop["name"]] = get(prop["name"])
 		return result
 
@@ -139,15 +143,16 @@ func calculate_stat() -> void:
 					if s != null && s is Modifier && !s.is_stacked:
 						var new_val = current_stat.get(stat.stat_id) + stat.get_add_value()
 						incr_stat.set(stat.stat_id, new_val)
-	
 
-	
 	current_stat.hp = current_stat.max_hp
 	emit_signal("stat_calculated")
 	players_stat[MatchManager.current_match.self_peer_id] = current_stat
 
 
 func update_stat(peer_id: int, stat_name: String, change_value) -> void:
+	if not MatchManager.current_match:
+		return
+
 	var stat = current_stat.get(stat_name)
 	if stat == null:
 		return
@@ -183,7 +188,7 @@ func fetch_stat_info() -> void:
 		printerr("ERR_FETCH_STAT_INFO_LIST: %s" % response)
 		return null
 	else:
-		print(response.payload)
+		# print(response.payload)
 		var result = JSON.parse(response.payload).result
 
 		if result:

@@ -12,10 +12,20 @@ func _ready():
 
 
 func trigger(player: Node, _direction: Vector2, _info: AtkInfo) -> void:
-	rotation = _direction.angle() + PI / 2
+	peer_id = player.get_network_master()
+	
+	position.y = -26 
+	$AnimatedSprite.rotation = _direction.angle() + PI / 2
+	$CollisionPolygon2D.rotation = $AnimatedSprite.rotation
 	player.add_child(self)
 	$AnimatedSprite.play("move")
-	tween.interpolate_property($CollisionPolygon2D, "position:y", 0, -4, 0.05)
+	tween.interpolate_property(
+		$CollisionPolygon2D,
+		"position",
+		null,
+		Vector2(0, -10).rotated($AnimatedSprite.rotation),
+		0.05
+	)
 	tween.start()
 	pass
 

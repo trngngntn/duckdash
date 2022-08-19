@@ -1,10 +1,14 @@
 extends Skill
 
+var target_count: int = 0
+
+func _get_custom_rpc_methods() -> Array:
+	return ["_decay"]
 
 func _init():
 	mul_speed = 3
 	mul_atk = 1.5
-	mul_atk_speed = 2
+	mul_atk_speed = 4
 
 
 func _ready() -> void:
@@ -16,9 +20,12 @@ func _ready() -> void:
 
 
 func trigger(player: Node, _direction: Vector2, _info: AtkInfo) -> void:
+	peer_id = player.get_network_master()
+
 	player.get_parent().add_child(self)
 	direction = _direction.normalized()
 	position = player.position + (_direction.normalized() * Vector2(0.5, 1) * 32)
+	position.y -= 26
 	$AnimatedSprite.rotation = direction.angle() + PI / 2
 	$AnimatedSprite.play("move")
 	decay_timer.start()
@@ -36,3 +43,18 @@ func _on_decay_timer_timeout() -> void:
 func _on_AnimatedSprite_animation_finished():
 	if $AnimatedSprite.animation == "disappear":
 		queue_free()
+
+
+func _decay() -> void:
+	decay_timer.stop()
+	_on_decay_timer_timeout() 
+
+
+func _on_Area2D_area_entered(area: Area2D):
+	var node = area.get_parent()
+	if target_count <= StatManager.current_stat.proj_pierce:
+		if node is Enemy:
+			MatchManager.custom_rpc_sync(node, "hurt")
+			target_count += 1
+	else:
+		MatchManager.custom_rpc_sync(self, "_decay")

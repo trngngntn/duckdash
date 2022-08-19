@@ -38,7 +38,7 @@ func get_nakama_client() -> NakamaClient:
 
 
 #Nakama session
-var nkm_session: NakamaSession setget set_nakama_session, get_nakama_session
+var nkm_session: NakamaSession setget set_nakama_session
 signal session_changed(nkm_session)
 signal session_connected(nkm_session)
 
@@ -58,11 +58,13 @@ func set_nakama_session(_nkm_session: NakamaSession) -> void:
 		emit_signal("session_connected", nkm_session)
 
 
-func get_nakama_session() -> NakamaSession:
-	if nkm_session == null or nkm_session.is_expired():
-		device_auth()
+func renew_session() -> NakamaSession:
+	if nkm_session == null || nkm_session.is_expired():
+		device_auth(true)
+		print("[LOG][NKM_SESSION] Renewing session")
 		var dev: bool = yield(self, "dev_auth_finished")
 		if not dev:
+			print("[ERR][NKM_SESSION] Device not auth")
 			ScreenManager.change_screen(ScreenManager.SCREEN_LOGIN)
 	return nkm_session
 
@@ -152,7 +154,7 @@ func logout_async() -> void:
 	yield(Conn.nkm_client.session_logout_async(Conn.nkm_session), "completed")
 
 
-func device_auth() -> void:
+func device_auth(renew: bool = false) -> void:
 	self.nkm_session = yield(
 		self.nkm_client.authenticate_device_async(OS.get_unique_id() + "_duckdash", null, false),
 		"completed"
@@ -165,7 +167,8 @@ func device_auth() -> void:
 	else:
 		print("LOGIN_LOG: Logged In using UID!")
 		emit_signal("dev_auth_finished", true)
-		emit_signal("dev_auth")
+		if not renew:
+			emit_signal("dev_auth")
 
 
 # register

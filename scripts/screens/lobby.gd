@@ -35,13 +35,11 @@ func _ready():
 
 	#Match
 	if Conn.nkm_session == null or Conn.nkm_session.is_expired():
-		Conn.device_auth()
-		#ui_layer.show_screen("ConnectionScreen", { reconnect = true, next_screen = null })
-
-		# Wait to see if we get a new valid session.
+		print("[LOG][LOBBY]Renew session")
+		Conn.renew_session()
 		yield(Conn, "session_changed")
 		if Conn.nkm_session == null:
-			#TODO: show a try again dialog
+			NotificationManager.show_custom_notification("Error", "Session error!")
 			ScreenManager.change_screen(ScreenManager.SCREEN_MENU)
 			return
 

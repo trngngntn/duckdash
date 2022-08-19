@@ -14,6 +14,7 @@ var tween: Tween
 var decay_timer: Timer
 var direction: Vector2
 
+var peer_id: int
 
 func _ready():
 	if not MatchManager.is_network_server():

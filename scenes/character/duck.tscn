@@ -116,8 +116,7 @@ extents = Vector2( 20, 10 )
 extents = Vector2( 20, 10 )
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 20.0
-height = 10.0
+height = 28.21
 
 [sub_resource type="CircleShape2D" id=30]
 radius = 82.0
@@ -161,13 +160,13 @@ collision_mask = 0
 shape = SubResource( 29 )
 
 [node name="HitArea2D" type="Area2D" parent="."]
-visible = false
 collision_layer = 2
 collision_mask = 0
 
 [node name="Hitbox" type="CollisionShape2D" parent="HitArea2D"]
 use_parent_material = true
-position = Vector2( 0, -29 )
+position = Vector2( 0, -23 )
+scale = Vector2( 2.41934, 0.70642 )
 shape = SubResource( 2 )
 
 [node name="PickUpArea2D" type="Area2D" parent="."]
