@@ -56,5 +56,5 @@ func _on_Area2D_area_entered(area: Area2D):
 		if node is Enemy:
 			MatchManager.custom_rpc_sync(node, "hurt")
 			target_count += 1
-	else:
+	if target_count > StatManager.current_stat.proj_pierce:
 		MatchManager.custom_rpc_sync(self, "_decay")
