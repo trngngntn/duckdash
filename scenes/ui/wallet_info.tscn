@@ -34,7 +34,7 @@ patch_margin_top = 23
 patch_margin_right = 23
 patch_margin_bottom = 23
 
-[node name="Label" type="Label" parent="HBoxContainer/NinePatchRect"]
+[node name="Username" type="Label" parent="HBoxContainer/NinePatchRect"]
 anchor_right = 1.0
 anchor_bottom = 1.111
 margin_bottom = -13.992

@@ -194,6 +194,7 @@ func start_matchmaking(_nkm_socket: NakamaSocket, data: Dictionary = {}) -> void
 		print("MATCH_TICKET: " + str(result.ticket))
 		ticket = result.ticket
 
+
 ####-----------------------------------------------------------------------------------------------
 # NakamaConn callbacks
 func _on_match_created(data: NakamaRTAPI.Match) -> void:
@@ -355,11 +356,15 @@ func _on_match_state_received(data: NakamaRTAPI.MatchData) -> void:
 
 
 func get_network_unique_id() -> int:
-	return current_match.self_peer_id
+	if current_match:
+		return current_match.self_peer_id
+	return -1
 
 
 func is_network_server() -> bool:
-	return current_match.self_peer_id == 1
+	if current_match:
+		return current_match.self_peer_id == 1
+	return false
 
 
 func get_player_names_by_peer_id() -> Dictionary:

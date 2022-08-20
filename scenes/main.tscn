@@ -26,9 +26,9 @@ color = Color( 0.337255, 0.423529, 0.52549, 1 )
 
 [node name="Titlebar" type="Control" parent="UI"]
 anchor_right = 1.0
-margin_left = 50.0
+margin_left = 32.0
 margin_top = 20.0
-margin_right = -50.0
+margin_right = -32.0
 margin_bottom = 130.0
 mouse_filter = 2
 theme = ExtResource( 2 )

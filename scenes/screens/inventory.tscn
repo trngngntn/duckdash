@@ -39,7 +39,8 @@ visible = false
 [node name="InfoPanel" parent="." instance=ExtResource( 4 )]
 visible = false
 anchor_left = 0.7
-margin_left = 50.0
+margin_left = -112.2
+margin_right = -140.0
 
 [node name="Panel" type="Panel" parent="."]
 anchor_left = 1.0
