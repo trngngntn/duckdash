@@ -1,5 +1,6 @@
 extends Panel
 
+signal profile
 
 func _ready():
 	set_values()
@@ -17,3 +18,7 @@ func _ready():
 func set_values() -> void:
 	$HBoxContainer/Coin.text = "    " + str(WalletManager.gold) + " "
 	$HBoxContainer/Soul.text = "    " + str(WalletManager.soul) + " "
+
+
+func _on_LinkButton_pressed():
+	emit_signal("profile")

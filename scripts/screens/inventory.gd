@@ -11,8 +11,8 @@ func _ready() -> void:
 	EquipmentManager.connect("equipment_added", self, "_on_equipment_added")
 	for container in $TabContainer.get_children():
 		var _d := connect("squeezed", container, "_on_squeezed")
-	$TabContainer/SkillCaster.update_item(EquipmentManager.equipment_list["skill_caster"])
-	$TabContainer/SkillCaster.connect("item_selected", self, "_on_item_selected")
+	$TabContainer/Weapon.update_item(EquipmentManager.equipment_list["skill_caster"])
+	$TabContainer/Weapon.connect("item_selected", self, "_on_item_selected")
 	pass
 
 
@@ -35,6 +35,6 @@ func _on_item_selected(item: InventoryItem) -> void:
 func _on_equipment_added(equipment: Equipment) -> void:
 	match equipment.type_name:
 		"skill_caster":
-			$TabContainer/SkillCaster.add_item(equipment)
+			$TabContainer/Weapon.add_item(equipment)
 		"shield":
 			pass

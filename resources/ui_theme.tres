@@ -30,6 +30,7 @@ Panel/styles/panel = ExtResource( 14 )
 ProgressBar/fonts/font = ExtResource( 2 )
 RichTextLabel/fonts/bold_font = ExtResource( 5 )
 RichTextLabel/fonts/normal_font = ExtResource( 2 )
+TabContainer/constants/label_valign_fg = 0
 TabContainer/constants/side_margin = 4
 TabContainer/constants/top_margin = 30
 TabContainer/fonts/font = ExtResource( 2 )

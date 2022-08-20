@@ -30,10 +30,9 @@ anchor_bottom = 1.0
 margin_right = -140.0
 tab_align = 0
 
-[node name="SkillCaster" parent="TabContainer" instance=ExtResource( 3 )]
-margin_top = 108.0
+[node name="Weapon" parent="TabContainer" instance=ExtResource( 3 )]
 
-[node name="Shield" parent="TabContainer" instance=ExtResource( 3 )]
+[node name="Enhancer" parent="TabContainer" instance=ExtResource( 3 )]
 visible = false
 
 [node name="InfoPanel" parent="." instance=ExtResource( 4 )]

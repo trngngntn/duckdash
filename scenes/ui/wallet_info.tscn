@@ -43,6 +43,10 @@ text = "wallius"
 align = 1
 valign = 1
 
+[node name="LinkButton" type="LinkButton" parent="HBoxContainer/NinePatchRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
 [node name="Coin" type="Label" parent="HBoxContainer"]
 margin_left = 346.0
 margin_top = 12.0
@@ -68,3 +72,5 @@ anchor_bottom = 1.0
 margin_right = 40.0
 margin_bottom = -8.0
 texture = ExtResource( 3 )
+
+[connection signal="pressed" from="HBoxContainer/NinePatchRect/LinkButton" to="." method="_on_LinkButton_pressed"]
