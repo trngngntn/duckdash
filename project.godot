@@ -109,6 +109,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/ui/inventory_item.gd"
 }, {
+"base": "Control",
+"class": "ItemCount",
+"language": "GDScript",
+"path": "res://scripts/ui/item_count.gd"
+}, {
 "base": "Node2D",
 "class": "Joystick",
 "language": "GDScript",
@@ -285,6 +290,7 @@ _global_script_class_icons={
 "InGame": "",
 "IncrementModifier": "",
 "InventoryItem": "",
+"ItemCount": "",
 "Joystick": "",
 "LandEnemyMovementAI": "",
 "ManualPickUpItem": "",
@@ -329,6 +335,7 @@ config/icon="res://icon.png"
 
 Nakama="*res://addons/com.heroiclabs.nakama/Nakama.gd"
 Conn="*res://scripts/autoload/conn.gd"
+WalletManager="*res://scripts/autoload/wallet_manager.gd"
 ScreenManager="*res://scripts/autoload/screen_manager.gd"
 NotificationManager="*res://scripts/autoload/notification_manager.gd"
 Randomizer="*res://scripts/autoload/randomizer.gd"
@@ -427,7 +434,6 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
-quality/driver/driver_name="GLES2"
 2d/snapping/use_gpu_pixel_snap=true
 vram_compression/import_etc=true
 gles2/compatibility/disable_half_float=true

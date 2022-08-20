@@ -1,23 +1,33 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://resources/ui_theme.tres" type="Theme" id=1]
 [ext_resource path="res://scripts/screens/inventory.gd" type="Script" id=2]
 [ext_resource path="res://scenes/ui/item_container.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/ui/panel_equipment_info.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/ui/wallet_info.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/sprites/static/ui/ui_button_craft.png" type="Texture" id=6]
 
 [node name="ScreenInventory" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 50.0
+margin_left = 32.0
 margin_top = 150.0
-margin_right = -50.0
-margin_bottom = -50.0
+margin_right = -32.0
+margin_bottom = -32.0
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
+
+[node name="WalletInfo" parent="." instance=ExtResource( 5 )]
+margin_left = -718.0
+margin_top = -115.0
+margin_right = 62.0
+margin_bottom = -35.0
+rect_pivot_offset = Vector2( 968, 281 )
 
 [node name="TabContainer" type="TabContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_right = -140.0
 tab_align = 0
 
 [node name="SkillCaster" parent="TabContainer" instance=ExtResource( 3 )]
@@ -26,17 +36,31 @@ margin_top = 108.0
 [node name="Shield" parent="TabContainer" instance=ExtResource( 3 )]
 visible = false
 
-[node name="ButtonCraft" type="Button" parent="."]
-margin_left = 1294.0
-margin_top = -125.0
-margin_right = 1504.0
-margin_bottom = -45.0
-rect_min_size = Vector2( 0, 80 )
-text = "Craft"
-
 [node name="InfoPanel" parent="." instance=ExtResource( 4 )]
 visible = false
 anchor_left = 0.7
 margin_left = 50.0
 
-[connection signal="pressed" from="ButtonCraft" to="." method="_on_ButtonCraft_pressed"]
+[node name="Panel" type="Panel" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -112.0
+margin_right = 62.0
+rect_min_size = Vector2( 80, 80 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 30.0
+margin_top = 30.0
+margin_right = -44.0
+margin_bottom = -30.0
+custom_constants/separation = 25
+
+[node name="ButtonCraft" type="TextureButton" parent="Panel/VBoxContainer"]
+margin_right = 100.0
+margin_bottom = 100.0
+texture_normal = ExtResource( 6 )
+
+[connection signal="pressed" from="Panel/VBoxContainer/ButtonCraft" to="." method="_on_ButtonCraft_pressed"]

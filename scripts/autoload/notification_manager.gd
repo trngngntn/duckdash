@@ -23,9 +23,12 @@ func show_custom_notification(title: String, content: String, auto_hide: bool = 
 	notif.show_notif(title, content, auto_hide)
 	current_id = Notification.ID_CUSTOM_NOTIF
 
+func hide_notification():
+	notif.hide_notif()
+
 
 func connect_pressed_signal(node: Node, method: String) -> void:
-	notif.connect("pressed", node, method, [current_id])
+	notif.connect("pressed", node, method)
 
 
 func _on_receiveFriendRequest_notification(notification: NakamaAPI.ApiNotification):

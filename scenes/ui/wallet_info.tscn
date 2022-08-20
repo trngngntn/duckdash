@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://resources/ui_theme.tres" type="Theme" id=1]
+[ext_resource path="res://assets/sprites/static/ui/ui_icon_coin.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/static/ui/ui_icon_soul.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/static/ui/ui_kinetic_bar_norm.png" type="Texture" id=4]
+[ext_resource path="res://scripts/ui/wallet_info.gd" type="Script" id=5]
+
+[node name="WalletInfo" type="Panel"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -750.0
+margin_top = 32.0
+margin_right = 30.0
+margin_bottom = 112.0
+theme = ExtResource( 1 )
+script = ExtResource( 5 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 25.0
+margin_top = 4.0
+margin_right = -45.0
+margin_bottom = -4.0
+
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer"]
+margin_right = 342.0
+margin_bottom = 72.0
+size_flags_horizontal = 3
+texture = ExtResource( 4 )
+patch_margin_left = 23
+patch_margin_top = 23
+patch_margin_right = 23
+patch_margin_bottom = 23
+
+[node name="Label" type="Label" parent="HBoxContainer/NinePatchRect"]
+anchor_right = 1.0
+anchor_bottom = 1.111
+margin_bottom = -13.992
+size_flags_horizontal = 3
+text = "wallius"
+align = 1
+valign = 1
+
+[node name="Coin" type="Label" parent="HBoxContainer"]
+margin_left = 346.0
+margin_top = 12.0
+margin_right = 532.0
+margin_bottom = 60.0
+text = "    999999 "
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/Coin"]
+anchor_bottom = 1.0
+margin_right = 40.0
+margin_bottom = -8.0
+texture = ExtResource( 2 )
+
+[node name="Soul" type="Label" parent="HBoxContainer"]
+margin_left = 536.0
+margin_top = 12.0
+margin_right = 710.0
+margin_bottom = 60.0
+text = "    999999"
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/Soul"]
+anchor_bottom = 1.0
+margin_right = 40.0
+margin_bottom = -8.0
+texture = ExtResource( 3 )

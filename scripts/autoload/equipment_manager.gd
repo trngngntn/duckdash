@@ -20,7 +20,7 @@ signal equipment_crafted(equipment)
 signal equipment_added(equipment)
 
 signal equipment_equipped(type, equipment)
-signal equipment_unequipped(type, equipment)
+# signal equipment_unequipped(type, equipment)
 
 
 func _init() -> void:
@@ -82,13 +82,23 @@ func dict2equipment(result: Dictionary) -> Equipment:
 
 
 func craft_equipment(type: String) -> Equipment:
+
+	if Conn.nkm_session == null or Conn.nkm_session.is_expired():
+		Conn.renew_session()
+		yield(Conn, "session_changed")
+		if Conn.nkm_session == null:
+			NotificationManager.show_custom_notification("Error", "Session error!")
+			ScreenManager.change_screen(ScreenManager.SCREEN_LOGIN, false)
+			return
+
 	var payload = {"type": type}
 	var response: NakamaAPI.ApiRpc = yield(
 		Conn.nkm_client.rpc_async(Conn.nkm_session, "craft_equipment", JSON.print(payload)),
 		"completed"
 	)
 	if response.is_exception():
-		print("An error occurred: %s" % response)
+		NotificationManager.show_custom_notification("Error", response.get_exception().message)
+		# print("An error occurred: %s" % response)
 		return null
 	else:
 		# print(response.payload)

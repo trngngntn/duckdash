@@ -39,7 +39,6 @@ margin_right = 300.0
 margin_bottom = 232.0
 rect_min_size = Vector2( 0, 48 )
 custom_fonts/font = ExtResource( 3 )
-text = "Skill Caster"
 align = 1
 
 [node name="StatList" type="VBoxContainer" parent="ScrollContainer/VBoxContainer"]

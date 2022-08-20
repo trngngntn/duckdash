@@ -1,5 +1,5 @@
 extends Control
-const TITLE = "INVENTORY"
+const TITLE = "INVENTORY                                         "
 
 const item = preload("res://scenes/ui/inventory_item.tscn")
 

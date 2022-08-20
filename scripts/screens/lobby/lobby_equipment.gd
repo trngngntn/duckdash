@@ -19,9 +19,10 @@ func update_button(btn: ButtonEquip, tex: Texture):
 	btn.set_tex(tex)
 
 
-func _on_notification_pressed(notif_id: int) -> void:
-	if notif_id == Notification.NOTIF_NO_EQUIPMENT["id"]:
+func _on_notification_pressed() -> void:
+	if NotificationManager.current_id == Notification.NOTIF_NO_EQUIPMENT["id"]:
 		show_equipment_selector("skill_caster")
+		NotificationManager.hide_notification()
 
 
 func _on_WeaponEquipButton_pressed() -> void:

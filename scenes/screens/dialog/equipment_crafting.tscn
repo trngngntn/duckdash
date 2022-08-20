@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://resources/ui_theme.tres" type="Theme" id=1]
 [ext_resource path="res://scripts/screens/dialog/equipment_crafting.gd" type="Script" id=2]
 [ext_resource path="res://scenes/ui/slot.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/ui/button_arrow_left.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/ui/button_arrow_right.tscn" type="PackedScene" id=5]
+[ext_resource path="res://resources/font/ui_font_bold.tres" type="DynamicFont" id=6]
+[ext_resource path="res://scenes/ui/item_count.tscn" type="PackedScene" id=8]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -33,8 +35,9 @@ size_flags_horizontal = 3
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 40.0
+margin_top = 30.0
 margin_right = -40.0
-rect_min_size = Vector2( 400, 110 )
+rect_min_size = Vector2( 400, 80 )
 text = "Craft"
 
 [node name="Control3" type="Control" parent="HBoxContainer"]
@@ -49,24 +52,79 @@ anchor_bottom = 0.8
 
 [node name="Slot" parent="Control" instance=ExtResource( 3 )]
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 0.3
 anchor_right = 0.5
-anchor_bottom = 0.5
+anchor_bottom = 0.3
+margin_left = -120.0
+margin_top = -120.0
+margin_right = 120.0
+margin_bottom = 120.0
 
-[node name="ButtonArrowLeft" parent="Control" instance=ExtResource( 4 )]
+[node name="ButtonArrowLeft" parent="Control/Slot" instance=ExtResource( 4 )]
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 0.4
 anchor_right = 0.5
-anchor_bottom = 0.5
+anchor_bottom = 0.4
 margin_left = -300.0
+margin_top = -40.0
 margin_right = -172.0
+margin_bottom = 88.0
 
-[node name="ButtonArrowRight" parent="Control" instance=ExtResource( 5 )]
+[node name="ButtonArrowRight" parent="Control/Slot" instance=ExtResource( 5 )]
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 0.4
 anchor_right = 0.5
-anchor_bottom = 0.5
+anchor_bottom = 0.4
 margin_left = 172.0
+margin_top = -40.0
 margin_right = 300.0
+margin_bottom = 88.0
+
+[node name="HBoxContainer" type="VBoxContainer" parent="Control/Slot"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -200.0
+margin_top = 32.0
+margin_right = 200.0
+margin_bottom = 254.0
+custom_constants/separation = 20
+
+[node name="TypeName" type="Label" parent="Control/Slot/HBoxContainer"]
+margin_right = 400.0
+margin_bottom = 64.0
+custom_fonts/font = ExtResource( 6 )
+text = "Skill Caster"
+align = 1
+valign = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Slot/HBoxContainer"]
+margin_top = 84.0
+margin_right = 400.0
+margin_bottom = 132.0
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/Slot/HBoxContainer/VBoxContainer"]
+margin_right = 400.0
+margin_bottom = 48.0
+alignment = 1
+
+[node name="Cost" type="Label" parent="Control/Slot/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 38.0
+margin_right = 158.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 120, 0 )
+text = "Cost:"
+align = 1
+
+[node name="ItemCount" parent="Control/Slot/HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 162.0
+margin_right = 362.0
+margin_bottom = 48.0
 
 [connection signal="pressed" from="HBoxContainer/Control2/CraftButton" to="." method="_on_CraftButton_pressed"]
+[connection signal="pressed" from="Control/Slot/ButtonArrowLeft" to="." method="_on_change_type" binds= [ false ]]
+[connection signal="pressed" from="Control/Slot/ButtonArrowRight" to="." method="_on_change_type" binds= [ true ]]

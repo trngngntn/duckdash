@@ -11,6 +11,8 @@ func set_equipment(_equipment: Equipment) -> void:
 
 	equipment = _equipment
 
+	$ScrollContainer/VBoxContainer/Name.text = Equipment.TYPE[equipment.type_name]["display"]
+
 	var label := Label.new()
 	label.set("custom_fonts/font", font)
 	# label.text = "Tier: " + equipment.tier
@@ -32,11 +34,11 @@ func set_equipment(_equipment: Equipment) -> void:
 	else:
 		$EquipButton.show()
 
+
 func _ready():
 	# font = DynamicFont.new()
 	# font.font_data = load("res://resources/font/ui_font_small.tres")
 	pass
-
 
 
 func _on_EquipButton_pressed():
