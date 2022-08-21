@@ -65,9 +65,3 @@ animation = "move_right"
 
 [node name="CollisionShape2D" parent="." index="1"]
 shape = SubResource( 10 )
-
-[node name="HitboxArea" parent="." index="2"]
-collision_layer = 4
-
-[node name="CollisionPolygon2D" parent="HitboxArea" index="0"]
-polygon = PoolVector2Array( 16, -4, 14, -24, 0, -24, -6, 0, -2, 10, -6, 16, 4, 36, 18, 36, 20, 30, 6, 10, 8, 0 )

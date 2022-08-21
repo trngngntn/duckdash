@@ -26,9 +26,8 @@ func trigger(_player: Node, _direction: Vector2, _info: AtkInfo) -> void:
 
 
 func _on_Area2D_area_entered(area: Area2D):
-	var node = area.get_parent()
-	if node is Enemy:
-		MatchManager.custom_rpc_sync(node, "hurt")
+	if area.name == "EnemyHitboxArea":
+		MatchManager.custom_rpc_sync(area.get_parent(), "hurt")
 
 
 func _on_AnimatedSprite_animation_finished():

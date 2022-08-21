@@ -72,7 +72,7 @@ func dict2equipment(result: Dictionary) -> Equipment:
 	equipment.stat = []
 	for raw_stat in result["stat"]:
 		var available = StatManager.get(raw_stat["name"])
-		var stat: Stat
+		var stat
 		if available:
 			stat = available.new(raw_stat["name"], raw_stat["value"])
 		else:

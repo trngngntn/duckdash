@@ -45,8 +45,5 @@ position = Vector2( 0, 20 )
 rotation = 0.785398
 shape = SubResource( 6 )
 
-[node name="HitboxArea" parent="." index="2"]
-collision_layer = 4
-
-[node name="CollisionPolygon2D" parent="HitboxArea" index="0"]
-polygon = PoolVector2Array( -8, 20, -12, 12, -12, 0, -6, -12, 6, -12, 12, 0, 12, 12, 8, 20 )
+[node name="CollisionPolygon2D" parent="EnemyHitboxArea" index="0"]
+polygon = PoolVector2Array( -8, 20, -12, 12, -12, 0, -4, -12, 4, -12, 12, 0, 12, 12, 8, 20 )

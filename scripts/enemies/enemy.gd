@@ -156,10 +156,10 @@ func frees() -> void:
 
 func hurt() -> void:
 	sprite.material = flash_mat.duplicate()
-	# sprite.material.resource_local_to_scene = true
 	sprite.material.set_shader_param("hurt", true)
 	hp -= 50
 	if hp <= 0:
+		$EnemyHitboxArea/CollisionPolygon2D.set_deferred("disabled", true)
 		damageble = false
 		movement_ai = null
 	flash_timer.start()
@@ -192,7 +192,7 @@ var colliding: Array = []
 
 
 func _on_HitboxArea_area_entered(area: Area2D):
-	if not area.name == "Skill":
+	if not area is Skill:
 		var node = area.get_parent()
 		if node.has_method("hurt"):
 			colliding.append(node)

@@ -130,17 +130,15 @@ func calculate_stat() -> void:
 	current_stat.fire_rate *= inst.mul_atk_speed
 
 	for type in EquipmentManager.equipped.keys():
-		if EquipmentManager.equipped[type] != null:
+		if EquipmentManager.equipped[type].size() > 0:
 			for equipment in EquipmentManager.equipped[type]:
 				for stat in equipment.stat:
-					var s = get(stat.stat_id)
-					if s != null && s is Modifier && s.is_stacked:
+					if stat is Modifier && stat.is_stacked:
 						var new_val = current_stat.get(stat.stat_id) * stat.get_multiply_value()
 						current_stat.set(stat.stat_id, new_val)
 
 				for stat in equipment.stat:
-					var s = get(stat.stat_id)
-					if s != null && s is Modifier && !s.is_stacked:
+					if stat is Modifier && !stat.is_stacked:
 						var new_val = current_stat.get(stat.stat_id) + stat.get_add_value()
 						incr_stat.set(stat.stat_id, new_val)
 
