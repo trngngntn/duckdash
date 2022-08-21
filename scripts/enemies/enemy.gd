@@ -35,7 +35,7 @@ var col_dmg: float = 5
 var loot_tbl := {
 	ITEM_COIN.id: [0.4, 0.1, 0.05],
 	ITEM_SOUL.id: [0.1, 0.01],
-	ITEM_HEART.id: [0.15, 0.05],
+	ITEM_HEART.id: [0.10, 0.025],
 }
 
 var last_position: Vector2

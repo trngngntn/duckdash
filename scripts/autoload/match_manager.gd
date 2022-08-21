@@ -246,6 +246,9 @@ func _on_matchmaker_matched(data: NakamaRTAPI.MatchmakerMatched) -> void:
 
 
 func _on_nakama_match_presence(data: NakamaRTAPI.MatchPresenceEvent) -> void:
+	if not current_match:
+		return
+
 	print("[LOG][MATCH_MAN]Presence received: " + str(data))
 	if MatchMode.SINGLE:
 		return
@@ -301,6 +304,9 @@ func _on_nakama_match_presence(data: NakamaRTAPI.MatchPresenceEvent) -> void:
 
 
 func _on_match_state_received(data: NakamaRTAPI.MatchData) -> void:
+	if not current_match:
+		return
+
 	var result = JSON.parse(data.data)
 	if result.error != OK:
 		push_error("[ERR][MATCH_MAN]Error parsing JSON data")
@@ -390,7 +396,7 @@ enum MatchOpCode {
 
 
 func custom_rpc(node: Node, method: String, args: Array = []) -> void:
-	if MatchManager.nkm_socket && current_match.players.size() > 1:
+	if current_match && MatchManager.nkm_socket && current_match.players.size() > 1:
 		nkm_socket.send_match_state_async(
 			current_match.match_id,
 			MatchOpCode.CUSTOM_RPC,
@@ -399,7 +405,7 @@ func custom_rpc(node: Node, method: String, args: Array = []) -> void:
 
 
 func custom_rpc_id(node: Node, id: int, method: String, args: Array = []) -> void:
-	if nkm_socket && current_match.players.size() > 1:
+	if current_match && nkm_socket && current_match.players.size() > 1:
 		nkm_socket.send_match_state_async(
 			current_match.match_id,
 			MatchOpCode.CUSTOM_RPC,
@@ -420,7 +426,7 @@ func custom_rpc_sync(node: Node, method: String, args: Array = []) -> void:
 
 
 func custom_rpc_id_sync(node: Node, id: int, method: String, args: Array = []) -> void:
-	if id == current_match.self_peer_id:
+	if current_match && id == current_match.self_peer_id:
 		node.callv(method, args)
 	else:
 		custom_rpc_id(node, id, method, args)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://resources/ui_theme.tres" type="Theme" id=1]
 [ext_resource path="res://scripts/screens/friend/friend_request_item.gd" type="Script" id=2]
@@ -6,18 +6,9 @@
 [ext_resource path="res://resources/font/Retro Gaming.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://assets/sprites/static/ui/ui_button_close_hover.png" type="Texture" id=5]
 [ext_resource path="res://assets/sprites/static/ui/ui_button_close_pressed.png" type="Texture" id=6]
-
-[sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0, 0, 0, 0.647059 )
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color( 0.733333, 0.733333, 0.733333, 1 )
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+[ext_resource path="res://assets/sprites/static/ui/ui_button_tick_pressed.png" type="Texture" id=7]
+[ext_resource path="res://assets/sprites/static/ui/ui_button_tick_normal.png" type="Texture" id=8]
+[ext_resource path="res://assets/sprites/static/ui/ui_button_tick_hover.png" type="Texture" id=9]
 
 [sub_resource type="DynamicFont" id=3]
 size = 21
@@ -31,7 +22,6 @@ margin_bottom = -780.0
 rect_min_size = Vector2( 100, 120 )
 size_flags_horizontal = 3
 theme = ExtResource( 1 )
-custom_styles/panel = SubResource( 2 )
 script = ExtResource( 2 )
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -101,14 +91,16 @@ margin_left = 361.0
 margin_right = 425.0
 margin_bottom = 64.0
 texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 6 )
+texture_hover = ExtResource( 5 )
 
 [node name="AcceptButton" type="TextureButton" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 margin_left = 455.0
 margin_right = 519.0
 margin_bottom = 64.0
-texture_normal = ExtResource( 3 )
-texture_pressed = ExtResource( 6 )
-texture_hover = ExtResource( 5 )
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 7 )
+texture_hover = ExtResource( 9 )
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/DeleteButton" to="." method="_on_DeleteButton_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/AcceptButton" to="." method="_on_AcceptButton_pressed"]

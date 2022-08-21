@@ -134,6 +134,7 @@ custom_constants/separation = 30
 margin_right = 1461.0
 margin_bottom = 420.0
 rect_min_size = Vector2( 0, 420 )
+size_flags_horizontal = 3
 
 [node name="GridContainer" type="GridContainer" parent="TabContainer/Friends/VBoxContainer/ScrollContainer"]
 margin_right = 1461.0
@@ -148,7 +149,6 @@ columns = 2
 margin_top = 450.0
 margin_right = 1461.0
 margin_bottom = 574.0
-size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 50
 alignment = 2
