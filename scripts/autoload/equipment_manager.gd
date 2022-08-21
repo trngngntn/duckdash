@@ -82,7 +82,6 @@ func dict2equipment(result: Dictionary) -> Equipment:
 
 
 func craft_equipment(type: String) -> Equipment:
-
 	if Conn.nkm_session == null or Conn.nkm_session.is_expired():
 		Conn.renew_session()
 		yield(Conn, "session_changed")
@@ -103,10 +102,15 @@ func craft_equipment(type: String) -> Equipment:
 	else:
 		# print(response.payload)
 		var equipment = parse_equipment(response.payload)
+		match type:
+			"skill_caster":
+				equipment = SkillCaster.new(equipment)
+
 		equipment_list[type].append(equipment)
 		emit_signal("equipment_crafted", equipment)
 		emit_signal("equipment_added", equipment)
 		emit_signal("equipment_updated", equipment.type_name)
+
 		return equipment
 
 
