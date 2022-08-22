@@ -52,6 +52,8 @@ signal stat_calculated
 
 
 class StatValues:
+	var skill
+
 	var coin: int = 0
 	var soul: int = 0
 
@@ -129,6 +131,8 @@ func calculate_stat() -> void:
 
 	var skill_caster = EquipmentManager.equipped["skill_caster"][0]
 	var inst = SkillCaster.SUB_TYPE[skill_caster.sub_type]["res"].instance()
+
+	current_stat.skill = EquipmentManager.equipped["skill_caster"][0].sub_type
 	current_stat.atk_damage *= inst.mul_atk
 	current_stat.atk_speed *= inst.mul_atk_speed
 	current_stat.fire_rate *= inst.mul_atk_speed
@@ -168,9 +172,9 @@ func update_stat(peer_id: int, stat_name: String, change_value) -> void:
 	if peer_id == MatchManager.current_match.self_peer_id:
 		players_stat[peer_id].set(stat_name, stat + change_value)
 		emit_signal("stat_change", stat_name, change_value, stat + change_value)
-		# print("AFTER_UPDATE_STAT   " + stat_name + "   " + str(current_stat.get(stat_name)))
+	
 
-	# if MatchManager.is_network_server():
+
 	players_stat[peer_id].set(stat_name, stat + change_value)
 	emit_signal("stat_change_peer_id", peer_id, stat_name, change_value, stat + change_value)
 

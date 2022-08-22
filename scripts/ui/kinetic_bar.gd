@@ -4,7 +4,7 @@ var good = preload("res://assets/sprites/static/ui/ui_kinetic_bar_fg.png")
 var norm = preload("res://assets/sprites/static/ui/ui_kinetic_bar_norm.png")
 var bad = preload("res://assets/sprites/static/ui/ui_kinetic_bar_bad.png")
 
-onready var stat: StatManager.StatValues
+onready var stat
 
 # func _ready():
 # 	tween.start()

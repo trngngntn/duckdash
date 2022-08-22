@@ -56,7 +56,7 @@ func map_attack_joystick(_joystick: Joystick) -> void:
 func finish_setup() -> void:
 	stat = StatManager.players_stat[get_network_master()]
 	var skill_caster = EquipmentManager.equipped["skill_caster"][0]
-	attack_res = skill_caster.SUB_TYPE[skill_caster.sub_type]["res"]
+	attack_res = SkillCaster.SUB_TYPE[stat.skill]["res"]
 
 	if MatchManager.is_network_master_for_node(self):
 		if skill_caster.sub_type == "POWER_PUNCH" || skill_caster.sub_type == "TERROR_SLASH":
@@ -70,7 +70,6 @@ func finish_setup() -> void:
 
 
 func _physics_process(delta):
-	
 	if $StateMachine.state.name != "Stabilize":
 		var kin_delta = (
 			6
