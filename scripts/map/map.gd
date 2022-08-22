@@ -165,9 +165,7 @@ func spawn_enemy(position: Vector2, target_player_id: String, id: int) -> void:
 	# if not MatchManager.is_network_server():
 	# 	# print("REMOTE_SPAWN")
 	var l = preload("res://scenes/enemies/enemy_slime.tscn")
-	var enemy = l.instance().init(
-		$Navigation, player_cont.get_node(target_player_id), $ForceUpdateTimer
-	)
+	var enemy = l.instance().init($Navigation, player_cont.get_node(target_player_id))
 	enemy.position = position
 	enemy.name = "Enemy" + str(id)
 	$YSort.add_child(enemy)

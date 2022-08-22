@@ -47,22 +47,25 @@ func _physics_process(delta: float) -> void:
 # and calls its enter function.
 # It optionally takes a `msg` dictionary to pass to the next state's enter() function.
 func change_state(target_state_name: String, dat := {}) -> void:
-	if not has_node(target_state_name):
-		return
-	# print("CHANGE_STATE: " + target_state_name + " from " + state.name)
-	state.exit()
-	state = get_node(target_state_name)
-	state.enter(dat)
-	MatchManager.custom_rpc(self, "_remote_change_state", [target_state_name, dat])
-	emit_signal("transitioned", state.name)
+	if has_node(target_state_name):
+		MatchManager.custom_rpc_sync(self, "_remote_change_state", [target_state_name, dat])
 
 
 func _remote_change_state(target_state_name: String, dat := {}) -> void:
-	print("REMOTE_STATE_CHANGE" + target_state_name)
-	if not has_node(target_state_name):
-		return
+	if state.valid_change.has(target_state_name):
+		# if not MatchManager.is_network_master_for_node(self):
+		# 	print(
+		# 		(
+		# 			"REMOTE_STATE_CHANGE:"
+		# 			+ state.name
+		# 			+ " to "
+		# 			+ target_state_name
+		# 			+ " of "
+		# 			+ str(MatchManager.is_network_master_for_node(self))
+		# 		)
+		# 	)
 
-	state.exit()
-	state = get_node(target_state_name)
-	state.enter(dat)
-	emit_signal("transitioned", state.name)
+		state.exit()
+		state = get_node(target_state_name)
+		state.enter(dat)
+		emit_signal("transitioned", state.name)

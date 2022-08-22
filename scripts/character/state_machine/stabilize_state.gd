@@ -12,7 +12,7 @@ func _ready() -> void:
 
 
 func init():
-	pass
+	valid_change = [STATE_IDLE]
 
 
 func enter(_dat := {}) -> void:
@@ -22,14 +22,12 @@ func enter(_dat := {}) -> void:
 
 	material.set_shader_param("noise_tex", noise_tex)
 	player.sprite.material = material
-
 	var tween = get_tree().create_tween()
-	tween.connect("finished", self, "_finish")
-	tween.tween_method(self, "_stabilizing", player.stat.kinetic, 0.0, 3)
+	tween.tween_method(self, "_set_shader_param", 1.0, 0.0, 3, ["hologram_value"])
 
-	get_tree().create_tween().tween_method(
-		self, "_set_shader_param", 1.0, 0.0, 3, ["hologram_value"]
-	)
+	if MatchManager.is_network_server() || MatchManager.is_network_master_for_node(self):
+		tween.connect("finished", self, "_finish")
+		tween.parallel().tween_method(self, "_stabilizing", player.stat.kinetic, 0.0, 3)
 
 
 func _set_shader_param(value, name):
@@ -41,7 +39,8 @@ func _stabilizing(kin) -> void:
 
 
 func _finish():
-	state_machine.change_state("Idle")
+	if MatchManager.is_network_server():
+		state_machine.change_state("Idle")
 
 
 func exit() -> void:

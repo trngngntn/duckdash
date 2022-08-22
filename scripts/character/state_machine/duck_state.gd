@@ -1,6 +1,11 @@
 extends State
 class_name DuckState
 
+const STATE_DASH = "Dash"
+const STATE_MOVE = "Move"
+const STATE_IDLE = "Idle"
+const STATE_STABILIZE = "Stabilize"
+
 var player: Duck
 
 

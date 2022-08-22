@@ -386,6 +386,10 @@ func is_network_master_for_node(node: Node) -> bool:
 	return false
 
 
+func is_master(peer_id: int):
+	return current_match && peer_id == MatchManager.current_match.self_peer_id
+
+
 ####-----------------------------------------------------------------------------------------------
 # custom RPC functions
 enum MatchOpCode {

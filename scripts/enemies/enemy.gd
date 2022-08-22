@@ -8,24 +8,19 @@ const ITEM_EMERALD = {
 	"id": "EMERALD", "res": preload("res://scenes/items/auto_pickup/emerald.tscn")
 }
 
-# const ITEM_LIST = {
-# 	"COIN": ITEM_COIN,
-# 	"SOUL": ITEM_SOUL,
-# 	"EMERALD": ITEM_EMERALD,
-# }
-
 const DIST_LIMIT_SQ = 1000000
-var flash_mat: ShaderMaterial = preload("res://resources/material/hurt_shader_material.tres")
+const FLASH_MAT: ShaderMaterial = preload("res://resources/material/hurt_shader_material.tres")
 
 var attack_ai: EnemyAttackAI
 var movement_ai: EnemyMovementAI
 
 var target: Node2D
-var upd_timer: Timer setget _set_upd_timer
+
 var atk_timer: Timer
 var flash_timer: Timer
 
-var hp: float
+var hp: float = 10
+var hp_mul: float = 1
 var mv_speed: float = 150
 var mul_mv_speed: float = 1
 var atk_dmg: float = 5
@@ -42,7 +37,7 @@ var last_position: Vector2
 
 var damageble: bool = true
 
-onready var sprite: AnimatedSprite = get_node("AnimatedSprite")
+onready var sprite: AnimatedSprite = $AnimatedSprite
 
 
 func _get_custom_rpc_methods() -> Array:
@@ -50,17 +45,9 @@ func _get_custom_rpc_methods() -> Array:
 
 
 func _init() -> void:
-	# physics_material_override = PhysicsMaterial.new()
-	# physics_material_override.friction = 0
 	mode = RigidBody2D.MODE_CHARACTER
-	# gravity_scale = 0
-	pass
-
-
-func _set_upd_timer(_upd_timer: Timer) -> void:
 	if MatchManager.is_network_server():
-		upd_timer = _upd_timer
-		upd_timer.connect("timeout", self, "_force_update")
+		Updater.connect("timeout", self, "_force_update")
 
 
 func _set_movement_ai(_ai: EnemyMovementAI) -> void:
@@ -71,6 +58,7 @@ func _ready() -> void:
 	last_position = position
 
 	mv_speed *= mul_mv_speed
+	hp *= hp_mul
 
 	flash_timer = Timer.new()
 	flash_timer.wait_time = .2
@@ -154,14 +142,17 @@ func frees() -> void:
 	queue_free()
 
 
-func hurt() -> void:
-	sprite.material = flash_mat.duplicate()
+func hurt(raw_info: Dictionary) -> void:
+	var info: AtkInfo = AtkInfo.new().from_dict(raw_info)
+	sprite.material = FLASH_MAT.duplicate()
 	sprite.material.set_shader_param("hurt", true)
-	hp -= 50
+	hp -= info.dmg
 	if hp <= 0:
 		$EnemyHitboxArea/CollisionPolygon2D.set_deferred("disabled", true)
 		damageble = false
 		movement_ai = null
+		pre_kill()
+		set_physics_process(false)
 	flash_timer.start()
 
 
@@ -171,9 +162,6 @@ func get_atk_info(peer_id: int) -> AtkInfo:
 
 func _flash_timer_timeout() -> void:
 	sprite.material.set_shader_param("hurt", false)
-	if hp <= 0:
-		pre_kill()
-		set_physics_process(false)
 
 
 #### Update states functions

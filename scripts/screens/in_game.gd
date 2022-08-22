@@ -25,6 +25,8 @@ signal game_started
 signal player_dead(player_id)
 
 onready var hp_bar := $CanvasLayer/HPBar
+onready var mv_joystick = $CanvasLayer/MoveControl/MoveJoystick
+onready var atk_joystick = $CanvasLayer/AttackControl/AttackJoystick
 
 
 func _get_custom_rpc_methods() -> Array:
@@ -38,7 +40,7 @@ func _get_custom_rpc_methods() -> Array:
 
 func _ready() -> void:
 	pause_mode = Node.PAUSE_MODE_PROCESS
-	$CanvasLayer/MoveControl/MoveJoystick.set_snap_step(1)
+	mv_joystick.set_snap_step(1)
 	MatchManager.connect("game_over", self, "_on_game_over")
 
 
@@ -64,14 +66,9 @@ func setup(players: Dictionary) -> void:
 	elif not map:
 		yield(self, "map_generated")
 
-	# if game_started:
-	# 	_stop()
-
 	game_started = false
 	game_over = false
 	players_alive = players
-
-	#reload_map()
 
 	for player_id in players:
 		var player = Player.instance()
@@ -90,8 +87,8 @@ func setup(players: Dictionary) -> void:
 	# setup for current player
 	StatManager.calculate_stat()
 
-	my_player.map_move_joystick($CanvasLayer/MoveControl/MoveJoystick)
-	my_player.map_attack_joystick($CanvasLayer/AttackControl/AttackJoystick)
+	my_player.map_move_joystick(mv_joystick)
+	my_player.map_attack_joystick(atk_joystick)
 
 	my_player.tracking_cam = $GameCamera
 	$GameCamera.set_node_tracking(my_player)
@@ -121,10 +118,6 @@ func _start() -> void:
 	Updater.start()
 
 
-func _stop() -> void:
-	queue_free()
-
-
 func _on_game_over(reason: String) -> void:
 	Updater.stop()
 	game_over = true
@@ -148,15 +141,6 @@ func _on_player_dead(player_id) -> void:
 
 	# 	var player_keys = players_alive.keys()
 	# 	# emit_signal("game_over", player_keys[0])
-
-
-func _on_DashButton_pressed():
-	Input.action_press("move_dash")
-
-
-func _on_DashButton_released():
-	Input.action_release("move_dash")
-
 
 func _on_MenuButton_pressed():
 	if MatchManager.match_mode == MatchManager.MatchMode.SINGLE:

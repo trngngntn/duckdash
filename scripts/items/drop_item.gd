@@ -12,8 +12,11 @@ func _get_custom_rpc_methods() -> Array:
 	return ["sync", "pick_up"]
 
 
-func _ready() -> void:
+func _init():
 	mode = MODE_CHARACTER
+
+
+func _ready() -> void:
 	$AnimatedSprite.play()
 	linear_damp = 8
 	apply_central_impulse(fdir * 400)

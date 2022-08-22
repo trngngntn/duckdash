@@ -16,6 +16,7 @@ var direction: Vector2
 
 var peer_id: int
 
+
 func _ready():
 	if not MatchManager.is_network_server():
 		$CollisionPolygon2D.disabled = true
@@ -25,9 +26,13 @@ func trigger(_player: Node, _direction: Vector2, _info: AtkInfo) -> void:
 	pass
 
 
+func gen_atk_info() -> AtkInfo:
+	return AtkInfo.new().create(peer_id, -1, StatManager.current_stat.atk_damage, [])
+
+
 func _on_Area2D_area_entered(area: Area2D):
 	if area.name == "EnemyHitboxArea":
-		MatchManager.custom_rpc_sync(area.get_parent(), "hurt")
+		MatchManager.custom_rpc_sync(area.get_parent(), "hurt", [gen_atk_info().to_dict()])
 
 
 func _on_AnimatedSprite_animation_finished():

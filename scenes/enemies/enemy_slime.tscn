@@ -29,7 +29,7 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 8.48528, 8.48528 )
+extents = Vector2( 9.19239, 9.19239 )
 
 [node name="Slime" instance=ExtResource( 3 )]
 collision_layer = 1

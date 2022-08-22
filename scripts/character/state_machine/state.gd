@@ -2,6 +2,7 @@ extends Node
 class_name State
 
 var state_machine = null
+var valid_change = []
 
 # func _get_custom_rpc_methods() -> Array:
 # 	return [

@@ -14,3 +14,4 @@ func rand_loot_table(loot_tbl: Dictionary) -> Array:
 			else:
 				break
 	return result
+

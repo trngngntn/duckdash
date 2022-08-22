@@ -27,8 +27,9 @@ func _ready() -> void:
 
 
 func init():
+	valid_change = [STATE_IDLE, STATE_STABILIZE]
 	stat = StatManager.players_stat[get_network_master()]
-	player.dash_area.connect("body_entered", self, "_on_collision")
+	# player.dash_area.connect("body_entered", self, "_on_collision")
 
 
 func enter(dat := {}) -> void:
@@ -92,6 +93,6 @@ func _cloning() -> void:
 	player.get_parent().get_parent().add_child(shad)
 
 
-func _on_collision(_area: Area2D):
-	print("COLLIDE")
-	state_machine.change_state("Idle", {})
+# func _on_collision(_area: Area2D):
+# 	print("COLLIDE")
+# 	state_machine.change_state("Idle", {})
