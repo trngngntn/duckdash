@@ -93,7 +93,7 @@ func _ready() -> void:
 		atk_timer.connect("timeout", self, "_on_atk_timer_timeout")
 		add_child(atk_timer)
 	else:
-		$HitboxArea/CollisionPolygon2D.disabled = true
+		$EnemyHitboxArea/CollisionPolygon2D.disabled = true
 
 
 func _physics_process(_delta) -> void:
