@@ -26,6 +26,7 @@ func _remote_physics_update(_direction: Vector2, position: Vector2) -> void:
 	player.position = position
 	update_sprite()
 
+
 func physics_update(_delta) -> void:
 	if not MatchManager.is_network_master_for_node(self):
 		return
@@ -40,11 +41,11 @@ func physics_update(_delta) -> void:
 		if Input.is_action_pressed("move_right"):
 			direction.x += 1
 
-	if direction.length() > 0:
+	if direction.length() > 0 && state_machine.state.name != "Stabilize":
 		if Input.is_action_just_pressed("move_dash"):
 			state_machine.change_state("Dash", {"direction": direction})
 			return
-	
+
 		direction = direction.normalized()
 		update_sprite()
 		# player.move_and_slide(direction * player.speed, Vector2(0,0), false, 4, 0.785398, false)
@@ -53,11 +54,13 @@ func physics_update(_delta) -> void:
 	else:
 		state_machine.change_state("Idle", {})
 
+
 func update_sprite():
 	if direction.x > 0:
 		player.get_node("AnimatedSprite").play("move_right")
 	else:
 		player.get_node("AnimatedSprite").play("move_left")
+
 
 func _on_joystick_active(data: Vector2) -> void:
 	direction = data

@@ -65,7 +65,7 @@ func _set_readonly_var(_value) -> void:
 
 func set_current_match(_match) -> void:
 	if current_match:
-		current_match.queue_free()	
+		current_match.queue_free()
 	current_match = _match
 	if current_match:
 		add_child(current_match)

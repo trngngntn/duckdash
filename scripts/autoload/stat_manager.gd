@@ -47,6 +47,7 @@ var shifting
 var players_stat := {}
 
 signal stat_change(name, change_value, new_value)
+signal stat_change_peer_id(peer_id, name, change_value, new_value)
 signal stat_calculated
 
 
@@ -113,9 +114,12 @@ var incr_stat: StatValues
 var base_stat: StatValues = StatValues.new()
 var stat_info_list: Dictionary = {}
 
+func _get_custom_rpc_methods() -> Array:
+	return ["_force_update_stat"]
 
 func _init() -> void:
-	var _d := Conn.connect("session_connected", self, "_on_session_created")
+	Conn.connect("session_connected", self, "_on_session_created")
+	Updater.connect("timeout", self, "_on_update_timeout")
 
 
 # Calculate new stat from equipped equipment
@@ -151,26 +155,41 @@ func update_stat(peer_id: int, stat_name: String, change_value) -> void:
 	if not MatchManager.current_match:
 		return
 
-	var stat = current_stat.get(stat_name)
+	var stat = players_stat[peer_id].get(stat_name) 
 	if stat == null:
 		return
 	elif stat_name == "hp":
-		change_value = clamp(change_value, -stat, current_stat.max_hp - stat)
+		change_value = clamp(change_value, -stat, players_stat[peer_id].max_hp - stat)
 	elif stat_name == "kinetic":
 		change_value = clamp(
-			change_value, -current_stat.kin_thres - stat, current_stat.kin_thres - stat
+			change_value, -players_stat[peer_id].kin_thres - stat, players_stat[peer_id].kin_thres - stat
 		)
 
 	if peer_id == MatchManager.current_match.self_peer_id:
-		current_stat.set(stat_name, stat + change_value)
+		players_stat[peer_id].set(stat_name, stat + change_value)
 		emit_signal("stat_change", stat_name, change_value, stat + change_value)
 		# print("AFTER_UPDATE_STAT   " + stat_name + "   " + str(current_stat.get(stat_name)))
 
 	# if MatchManager.is_network_server():
 	players_stat[peer_id].set(stat_name, stat + change_value)
+	emit_signal("stat_change_peer_id", peer_id, stat_name, change_value, stat + change_value)
 
-	if stat_name == "max_hp" && stat + change_value < current_stat.hp:
-		update_stat(peer_id, "hp", stat + change_value - current_stat.hp)
+	if stat_name == "max_hp" && stat + change_value < players_stat[peer_id].hp:
+		update_stat(peer_id, "hp", stat + change_value - players_stat[peer_id].hp)
+
+
+func _force_update_stat(peer_id: int, stat: Dictionary) -> void:
+	# print("[LOG][STAT_MAN]Forced to update stats by server")
+	for prop in stat.keys():
+		if stat.get(prop) != players_stat[peer_id].get(prop):
+			update_stat(peer_id, prop, stat.get(prop) - players_stat[peer_id].get(prop))
+
+
+func _on_update_timeout():
+	if MatchManager.is_network_server():
+		# print("[LOG][STAT_MAN]Forcing to update stats to clients")
+		for peer_id in players_stat.keys():
+			MatchManager.custom_rpc(self, "_force_update_stat", [peer_id, players_stat[peer_id].to_dict()])
 
 
 func get_stat(stat_name: String):

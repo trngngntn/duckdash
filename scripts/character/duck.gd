@@ -28,7 +28,10 @@ func _get_custom_rpc_methods() -> Array:
 
 
 func _ready() -> void:
-	StatManager.connect("stat_change", self, "_on_StatManager_stat_change")
+	# if MatchManager.is_network_master_for_node(self):
+	# 	StatManager.connect("stat_change", self, "_on_StatManager_stat_change")
+	# if MatchManager.is_network_master_for_node(self):
+	StatManager.connect("stat_change_peer_id", self, "_on_StatManager_stat_change_peer_id")
 
 
 func set_tracking_cam(cam: Camera2D) -> void:
@@ -67,17 +70,18 @@ func finish_setup() -> void:
 
 
 func _physics_process(delta):
+	
+	if $StateMachine.state.name != "Stabilize":
+		var kin_delta = (
+			6
+			* pow(1 + stat.kin_rate, 3 * clamp(stat.kinetic / -stat.kin_thres, -1, 1))
+			* delta
+		)
+		if MatchManager.is_network_master_for_node(self) || MatchManager.is_network_server():
+			StatManager.update_stat(get_network_master(), "kinetic", -kin_delta)
+
 	if not MatchManager.is_network_master_for_node(self):
 		return
-
-	var kin_delta = (
-		6
-		* pow(1 + stat.kin_rate, 3 * clamp(stat.kinetic / -stat.kin_thres, -1, 1))
-		* delta
-	)
-
-	if $StateMachine.state.name != "Stabilize":
-		StatManager.update_stat(get_network_master(), "kinetic", -kin_delta)
 
 	if not atk_joystick:
 		if Input.is_action_pressed("attack") && attackable:
@@ -134,8 +138,28 @@ func _on_attack_joystick_active(data: Vector2) -> void:
 
 
 func _on_StatManager_stat_change(stat_name: String, _change, new_value):
-	if stat_name == "kinetic":
-		if $StateMachine.state.name != "Stabilize" && abs(new_value) >= stat.kin_thres - 0.5:
+	# if stat_name == "kinetic":
+	# 	if $StateMachine.state.name != "Stabilize" && abs(new_value) >= stat.kin_thres - 0.5:
+	# 		$StateMachine.change_state("Stabilize")
+
+	# 	var delta: float = stat.kin_thres - abs(stat.kinetic)
+	# 	var kin2 = 2 * stat.dash_kin
+	# 	if delta <= kin2:
+	# 		var portion = delta / kin2
+	# 		sprite.material.set_shader_param("amount", (1 - portion) * 20)
+	# 		sprite.material.set_shader_param("size", portion * -9 + 1)
+	# 	else:
+	# 		sprite.material.set_shader_param("size", 0)
+	pass
+
+
+func _on_StatManager_stat_change_peer_id(peer_id: int, stat_name: String, _change, new_value):
+	if stat_name == "kinetic" && peer_id == get_network_master():
+		if (
+			MatchManager.is_network_server()
+			&& $StateMachine.state.name != "Stabilize"
+			&& abs(new_value) >= stat.kin_thres - 0.5
+		):
 			$StateMachine.change_state("Stabilize")
 
 		var delta: float = stat.kin_thres - abs(stat.kinetic)

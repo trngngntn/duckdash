@@ -118,6 +118,7 @@ func _start() -> void:
 		player.finish_setup()
 	emit_signal("game_started")
 	get_tree().paused = false
+	Updater.start()
 
 
 func _stop() -> void:
@@ -125,6 +126,7 @@ func _stop() -> void:
 
 
 func _on_game_over(reason: String) -> void:
+	Updater.stop()
 	game_over = true
 	print("ENDGAMAE")
 	$CanvasLayer/GameOver.set_reason(reason)

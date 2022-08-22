@@ -19,6 +19,7 @@ var in_game_node: Node
 var match_started := false
 
 
+
 func _set_readonly_var(_value) -> void:
 	pass
 

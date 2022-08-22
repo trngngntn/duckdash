@@ -58,6 +58,7 @@ func change_state(target_state_name: String, dat := {}) -> void:
 
 
 func _remote_change_state(target_state_name: String, dat := {}) -> void:
+	print("REMOTE_STATE_CHANGE" + target_state_name)
 	if not has_node(target_state_name):
 		return
 

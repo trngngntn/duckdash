@@ -9,70 +9,66 @@ var last_speed: float
 var speed: float
 var _shadow = preload("res://scenes/character/duck_dash_shadow.tscn")
 
-var _d
+var stat: StatManager.StatValues
 
 
 func _ready() -> void:
 	effect_timer = Timer.new()
 	effect_timer.wait_time = .01
-	_d = effect_timer.connect("timeout", self, "_cloning")
+	effect_timer.connect("timeout", self, "_cloning")
 	add_child(effect_timer)
 
 	dash_timer = Timer.new()
 	add_child(dash_timer)
 
 	tween = Tween.new()
-	_d = tween.connect("tween_completed", self, "_end_dash")
+	tween.connect("tween_completed", self, "_end_dash")
 	add_child(tween)
 
 
 func init():
-	_d = player.dash_area.connect("body_entered", self, "_on_collision")
+	stat = StatManager.players_stat[get_network_master()]
+	player.dash_area.connect("body_entered", self, "_on_collision")
 
 
 func enter(dat := {}) -> void:
 	direction = dat.direction.normalized()
-	last_speed = StatManager.players_stat[get_network_master()].dash_speed
+	last_speed = stat.dash_speed
 
 	if dat.direction.x > 0:
 		player.sprite.play("dash_right")
 	else:
 		player.sprite.play("dash_left")
 
-	var duration: float = (
-		StatManager.players_stat[get_network_master()].dash_range
-		/ StatManager.players_stat[get_network_master()].dash_speed
-	)
+	var duration: float = stat.dash_range / stat.dash_speed
 
 	dash_timer.wait_time = duration
 	dash_timer.one_shot = true
 	dash_timer.start()
 	effect_timer.start()
 
-	_d = tween.interpolate_property(
+	tween.interpolate_property(
 		self,
 		"speed",
-		(StatManager.current_stat.dash_speed + StatManager.current_stat.mv_speed) / 2,
-		StatManager.current_stat.dash_speed,
+		(stat.dash_speed + stat.mv_speed) / 2,
+		stat.dash_speed,
 		duration,
 		Tween.TRANS_CUBIC,
 		Tween.EASE_OUT
 	)
 
-	StatManager.update_stat(
-		get_network_master(), "kinetic", StatManager.players_stat[get_network_master()].dash_kin
-	)
-	_d = tween.start()
+	StatManager.update_stat(player.get_network_master(), "kinetic", stat.dash_kin)
+	tween.start()
 
 	# if state_machine.state.name != "Stabilize":
 
 
 func physics_update(_delta):
-	_d = player.move_and_slide(speed * direction)
+	player.move_and_slide(speed * direction)
 
 
 func exit() -> void:
-	_d = tween.stop_all()
+	tween.stop_all()
 	effect_timer.stop()
 
 
