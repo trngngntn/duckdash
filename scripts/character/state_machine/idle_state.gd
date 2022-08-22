@@ -7,7 +7,9 @@ func init() -> void:
 		player.move_joystick.connect("active", self, "_on_joystick_active")
 
 
-func enter(_dat := {}) -> void:
+func enter(dat := {}) -> void:
+	if dat.keys().has("pos"):
+		player.position = dat["pos"]
 	player.sprite.play("idle_right")
 
 

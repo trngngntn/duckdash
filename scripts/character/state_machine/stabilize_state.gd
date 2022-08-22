@@ -40,7 +40,7 @@ func _stabilizing(kin) -> void:
 
 func _finish():
 	if MatchManager.is_network_server():
-		state_machine.change_state("Idle")
+		state_machine.change_state("Idle", {"pos": player.position})
 
 
 func exit() -> void:

@@ -24,7 +24,7 @@ signal dead
 
 
 func _get_custom_rpc_methods() -> Array:
-	return ["_attack", "_hurt"]
+	return ["_attack", "_hurt", "_force_update"]
 
 
 func _ready() -> void:
@@ -190,6 +190,10 @@ func _hurt(raw_info: Dictionary) -> void:
 		sprite.material.set_shader_param("hurt", true)
 
 	$FlashTimer.start()
+
+func _force_update(_position: Vector2) -> void:
+	position = _position
+
 
 
 func _on_PickUpArea2D_body_entered(body: Node):

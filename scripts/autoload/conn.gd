@@ -95,11 +95,8 @@ func connect_nakama_socket() -> void:
 		nkm_socket = new_socket
 		_nkm_socket_connecting = false
 
-		#warning-ignore: return_value_discarded
 		nkm_socket.connect("connected", self, "_on_NakamaSocket_connected")
-		#warning-ignore: return_value_discarded
 		nkm_socket.connect("closed", self, "_on_NakamaSocket_closed")
-		#warning-ignore: return_value_discarded
 		nkm_socket.connect("received_notification", self, "_on_notification")
 
 		emit_signal("socket_connected", nkm_socket)
@@ -111,6 +108,8 @@ func is_nakama_socket_connected() -> bool:
 
 # Called when the socket was closed.
 func _on_NakamaSocket_closed() -> void:
+	# NotificationManager.show_custom_notification("Error", "Socket disconnected!")
+	# ScreenManager.change_screen(ScreenManager.SCREEN_MENU)
 	nkm_socket = null
 
 

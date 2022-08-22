@@ -74,13 +74,13 @@ func exit() -> void:
 
 
 func _on_Timer_timeout() -> void:
-	if state_machine.state.name != "Stabilize":
-		state_machine.change_state("Idle")
+	if state_machine.state.name != "Stabilize" && MatchManager.is_network_master_for_node(self):
+		state_machine.change_state("Idle", {"pos": player.position})
 
 
 func _end_dash(_o, _k) -> void:
-	if state_machine.state.name != "Stabilize":
-		state_machine.change_state("Idle")
+	if state_machine.state.name != "Stabilize" && MatchManager.is_network_master_for_node(self):
+		state_machine.change_state("Idle", {"pos": player.position})
 
 
 func _cloning() -> void:
