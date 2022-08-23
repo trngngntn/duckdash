@@ -6,6 +6,9 @@ var noise_tex = preload("res://assets/sprites/noise/noise.png")
 
 var material: ShaderMaterial = stab_mat.duplicate()
 
+var base = 1
+var stat: StatManager.StatValues
+
 
 func _ready() -> void:
 	pass
@@ -13,6 +16,7 @@ func _ready() -> void:
 
 func init():
 	valid_change = [STATE_IDLE]
+	stat = StatManager.players_stat[get_network_master()]
 
 
 func enter(_dat := {}) -> void:
@@ -25,23 +29,23 @@ func enter(_dat := {}) -> void:
 	var tween = get_tree().create_tween()
 	tween.tween_method(self, "_set_shader_param", 1.0, 0.0, 3, ["hologram_value"])
 
-	if MatchManager.is_network_server() || MatchManager.is_network_master_for_node(self):
-		tween.connect("finished", self, "_finish")
-		tween.parallel().tween_method(self, "_stabilizing", player.stat.kinetic, 0.0, 3)
+	if stat.kinetic > 0:
+		base = -1
+	else:
+		base = 1
 
 
 func _set_shader_param(value, name):
 	material.set_shader_param(name, value)
 
 
-func _stabilizing(kin) -> void:
-	StatManager.update_stat(get_network_master(), "kinetic", kin - player.stat.kinetic)
-
-
-func _finish():
-	if MatchManager.is_network_server():
+func physics_update(delta: float) -> void:
+	var change = base * delta * 0.333 * stat.kin_thres
+	StatManager.update_stat(get_network_master(), "kinetic", change)
+	if MatchManager.is_network_server() && ((base < 0) == (stat.kinetic < 0)):
 		state_machine.change_state("Idle", {"pos": player.position})
 
+# func _on_stat_change_peer_id()
 
 func exit() -> void:
 	player.attackable = true

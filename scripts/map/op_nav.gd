@@ -20,7 +20,7 @@ func normalize_path(path: PoolVector2Array) -> PoolVector2Array:
 	# 		)
 	# 		+ Vector2(0, 64)
 	# 	)
-	# for i in range(0, path.size()):
+	# for i in range(0, path.size()):	
 	# 	var p = point.instance()
 	# 	p.position = path[i]
 	# 	node2d.add_child(p)

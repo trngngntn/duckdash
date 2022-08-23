@@ -7,6 +7,9 @@ const ITEM_HEART = {"id": "HEART", "res": preload("res://scenes/items/auto_picku
 const ITEM_EMERALD = {
 	"id": "EMERALD", "res": preload("res://scenes/items/auto_pickup/emerald.tscn")
 }
+const ITEM_SAPPHIRE = {
+	"id": "SAPPHIRE", "res": preload("res://scenes/items/auto_pickup/sapphire.tscn")
+}
 
 const DIST_LIMIT_SQ = 1000000
 const FLASH_MAT: ShaderMaterial = preload("res://resources/material/hurt_shader_material.tres")
@@ -31,6 +34,8 @@ var loot_tbl := {
 	ITEM_COIN.id: [0.4, 0.1, 0.05],
 	ITEM_SOUL.id: [0.1, 0.01],
 	ITEM_HEART.id: [0.10, 0.025],
+	ITEM_SAPPHIRE.id: [0.025],
+	ITEM_EMERALD.id: [0.075],
 }
 
 var last_position: Vector2
@@ -134,7 +139,8 @@ func kills(pos: Vector2, info_list: Array) -> void:
 		item.name = info["name"]
 		item.position = pos
 		item.fdir = info["dir"]
-		get_parent().add_child(item)
+		# get_parent().add_child(item)
+		get_parent().call_deferred("add_child", item)
 	queue_free()
 
 

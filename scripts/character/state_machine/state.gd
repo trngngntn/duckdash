@@ -4,6 +4,8 @@ class_name State
 var state_machine = null
 var valid_change = []
 
+var is_process: bool = true
+
 # func _get_custom_rpc_methods() -> Array:
 # 	return [
 # 		"_remote_update",

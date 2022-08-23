@@ -2,11 +2,13 @@ extends Skill
 
 var target_count: int = 0
 
+
 func _get_custom_rpc_methods() -> Array:
 	return ["_decay"]
 
+
 func _init():
-	mul_speed = 3
+	mul_speed = 3.25
 	mul_atk = 1.5
 	mul_atk_speed = 4
 
@@ -19,16 +21,25 @@ func _ready() -> void:
 	add_child(decay_timer)
 
 
-func trigger(player: Node, _direction: Vector2, _info: AtkInfo) -> void:
+func trigger(player: Node, _direction: Vector2, _info: AtkInfo, re_trigger := false) -> void:
+	if re_trigger:
+		pass
 	peer_id = player.get_network_master()
 
-	player.get_parent().add_child(self)
 	direction = _direction.normalized()
 	position = player.position + (_direction.normalized() * Vector2(0.5, 1) * 32)
 	position.y -= 26
 	$AnimatedSprite.rotation = direction.angle() + PI / 2
 	$AnimatedSprite.play("move")
+
+	player.get_parent().add_child(self)
+
 	decay_timer.start()
+
+
+func _re_trigger(player: Node, dir: Vector2, info: AtkInfo) -> void:
+	var new = duplicate(Node.DUPLICATE_GROUPS)
+	new.trigger(player, dir, info, true)
 
 
 func _physics_process(delta) -> void:
@@ -47,7 +58,7 @@ func _on_AnimatedSprite_animation_finished():
 
 func _decay() -> void:
 	decay_timer.stop()
-	_on_decay_timer_timeout() 
+	_on_decay_timer_timeout()
 
 
 func _on_Area2D_area_entered(area: Area2D):

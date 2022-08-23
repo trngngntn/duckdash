@@ -5,10 +5,6 @@ const TILE_NAV = 2
 const TILE_WALL = 1
 const TILE_GROUND = 0
 
-const SPAWN_DISTANCE = 600
-
-export var enemy_limit = 100
-
 var drop_count = 0
 
 var _map_data = []
@@ -27,14 +23,10 @@ onready var nav_tilemap = $Navigation/NavTileMap
 onready var wall_tilemap = $YSort/TileMap
 onready var ground_tilemap = $Navigation/GroundTileMap
 
+onready var nav = $Navigation
+onready var cont = $YSort
+
 onready var player_cont = $YSort/PlayerCont
-var enemy_id = 0
-
-
-func _get_custom_rpc_methods() -> Array:
-	return [
-		"spawn_enemy",
-	]
 
 
 func _ready():
@@ -124,49 +116,3 @@ func _display_map() -> void:
 		Vector2(-map_width_padding, -map_height_padding),
 		Vector2(map_width_padding, map_height_padding)
 	)
-
-
-var count = 0
-
-
-func _on_MobSpawnerTimer_timeout():
-	if get_tree().get_nodes_in_group("enemy").size() > enemy_limit:
-		return
-	for player in get_tree().get_nodes_in_group("player"):
-		spawn_enemy_around_player(player, 0)
-
-
-func spawn_enemy_around_player(player: Duck, times: int) -> void:
-	# print("SPAWN")
-	if times == 50:
-		return
-	# print("PLAYER" + str(player))
-	var rand_pos: Vector2 = (
-		(Vector2(2 * randf() - 1, 2 * randf() - 1).normalized() * SPAWN_DISTANCE)
-		+ player.position
-	)
-	var tile_pos: Vector2 = ground_tilemap.world_to_map(ground_tilemap.to_local(rand_pos))
-	if ground_tilemap.get_cell(tile_pos.x, tile_pos.y) == TileMap.INVALID_CELL:
-		spawn_enemy_around_player(player, times + 1)
-		return
-	for other_player in player_cont.get_children():
-		if (
-			other_player != player
-			&& rand_pos.distance_squared_to(other_player.position) < SPAWN_DISTANCE * SPAWN_DISTANCE
-		):
-			spawn_enemy_around_player(player, times + 1)
-			return
-	MatchManager.custom_rpc_sync(self, "spawn_enemy", [rand_pos, player.name, enemy_id])
-	enemy_id += 1
-
-
-#### REMOTE FUNCTIONS
-func spawn_enemy(position: Vector2, target_player_id: String, id: int) -> void:
-	# if not MatchManager.is_network_server():
-	# 	# print("REMOTE_SPAWN")
-	var l = preload("res://scenes/enemies/enemy_slime.tscn")
-	var enemy = l.instance().init($Navigation, player_cont.get_node(target_player_id))
-	enemy.position = position
-	enemy.name = "Enemy" + str(id)
-	$YSort.add_child(enemy)
-	enemy.add_to_group("enemy")
