@@ -2,7 +2,7 @@ extends Node
 
 const SPAWN_DISTANCE = 600
 
-const ENEMY ={}
+const ENEMY = {}
 
 export var enemy_limit: int = 120
 export var enabled: bool = true
@@ -31,7 +31,7 @@ func _on_host_migrating(new_host: int):
 
 
 func _on_game_started() -> void:
-	if MatchManager.is_network_master() && enabled:
+	if MatchManager.is_network_server() && enabled:
 		$Timer.start()
 		$SpawnTimer.wait_time = 2
 		$SpawnTimer.start()
