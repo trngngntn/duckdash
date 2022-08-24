@@ -1,14 +1,13 @@
 extends Enemy
 
+const TYPE = "BEE"
 
-func init(nav: Navigation2D, _target: Node2D, _upd_timer: Timer) -> Enemy:
-	mv_speed = 250
-	hp = 40
-	target = _target
+
+func init():
+	mul_mv_speed = 1.5
+	hp = 2
+	atk_dmg = 1
 	self.movement_ai = FlyEnemyMovementAI.new(self)
-
-	self.upd_timer = _upd_timer
-	return self
 
 
 func _ready() -> void:
@@ -18,7 +17,7 @@ func _ready() -> void:
 func _process(_delta) -> void:
 	if (position - last_position).x > 0:
 		$AnimatedSprite.play("move_right")
-		$HitboxArea/CollisionPolygon2D.scale.x = 1
+		$EnemyHitboxArea/CollisionPolygon2D.scale.x = 1
 	else:
 		$AnimatedSprite.play("move_left")
-		$HitboxArea/CollisionPolygon2D.scale.x = -1
+		$EnemyHitboxArea/CollisionPolygon2D.scale.x = -1

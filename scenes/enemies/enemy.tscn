@@ -22,5 +22,11 @@ collision_mask = 2
 
 [node name="DirectAtkTimer" type="Timer" parent="."]
 
+[node name="FlashTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[connection signal="tree_exiting" from="." to="." method="_on_Node2D_tree_exiting"]
 [connection signal="area_entered" from="EnemyHitboxArea" to="." method="_on_HitboxArea_area_entered"]
 [connection signal="area_exited" from="EnemyHitboxArea" to="." method="_on_HitboxArea_area_exited"]
+[connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]

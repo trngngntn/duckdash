@@ -57,7 +57,7 @@ class StatValues:
 	var coin: int = 0
 	var soul: int = 0
 
-	var max_hp: float = 100
+	var max_hp: float = 1000000
 	var hp: float
 	var armour: int = 0
 	var regen: int = 0

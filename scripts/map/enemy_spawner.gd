@@ -1,15 +1,17 @@
-extends Node
+class_name EnemySpawner extends Node
 
 const SPAWN_DISTANCE = 600
 
-const ENEMY = {}
+var ENEMY_SLIME = preload("res://scenes/enemies/enemy_slime.tscn")
+var ENEMY_BEE = preload("res://scenes/enemies/enemy_bee.tscn")
+
+var ENEMY_LIST = {"BEE": ENEMY_BEE, "SLIME": ENEMY_SLIME}
 
 export var enemy_limit: int = 120
 export var enabled: bool = true
 
 var spawn_rate: float = 1
-
-var enemy_id = 0
+var name_pool: Array
 
 onready var map = get_parent()
 
@@ -20,9 +22,16 @@ func _get_custom_rpc_methods() -> Array:
 	]
 
 
+func _init():
+	pass
+
+
 func _ready():
 	var ingame = MatchManager.current_match.in_game_node
 	ingame.connect("game_started", self, "_on_game_started")
+	if MatchManager.is_network_server():
+		for i in range(0, enemy_limit):
+			name_pool.append("E" + str(i))
 
 
 func _on_host_migrating(new_host: int):
@@ -45,17 +54,19 @@ func _on_Timer_timeout():
 
 
 func _on_SpawnTimer_timeout():
-	if get_tree().get_nodes_in_group("enemy").size() >= 120:
-		return
 	for player in get_tree().get_nodes_in_group("player"):
-		spawn_enemy_around_player(player, 0)
+		if name_pool.size() > 0:
+			var _name = name_pool.front()
+			name_pool.pop_front()
+			spawn_enemy_around_player(player, _name, 0)
+		else:
+			return
 
 
-func spawn_enemy_around_player(player: Duck, times: int) -> void:
-	# print("SPAWN")
+func spawn_enemy_around_player(player: Duck, _name: String, times: int) -> void:
 	if times == 50:
-		return
-	# print("PLAYER" + str(player))
+		name_pool.push_back(_name)
+
 	var rand_pos: Vector2 = (
 		(Vector2(2 * randf() - 1, 2 * randf() - 1).normalized() * SPAWN_DISTANCE)
 		+ player.position
@@ -63,23 +74,31 @@ func spawn_enemy_around_player(player: Duck, times: int) -> void:
 	var map_dat = map.ground_tilemap
 	var tile_pos: Vector2 = map_dat.world_to_map(map_dat.to_local(rand_pos))
 	if map_dat.get_cell(tile_pos.x, tile_pos.y) == TileMap.INVALID_CELL:
-		spawn_enemy_around_player(player, times + 1)
+		spawn_enemy_around_player(player, _name, times + 1)
 		return
 	for other_player in map.player_cont.get_children():
 		if (
 			other_player != player
 			&& rand_pos.distance_squared_to(other_player.position) < SPAWN_DISTANCE * SPAWN_DISTANCE
 		):
-			spawn_enemy_around_player(player, times + 1)
+			spawn_enemy_around_player(player, _name, times + 1)
 			return
-	MatchManager.custom_rpc_sync(self, "_rpc_sync_spawn_enemy", [rand_pos, player.name, enemy_id])
-	enemy_id += 1
+	MatchManager.custom_rpc_sync(self, "_rpc_sync_spawn_enemy", [rand_pos, player.name, _name])
 
 
-func _rpc_sync_spawn_enemy(position: Vector2, peer_id: String, id: int) -> void:
-	var l = preload("res://scenes/enemies/enemy_slime.tscn")
-	var enemy = l.instance().init(map.nav, map.player_cont.get_node(peer_id))
-	enemy.position = position
-	enemy.name = "Enemy" + str(id)
+func free_enemy(enemy: Enemy):
+	map.cont.remove_child(enemy)
+	if MatchManager.is_network_server():
+		name_pool.push_back(enemy.name)
+	enemy.queue_free()
+	# print("FREEING SHITS")
+	# ENEMY_LIST[enemy.TYPE]["pool"].append(enemy)
+	# enemy.remove_from_group("enemy")
+	# map.cont.remove_child(enemy)
+
+
+func _rpc_sync_spawn_enemy(position: Vector2, username: String, _name: String) -> void:
+	var enemy = ENEMY_SLIME.instance().init(self,map.player_cont.get_node(username), _name, position )
 	map.cont.add_child(enemy)
+	# print("SPAWNED: " + str(enemy.get_path()))
 	enemy.add_to_group("enemy")

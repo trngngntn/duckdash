@@ -316,8 +316,9 @@ func _on_match_state_received(data: NakamaRTAPI.MatchData) -> void:
 	if data.op_code == MatchOpCode.CUSTOM_RPC:
 		if not rpc_data.has("peer_id") || rpc_data["peer_id"] == current_match.self_peer_id:
 			var node = get_node(rpc_data["node_path"])
-			if not node || not is_instance_valid(node) || node.is_queued_for_deletion():
-				push_warning("CUSTOM_RPC_ERR: node is not valid")
+			if not node || not is_instance_valid(node) || node.is_queued_for_deletion():	
+				# get_tree().paused = true
+				push_warning("CUSTOM_RPC_ERR: node is not valid, CALLING:" + rpc_data["method"])
 				return
 			if (
 				not node.has_method("_get_custom_rpc_methods")
@@ -425,8 +426,10 @@ func custom_rpc_id(node: Node, id: int, method: String, args: Array = []) -> voi
 
 
 func custom_rpc_sync(node: Node, method: String, args: Array = []) -> void:
-	node.callv(method, args)
+	# print("RPC_SYNC " + str(node.get_path()) + " : " + str(node.is_inside_tree()))
 	custom_rpc(node, method, args)
+	node.callv(method, args)
+	
 
 
 func custom_rpc_id_sync(node: Node, id: int, method: String, args: Array = []) -> void:
