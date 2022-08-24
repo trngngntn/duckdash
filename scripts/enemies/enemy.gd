@@ -10,7 +10,9 @@ const ITEM_EMERALD = {
 const ITEM_SAPPHIRE = {
 	"id": "SAPPHIRE", "res": preload("res://scenes/items/auto_pickup/sapphire.tscn")
 }
-
+const ITEM_RUBY = {
+	"id": "RUBY", "res": preload("res://scenes/items/auto_pickup/ruby.tscn")
+}
 const DIST_LIMIT_SQ = 1000000
 const FLASH_MAT: ShaderMaterial = preload("res://resources/material/hurt_shader_material.tres")
 
@@ -38,6 +40,7 @@ var loot_tbl := {
 	ITEM_HEART.id: [0.10, 0.025],
 	ITEM_SAPPHIRE.id: [0.025],
 	ITEM_EMERALD.id: [0.075],
+	ITEM_RUBY.id: [0.025],
 }
 
 var last_position: Vector2
