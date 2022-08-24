@@ -2,10 +2,15 @@ class_name EnemySpawner extends Node
 
 const SPAWN_DISTANCE = 600
 
-var ENEMY_SLIME = preload("res://scenes/enemies/enemy_slime.tscn")
-var ENEMY_BEE = preload("res://scenes/enemies/enemy_bee.tscn")
+const ENEMY_SLIME = preload("res://scenes/enemies/enemy_slime.tscn")
+const ENEMY_BEE = preload("res://scenes/enemies/enemy_bee.tscn")
 
-var ENEMY_LIST = {"BEE": ENEMY_BEE, "SLIME": ENEMY_SLIME}
+const ENEMY_TYPE = [ENEMY_SLIME, ENEMY_BEE]
+# enum EnemyType{
+# 	SLIME = 0,
+# 	BEE = 1
+# }
+const ENEMY_DIST_LIST = [5, 1]
 
 export var enemy_limit: int = 120
 export var enabled: bool = true
@@ -83,7 +88,10 @@ func spawn_enemy_around_player(player: Duck, _name: String, times: int) -> void:
 		):
 			spawn_enemy_around_player(player, _name, times + 1)
 			return
-	MatchManager.custom_rpc_sync(self, "_rpc_sync_spawn_enemy", [rand_pos, player.name, _name])
+	var type = Randomizer.rand_with_int_chance_arr(ENEMY_DIST_LIST)
+	MatchManager.custom_rpc_sync(
+		self, "_rpc_sync_spawn_enemy", [rand_pos, type, player.name, _name]
+	)
 
 
 func free_enemy(enemy: Enemy):
@@ -97,8 +105,10 @@ func free_enemy(enemy: Enemy):
 	# map.cont.remove_child(enemy)
 
 
-func _rpc_sync_spawn_enemy(position: Vector2, username: String, _name: String) -> void:
-	var enemy = ENEMY_SLIME.instance().init(self,map.player_cont.get_node(username), _name, position )
+func _rpc_sync_spawn_enemy(position: Vector2, type: int, username: String, _name: String) -> void:
+	var enemy = ENEMY_TYPE[type].instance().init(
+		self, map.player_cont.get_node(username), _name, position
+	)
 	map.cont.add_child(enemy)
 	# print("SPAWNED: " + str(enemy.get_path()))
 	enemy.add_to_group("enemy")

@@ -3,11 +3,13 @@ extends Enemy
 const TYPE = "BEE"
 
 
-func init():
+func init(_spawner, _target: Duck, _name: String, _position: Vector2) -> Enemy:
 	mul_mv_speed = 1.5
-	hp = 2
+	hp_mul = 2
 	atk_dmg = 1
-	self.movement_ai = FlyEnemyMovementAI.new(self)
+	.init(_spawner, _target, _name, _position)
+	_set_movement_ai(FlyEnemyMovementAI.new(self))
+	return self
 
 
 func _ready() -> void:

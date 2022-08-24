@@ -25,8 +25,11 @@ func move_to_target() -> void:
 
 
 func move() -> void:
-	update_dir()
-	enemy.linear_velocity = dir
+	if enemy.position.distance_squared_to(enemy.target.position) > 100:
+		update_dir()
+		enemy.linear_velocity = dir
+	else:
+		enemy.linear_velocity = Vector2(0,0)
 
 
 func update_dir() -> void:

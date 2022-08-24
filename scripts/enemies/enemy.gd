@@ -54,6 +54,12 @@ func _get_custom_rpc_methods() -> Array:
 func _init() -> void:
 	mode = RigidBody2D.MODE_CHARACTER
 
+func init(_spawner, _target, _name: String, _position: Vector2):
+	spawner = _spawner
+	target = _target
+	name = _name
+	position = _position
+
 
 func _set_movement_ai(_ai: EnemyMovementAI) -> void:
 	movement_ai = _ai
