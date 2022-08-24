@@ -25,6 +25,8 @@ func move_to_target() -> void:
 
 
 func move() -> void:
+	if not active:
+		return
 	if enemy.position.distance_squared_to(enemy.target.position) > 100:
 		update_dir()
 		enemy.linear_velocity = dir
