@@ -33,14 +33,19 @@ func set_equipment(_equipment: Equipment) -> void:
 		$EquipButton.hide()
 	else:
 		$EquipButton.show()
-
+		
+	if EquipmentManager.is_sellable(equipment):
+		$SellButton.show()
+	else:
+		$SellButton.hide()
 
 func _ready():
-	# font = DynamicFont.new()
-	# font.font_data = load("res://resources/font/ui_font_small.tres")
 	pass
 
 
 func _on_EquipButton_pressed():
 	EquipmentManager.equip(equipment)
 	$EquipButton.hide()
+
+func _on_SellButton_pressed():
+	ScreenManager.show_sell_item_dialog(ScreenManager.DIALOG_SELL_ITEM, equipment)

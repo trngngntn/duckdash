@@ -124,6 +124,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/enemies/enemy_ai/land_enemy_movement_ai.gd"
 }, {
+"base": "Control",
+"class": "ListingItem",
+"language": "GDScript",
+"path": "res://scenes/items/listing_item.gd"
+}, {
 "base": "DropItem",
 "class": "ManualPickUpItem",
 "language": "GDScript",
@@ -143,6 +148,11 @@ _global_script_classes=[ {
 "class": "MapGenerator",
 "language": "GDScript",
 "path": "res://scripts/map/map_generator.gd"
+}, {
+"base": "Control",
+"class": "MarketListingItem",
+"language": "GDScript",
+"path": "res://scripts/items/market_listing_item.gd"
 }, {
 "base": "Stat",
 "class": "Modifier",
@@ -293,10 +303,12 @@ _global_script_class_icons={
 "ItemCount": "",
 "Joystick": "",
 "LandEnemyMovementAI": "",
+"ListingItem": "",
 "ManualPickUpItem": "",
 "Map": "",
 "MapGenStrategy": "",
 "MapGenerator": "",
+"MarketListingItem": "",
 "Modifier": "",
 "NakamaAPI": "",
 "NakamaAsyncResult": "",
@@ -343,6 +355,7 @@ EquipmentManager="*res://scripts/autoload/equipment_manager.gd"
 Updater="*res://scripts/autoload/updater.gd"
 StatManager="*res://scripts/autoload/stat_manager.gd"
 MatchManager="*res://scripts/autoload/match_manager.gd"
+MarketplaceManager="*res://scripts/autoload/marketplace_manager.gd"
 
 [debug]
 
