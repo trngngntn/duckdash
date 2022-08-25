@@ -197,6 +197,9 @@ func _on_MatchManager_player_joined(_player) -> void:
 func _on_MatchManager_player_left(_player) -> void:
 	del_player(_player)
 
+func _on_MatchManager_match_not_ready() -> void:
+	$ButtonContainer/MatchmakingButton.visible = true
+	$ButtonContainer/ReadyButton.visible = false
 
 func _on_MatchManager_player_status_changed(_player, status) -> void:
 	print("[LOG][MATCH]Received status change")

@@ -340,9 +340,9 @@ ScreenManager="*res://scripts/autoload/screen_manager.gd"
 NotificationManager="*res://scripts/autoload/notification_manager.gd"
 Randomizer="*res://scripts/autoload/randomizer.gd"
 EquipmentManager="*res://scripts/autoload/equipment_manager.gd"
+MatchManager="*res://scripts/autoload/match_manager.gd"
 Updater="*res://scripts/autoload/updater.gd"
 StatManager="*res://scripts/autoload/stat_manager.gd"
-MatchManager="*res://scripts/autoload/match_manager.gd"
 
 [debug]
 

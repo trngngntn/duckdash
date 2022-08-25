@@ -17,33 +17,38 @@ script = ExtResource( 3 )
 anchor_left = 0.25
 anchor_right = 0.75
 anchor_bottom = 0.8
+custom_constants/separation = 16
 
 [node name="UsernameEdit" type="LineEdit" parent="InputFieldCont"]
 margin_right = 750.0
-margin_bottom = 104.0
+margin_bottom = 88.0
+rect_min_size = Vector2( 0, 88 )
 rect_pivot_offset = Vector2( -1537, -253 )
 align = 1
 placeholder_text = "Username"
 
 [node name="EmailEdit" type="LineEdit" parent="InputFieldCont"]
-margin_top = 108.0
+margin_top = 104.0
 margin_right = 750.0
-margin_bottom = 212.0
+margin_bottom = 192.0
+rect_min_size = Vector2( 0, 88 )
 align = 1
 placeholder_text = "E-mail"
 
 [node name="PasswordEdit" type="LineEdit" parent="InputFieldCont"]
-margin_top = 216.0
+margin_top = 208.0
 margin_right = 750.0
-margin_bottom = 320.0
+margin_bottom = 296.0
+rect_min_size = Vector2( 0, 88 )
 align = 1
 secret = true
 placeholder_text = "Password"
 
 [node name="ConfirmPasswordEdit" type="LineEdit" parent="InputFieldCont"]
-margin_top = 324.0
+margin_top = 312.0
 margin_right = 750.0
-margin_bottom = 428.0
+margin_bottom = 400.0
+rect_min_size = Vector2( 0, 88 )
 align = 1
 secret = true
 placeholder_text = "Confirm Password"
@@ -71,8 +76,8 @@ anchor_bottom = 1.0
 margin_left = 40.0
 margin_top = 20.0
 margin_right = -40.0
-margin_bottom = -39.0
-rect_min_size = Vector2( 400, 80 )
+margin_bottom = -23.0
+rect_min_size = Vector2( 400, 96 )
 text = "Register"
 
 [node name="Control3" type="Control" parent="HBoxContainer"]

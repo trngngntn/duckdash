@@ -16,6 +16,7 @@ margin_right = 0.0
 margin_bottom = 0.0
 
 [node name="InfoPanel" parent="." instance=ExtResource( 3 )]
+visible = false
 anchor_left = 0.7
 
 [node name="ScrollContainer" parent="InfoPanel" index="0"]

@@ -32,12 +32,12 @@ func connect_pressed_signal(node: Node, method: String) -> void:
 
 
 func _on_receiveFriendRequest_notification(notification: NakamaAPI.ApiNotification):
-	notif.show_notification("Friend request", notification.subject)
+	notif.show_notif("Friend request", notification.subject)
 
 
 func _on_receiveLogin_error(errorMessage: String):
-	notif.show_notification("Error", errorMessage)
+	notif.show_notif("Error", errorMessage)
 
 
 func _on_receiveRegister_error(errorMessage: String):
-	notif.show_notification("Error", errorMessage)
+	notif.show_notif("Error", errorMessage)

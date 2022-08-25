@@ -188,7 +188,8 @@ func _hurt(raw_info: Dictionary) -> void:
 
 	if sprite.material:
 		sprite.material.set_shader_param("hurt", true)
-	Input.vibrate_handheld(75)
+	if MatchManager.is_network_master_for_node(self) && OS.has_touchscreen_ui_hint():
+		Input.vibrate_handheld(75)
 	$FlashTimer.start()
 
 func _force_update(_position: Vector2) -> void:

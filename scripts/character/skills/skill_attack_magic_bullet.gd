@@ -21,25 +21,18 @@ func _ready() -> void:
 	add_child(decay_timer)
 
 
-func trigger(player: Node, _direction: Vector2, _info: AtkInfo, re_trigger := false) -> void:
-	if re_trigger:
-		pass
+func trigger(player: Node, _direction: Vector2, _info: AtkInfo, _re_trigger := false) -> void:
 	peer_id = player.get_network_master()
 
 	direction = _direction.normalized()
-	position = player.position + (_direction.normalized() * Vector2(0.5, 1) * 32)
+	position = player.position + (direction * Vector2(0.5, 1) * 32)
 	position.y -= 26
 	$AnimatedSprite.rotation = direction.angle() + PI / 2
 	$AnimatedSprite.play("move")
 
 	player.get_parent().add_child(self)
-
 	decay_timer.start()
-
-
-func _re_trigger(player: Node, dir: Vector2, info: AtkInfo) -> void:
-	var new = duplicate(Node.DUPLICATE_GROUPS)
-	new.trigger(player, dir, info, true)
+	.trigger(player, _direction, _info, _re_trigger)
 
 
 func _physics_process(delta) -> void:

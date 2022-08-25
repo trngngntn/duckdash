@@ -10,9 +10,7 @@ const ITEM_EMERALD = {
 const ITEM_SAPPHIRE = {
 	"id": "SAPPHIRE", "res": preload("res://scenes/items/auto_pickup/sapphire.tscn")
 }
-const ITEM_RUBY = {
-	"id": "RUBY", "res": preload("res://scenes/items/auto_pickup/ruby.tscn")
-}
+const ITEM_RUBY = {"id": "RUBY", "res": preload("res://scenes/items/auto_pickup/ruby.tscn")}
 const DIST_LIMIT_SQ = 1000000
 const FLASH_MAT: ShaderMaterial = preload("res://resources/material/hurt_shader_material.tres")
 
@@ -20,6 +18,7 @@ var attack_ai: EnemyAttackAI
 var movement_ai: EnemyMovementAI
 
 var target: Node2D
+var eid: int
 
 var spawner
 
@@ -33,6 +32,7 @@ var mul_mv_speed: float = 1
 var atk_dmg: float = 5
 var atk_speed: float = 1
 var col_dmg: float = 5
+var scaling: float = 1
 
 var loot_tbl := {
 	ITEM_COIN.id: [0.4, 0.1, 0.05],
@@ -57,11 +57,13 @@ func _get_custom_rpc_methods() -> Array:
 func _init() -> void:
 	mode = RigidBody2D.MODE_CHARACTER
 
-func init(_spawner, _target, _name: String, _position: Vector2):
+
+func init(_spawner, _target, _name: String, _position: Vector2, _eid: int):
 	spawner = _spawner
 	target = _target
 	name = _name
 	position = _position
+	eid = _eid
 
 
 func _set_movement_ai(_ai: EnemyMovementAI) -> void:
@@ -75,13 +77,15 @@ func _ready() -> void:
 	sprite.material = FLASH_MAT.duplicate()
 
 	mv_speed *= mul_mv_speed
-	hp *= hp_mul
+	hp *= hp_mul * scaling
+	atk_dmg *= scaling
 
 	$CollisionAtkTimer.wait_time = 0.5
 	$DirectAtkTimer.wait_time = 1 / atk_speed
 
 	if MatchManager.is_network_server():
-		Updater.connect("timeout_slow", self, "_force_update")
+		Updater.connect("ptimeout", self, "_force_update")
+		Updater.connect("timeout_slow", self, "_force_check")
 		atk_timer = Timer.new()
 		atk_timer.wait_time = 1 / atk_speed
 		atk_timer.one_shot = false
@@ -137,7 +141,6 @@ func pre_kill():
 
 func kills(pos: Vector2, info_list: Array) -> void:
 	for info in info_list:
-		print("KILLL SER")
 		var item = get("ITEM_" + info["type"]).res.instance()
 		item.add_to_group("drop_item")
 		item.name = info["name"]
@@ -174,7 +177,21 @@ func get_atk_info(peer_id: int) -> AtkInfo:
 
 
 #### Update states functions
-func _force_update() -> void:
+var updated: bool = false
+func _force_update(seq: int) -> void:
+	if eid % Updater.PTIME != seq:
+		# if not updated:
+		# 	print("[LOG][ENEMY]Seq not match " + str(eid) + ":" + str(seq))
+		return
+	# if not updated:
+	# 	updated  = true
+	# 	print("[LOG][ENEMY]Updated EID:" + str(eid))
+	if position.distance_squared_to(last_position) > 4:
+		MatchManager.custom_rpc(self, "_update", [position])
+		last_position = position
+
+
+func _force_check() -> void:
 	if position.distance_squared_to(target.position) > DIST_LIMIT_SQ:
 		var players = get_tree().get_nodes_in_group("player")
 		var valid: bool = false
@@ -191,9 +208,6 @@ func _force_update() -> void:
 		if not valid:
 			MatchManager.custom_rpc_sync(self, "frees")
 			return
-	if position.distance_squared_to(last_position) > 4:
-		MatchManager.custom_rpc(self, "_update", [position])
-		last_position = position
 
 
 func _update(pos: Vector2) -> void:

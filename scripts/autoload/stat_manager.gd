@@ -4,7 +4,7 @@ var perc_modf = PercentageModifier
 var incr_modf = IncrementModifier
 
 var atk_damage = perc_modf
-var atk_range = perc_modf
+var atk_decay = perc_modf
 var atk_speed = perc_modf
 var fire_rate = perc_modf
 var crit_chance = perc_modf
@@ -57,7 +57,7 @@ class StatValues:
 	var coin: int = 0
 	var soul: int = 0
 
-	var max_hp: float = 100
+	var max_hp: float = 10000
 	var hp: float
 	var armour: int = 0
 	var regen: int = 0
@@ -71,7 +71,7 @@ class StatValues:
 	var kin_thres: float = 50
 
 	var atk_damage: float = 5
-	var atk_range: float = 1
+	var atk_decay: float = 1
 	var atk_speed: float = 1
 	var fire_rate: float = 1
 	var crit_chance: float = 0
@@ -152,8 +152,9 @@ func calculate_stat() -> void:
 
 				for stat in equipment.stat:
 					if stat is Modifier && !stat.is_stacked:
+						print(stat.stat_id)
 						var new_val = current_stat.get(stat.stat_id) + stat.get_add_value()
-						incr_stat.set(stat.stat_id, new_val)
+						current_stat.set(stat.stat_id, new_val)
 
 	current_stat.hp = current_stat.max_hp
 	players_stat[MatchManager.current_match.self_peer_id] = current_stat
