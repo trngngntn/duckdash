@@ -1,8 +1,15 @@
 package equipment
 
 import (
+	"context"
+	"database/sql"
+	"duckdash-nakama/nkperm"
+	"encoding/json"
+	"fmt"
 	"math"
+	"time"
 
+	"github.com/heroiclabs/nakama-common/runtime"
 	"golang.org/x/exp/rand"
 	"gonum.org/v1/gonum/stat/distuv"
 )
@@ -28,8 +35,10 @@ var TierName = []string{"", "COMMON", "UNCOMMON", "RARE", "EPIC", "LEGENDARY"}
 var StatCountProb = [...]int{8, 16, 4, 1}
 
 type EquipmentInterface interface {
+	HasSubType() []SubTypeInfo
 	RandEquipment() Equipment
-	// ToRawString(*Equipment) string
+	ToRawString(*Equipment) string
+	GetTypeName() string
 }
 
 /*-----------------------------------------------------------------------------------------------*/
@@ -52,7 +61,28 @@ func (info EquipmentInfo) RandEquipment() Equipment {
 	tier := randTier()
 	statCount := randStatCount(TierStatCount[tier])
 	statList, tier := info.randStatNonRarity(statCount, tier)
-	return Equipment{info.typeName, "", TierName[tier], statList}
+	equipment := Equipment{"", info.typeName, "", TierName[tier], statList}
+	equipment.Raw = info.ToRawString(&equipment)
+	return equipment
+}
+
+func (info EquipmentInfo) ToRawString(equipment *Equipment) string {
+	result := ""
+	result += fmt.Sprintf("%01x", info.rawId)
+	result += fmt.Sprintf("%02x", len(equipment.StatList))
+	for _, stat := range equipment.StatList {
+		result += fmt.Sprintf("%02x", stat.info.rawId)
+		result += fmt.Sprintf("%02x", stat.intensity)
+	}
+	return result
+}
+
+func (info EquipmentInfo) HasSubType() []SubTypeInfo {
+	return nil
+}
+
+func (info EquipmentInfo) GetTypeName() string {
+	return info.typeName
 }
 
 /*-----------------------------------------------------------------------------------------------*/
@@ -90,26 +120,34 @@ func (info EquipmentWithSubTypeInfo) RandEquipment() Equipment {
 	statCount := randStatCount(TierStatCount[tier])
 	subType := rand.Int() % len(info.subTypeList)
 	statList, tier := info.ConvertToEquipmentInfo(subType).randStatNonRarity(statCount, tier)
-	return Equipment{info.typeName, info.subTypeList[subType].name, TierName[tier], statList}
+	equipment := Equipment{"", info.typeName, info.subTypeList[subType].name, TierName[tier], statList}
+	equipment.Raw = info.ToRawString(&equipment)
+	return equipment
 }
 
-// func (info *EquipmentWithSubTypeInfo) ToRawString(equipment *Equipment) string {
-// 	result := ""
-// 	result += fmt.Sprintf("%01x", info.rawId)
-// 	for _, subTypeInfo := range info.subTypeList {
-// 		if subTypeInfo.name == equipment.SubType {
-// 			result += fmt.Sprintf("%01x", info.rawId)
-// 		}
-// 	}
-// 	result += fmt.Sprintf("%02x", len(equipment.StatList))
-// 	for _, stat := range equipment.StatList {
+func (info EquipmentWithSubTypeInfo) ToRawString(equipment *Equipment) string {
+	result := ""
+	result += fmt.Sprintf("%01x", info.rawId)
+	for _, subTypeInfo := range info.subTypeList {
+		if subTypeInfo.name == equipment.SubType {
+			result += fmt.Sprintf("%01x", subTypeInfo.rawId)
+		}
+	}
+	result += fmt.Sprintf("%02x", len(equipment.StatList))
+	for _, stat := range equipment.StatList {
+		result += fmt.Sprintf("%02x", stat.info.rawId)
+		result += fmt.Sprintf("%02x", stat.intensity)
+	}
+	return result
+}
 
-// 	}
-// 	return ""
-// }
+func (info EquipmentWithSubTypeInfo) HasSubType() []SubTypeInfo {
+	return info.subTypeList
+}
 
 /*-----------------------------------------------------------------------------------------------*/
 type Equipment struct {
+	Raw      string `json:"raw"`
 	TypeName string `json:"type_name"`
 	SubType  string `json:"sub_type"`
 	Tier     string `json:"tier"`
@@ -132,6 +170,13 @@ func getTier(rank float32) int {
 		}
 	}
 	return 0
+}
+
+func (eq *Equipment) GetTier() {
+	if len(eq.StatList) == 0 {
+		return
+	}
+	eq.Tier = TierName[getTier(rankSum(eq.StatList))]
 }
 
 func randStatVal(statInfoList []StatInfo, tier int) ([]Stat, float32) {
@@ -268,29 +313,137 @@ func randTier() int {
 	}
 }
 
-// func TestRandTier(times int) {
-// 	rand.Seed(uint64(time.Now().UTC().UnixNano()))
-// 	for i := 0; i < times; i++ {
-// 		randTier()
-// 	}
-// 	fmt.Printf("Common: %f %%\n", float32(common)*100/float32(times))
-// 	fmt.Printf("Unommon: %f %%\n", float32(uncommon)*100/float32(times))
-// 	fmt.Printf("Rare: %f %%\n", float32(rare)*100/float32(times))
-// 	fmt.Printf("Epic: %f %%\n", float32(epic)*100/float32(times))
-// 	fmt.Printf("Legendary: %f %%\n", float32(legenadary)*100/float32(times))
-// }
+func TestRandTier(times int) {
+	result := []int{0, 0, 0, 0, 0, 0}
+	rand.Seed(uint64(time.Now().UTC().UnixNano()))
+	for i := 0; i < times; i++ {
+		result[randTier()]++
+	}
+	fmt.Printf("Common: %f %%\n", float32(result[1]*100)/float32(times))
+	fmt.Printf("Unommon: %f %%\n", float32(result[2]*100)/float32(times))
+	fmt.Printf("Rare: %f %%\n", float32(result[3]*100)/float32(times))
+	fmt.Printf("Epic: %f %%\n", float32(result[4]*100)/float32(times))
+	fmt.Printf("Legendary: %f %%\n", float32(result[5]*100)/float32(times))
+}
 
-// func TestRandStatCount(times int) {
-// 	rand.Seed(uint64(time.Now().UTC().UnixNano()))
-// 	m := make(map[int]int)
-// 	for i := 0; i < times; i++ {
-// 		val := randStatCount(8)
-// 		_, e := m[val]
-// 		if !e {
-// 			m[val] = 1
-// 		} else {
-// 			m[val]++
-// 		}
-// 	}
-// 	fmt.Println(m)
-// }
+func TestRandStatCount(times int) {
+	rand.Seed(uint64(time.Now().UTC().UnixNano()))
+	m := make(map[int]int)
+	for i := 0; i < times; i++ {
+		val := randStatCount(8)
+		_, e := m[val]
+		if !e {
+			m[val] = 1
+		} else {
+			m[val]++
+		}
+	}
+	fmt.Println(m)
+}
+
+type StorageEquipmentList struct {
+	List []StorageEquipment `json:"list"`
+}
+
+type StorageEquipment struct {
+	Raw      string `json:"raw"`
+	Sellable bool   `json:"sellable"`
+}
+
+func (equipment *Equipment) ToStorageObj(sellable bool) StorageEquipment {
+	return StorageEquipment{equipment.Raw, sellable}
+}
+
+type StorageInventoryEquipmentList struct {
+	SkillCaster    []StorageEquipment `json:"skill_caster"`
+	Shield         []StorageEquipment `json:"shield"`
+	MoveBooster    []StorageEquipment `json:"mv_booster"`
+	AttackEnhancer []StorageEquipment `json:"atk_enhancer"`
+}
+
+func AddItemToUserInventory(equipment_hash string, uid string, db *sql.DB, context context.Context, nk runtime.NakamaModule) {
+	//// READ INVENTORY LIST
+	readObjIds := []*runtime.StorageRead{
+		{Collection: "inventory", Key: "skill_caster", UserID: uid},
+	}
+
+	storage, err := nk.StorageRead(context, readObjIds)
+	if err != nil {
+		panic(err)
+	}
+
+	var list StorageEquipmentList
+	if err := json.Unmarshal([]byte(storage[0].GetValue()), &list); err != nil {
+		panic(err)
+	}
+	new_equipment := StorageEquipment{equipment_hash, true}
+	list.List = append(list.List, new_equipment)
+
+	//// WRITE BACK TO STORAGE
+	storageList, err := json.Marshal(list)
+	if err != nil {
+		panic(err)
+	}
+	writeObjIds := []*runtime.StorageWrite{
+		{
+			Collection:      "inventory",
+			Key:             "skill_caster",
+			UserID:          uid,
+			Value:           string(storageList),
+			PermissionRead:  nkperm.PERM_OWNER_READ,
+			PermissionWrite: nkperm.PERM_NO_WRITE,
+		},
+	}
+
+	_, err = nk.StorageWrite(context, writeObjIds)
+	if err != nil {
+		// logger.WithField("err", err).Error("Storage write error.")
+		panic(err)
+	}
+}
+
+func RemoveItemFromUserInventory(equipment_hash string, uid string, db *sql.DB, context context.Context, nk runtime.NakamaModule) {
+	//// READ INVENTORY LIST
+	readObjIds := []*runtime.StorageRead{
+		{Collection: "inventory", Key: "skill_caster", UserID: uid},
+	}
+
+	storage, err := nk.StorageRead(context, readObjIds)
+	if err != nil {
+		panic(err)
+	}
+
+	var list StorageEquipmentList
+	if err := json.Unmarshal([]byte(storage[0].GetValue()), &list); err != nil {
+		panic(err)
+	}
+
+	var new_list StorageEquipmentList
+	for i := range list.List {
+		if list.List[i].Raw != equipment_hash {
+			new_list.List = append(new_list.List, list.List[i])
+		}
+	}
+
+	//// WRITE BACK TO STORAGE
+	storageList, err := json.Marshal(new_list)
+	if err != nil {
+		panic(err)
+	}
+	writeObjIds := []*runtime.StorageWrite{
+		{
+			Collection:      "inventory",
+			Key:             "skill_caster",
+			UserID:          uid,
+			Value:           string(storageList),
+			PermissionRead:  nkperm.PERM_OWNER_READ,
+			PermissionWrite: nkperm.PERM_NO_WRITE,
+		},
+	}
+
+	_, err = nk.StorageWrite(context, writeObjIds)
+	if err != nil {
+		// logger.WithField("err", err).Error("Storage write error.")
+		panic(err)
+	}
+}

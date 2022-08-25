@@ -13,11 +13,11 @@ type StatInfo struct {
 	rarity       uint8
 	maxIntensity uint8
 	intensityCal func(uint8) uint
-	rankWeight   int8
+	rankWeight   float32
 	rankCal      func(uint8) float32
 }
 
-func NewStatInfo(id string, desc string, rarity uint8, maxIntensity uint8, intensityCal func(uint8) uint, rankWeight int8, rankCal func(uint8) float32) *StatInfo {
+func NewStatInfo(id string, desc string, rarity uint8, maxIntensity uint8, intensityCal func(uint8) uint, rankWeight float32, rankCal func(uint8) float32) *StatInfo {
 	res := StatInfo{0, id, desc, rarity, maxIntensity, intensityCal, rankWeight, rankCal}
 	return &res
 }
