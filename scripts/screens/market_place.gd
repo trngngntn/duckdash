@@ -4,23 +4,36 @@ const TITLE = "Marketplace"
 const item_res = preload("res://scenes/items/listing_item.tscn")
 var font = preload("res://resources/font/ui_font_small.tres")
 var selected_listing_item: MarketListingItem
+var current_tab = 0
 
 func _ready():
-	MarketplaceManager.get_all_listing_item(false)
-	var listing_items = MarketplaceManager.getMarketListingItem()
-	update_item(listing_items)
+	MarketplaceManager.connect("update_marketplace", self, "update_market_item")
+	update_market_item()
 
-func update_item(items: Array) -> void:
-	for equipment in items:
+func update_market_item() -> void:
+	var items = MarketplaceManager.getMarketListingItem()
+	for child in $TabContainer/Market/ScrollContainer/MarketContainer.get_children():
+		$TabContainer/Market/ScrollContainer/MarketContainer.remove_child(child)
+	for equipment in items["market"]:
 		add_item(equipment)
+		
+	for equipment in items["listing"]:
+		add_my_listing_item(equipment)
 
 func add_item(item: MarketListingItem) -> void:
 	var new_item = item_res.instance()
 	new_item.setProperties(item)
 	new_item.connect("listing_item_selected", self, "_on_listing_item_selected")
-	$TabContainer/Market/ScrollContainer/GridContainer.add_child(new_item)
+	$TabContainer/Market/ScrollContainer/MarketContainer.add_child(new_item)
+
+func add_my_listing_item(item: MarketListingItem) -> void:
+	var new_item = item_res.instance()
+	new_item.setProperties(item)
+	new_item.connect("listing_item_selected", self, "_on_listing_item_selected")
+	$TabContainer/MyListing/ScrollContainer/MyListingContainer.add_child(new_item)
 
 func _on_listing_item_selected(item: MarketListingItem):
+	$Panel.visible = true
 	selected_listing_item = item
 	EquipmentManager.GetEquipmentDetail(item.item_raw)
 	var equipment = yield(EquipmentManager.self_instance, "got_equipment_detail")
@@ -48,7 +61,15 @@ func set_equipment(equipment: Equipment) -> void:
 		label.text = StatManager.stat_info_list[stat.stat_id]["format"] % stat.value
 		$Panel/ScrollContainer/VBoxContainer/StatList.add_child(label)
 		
-	$Panel/ScrollContainer/VBoxContainer/BuyButton.visible = true
+	if current_tab == 0:
+		$Panel/BuyButton.visible = true
+		$Panel/EditButton.visible = false
+		$Panel/DeleteButton.visible = false
+	
+	if current_tab == 1:
+		$Panel/BuyButton.visible = false
+		$Panel/EditButton.visible = true
+		$Panel/DeleteButton.visible = true
 
 func _on_BuyButton_pressed():
 	if selected_listing_item != null:
@@ -56,3 +77,17 @@ func _on_BuyButton_pressed():
 		
 func _on_ConfirmationDialog_confirmed():
 	MarketplaceManager.buyEquipmentFromMarket(selected_listing_item)
+
+func _on_TabContainer_tab_selected(tab):
+	current_tab = tab
+	if tab == 1:
+		$Panel.visible = false
+		
+func _on_EditButton_pressed():
+	ScreenManager.show_edit_listing_item_dialog(ScreenManager.DIALOG_EDIT_LISTING_ITEM, selected_listing_item)
+
+func _on_DeleteButton_pressed():
+	$DeleteListingItemDialog.visible = true
+
+func _on_DeleteListingItemDialog_confirmed():
+	MarketplaceManager.deleteListingItem(selected_listing_item)

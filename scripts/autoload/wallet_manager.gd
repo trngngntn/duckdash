@@ -35,7 +35,7 @@ func update_wallet(changeset: Dictionary) -> void:
 			NotificationManager.show_custom_notification("Error", "Session error!")
 			ScreenManager.change_screen(ScreenManager.SCREEN_LOGIN, false)
 			return
-		# print("[LOG][GOVER]Updating result")
+			# print("[LOG][GOVER]Updating result")
 
 	var payload = changeset
 	var response: NakamaAPI.ApiRpc = yield(

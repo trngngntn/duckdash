@@ -162,6 +162,12 @@ func GetEquipmentDetail(raw: String) -> Equipment:
 		emit_signal("got_equipment_detail", equipment)
 		return equipment
 
+func reload_inventory():
+	equipment_list = {
+		"skill_caster": [],
+		"enhancer": [],
+	}
+	get_inventory()
 
 # CALLBACKS
 func _on_session_created(_d) -> void:

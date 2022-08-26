@@ -13,6 +13,8 @@ const SCREEN_PROFILE = preload("res://scenes/screens/profile_screen.tscn")
 const SCREEN_EQUIPMENT_CRAFTING = preload("res://scenes/screens/dialog/equipment_crafting.tscn")
 const SCREEN_EQUIPMENT_SELECTOR = preload("res://scenes/screens/dialog/equipment_selector.tscn")
 const DIALOG_SELL_ITEM = preload("res://scenes/screens/dialog/sell_item_info_dialog.tscn")
+const DIALOG_EDIT_LISTING_ITEM = preload("res://scenes/screens/dialog/edit_my_listing_item.tscn")
+
 
 var screen_res_stack: Array = []
 var current_screen: Node
@@ -47,6 +49,14 @@ func show_small_dialog(screen_res: Resource) -> Node:
 func show_sell_item_dialog(screen_res: Resource, equipment: Equipment) -> Node:
 	var scrn = screen_res.instance()
 	scrn.setEquipmentHash(equipment)
+	small_dialog.append_node(scrn)
+	small_dialog.set_title(str(scrn.get("TITLE")))
+	small_dialog.show()
+	return scrn
+	
+func show_edit_listing_item_dialog(screen_res: Resource, listing_item: MarketListingItem) -> Node:
+	var scrn = screen_res.instance()
+	scrn.setLisingItem(listing_item)
 	small_dialog.append_node(scrn)
 	small_dialog.set_title(str(scrn.get("TITLE")))
 	small_dialog.show()
