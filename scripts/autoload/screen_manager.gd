@@ -7,7 +7,7 @@ const SCREEN_LOBBY = preload("res://scenes/screens/lobby.tscn")
 const SCREEN_INGAME = preload("res://scenes/screens/in_game.tscn")
 const SCREEN_CHANGE_EQUIP = preload("res://scenes/screens/equipment_changing.tscn")
 const SCREEN_INVENTORY = preload("res://scenes/screens/inventory.tscn")
-const SCREEN_MARKETPLACE = preload("res://scenes/screens/market_place.tscn")
+const SCREEN_MARKETPLACE = preload("res://scenes/screens/marketplace.tscn")
 const SCREEN_PROFILE = preload("res://scenes/screens/profile_screen.tscn")
 
 const SCREEN_EQUIPMENT_CRAFTING = preload("res://scenes/screens/dialog/equipment_crafting.tscn")

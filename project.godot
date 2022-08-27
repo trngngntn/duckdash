@@ -353,9 +353,9 @@ NotificationManager="*res://scripts/autoload/notification_manager.gd"
 Randomizer="*res://scripts/autoload/randomizer.gd"
 EquipmentManager="*res://scripts/autoload/equipment_manager.gd"
 MatchManager="*res://scripts/autoload/match_manager.gd"
-MarketplaceManager="*res://scripts/autoload/marketplace_manager.gd"
 Updater="*res://scripts/autoload/updater.gd"
 StatManager="*res://scripts/autoload/stat_manager.gd"
+MarketplaceManager="*res://scripts/autoload/marketplace_manager.gd"
 
 [debug]
 
@@ -455,4 +455,4 @@ quality/lightmapping/use_bicubic_sampling=false
 environment/default_clear_color=Color( 1, 1, 1, 1 )
 quality/depth/hdr.mobile=true
 environment/default_environment="res://default_env.tres"
-gles2/compatibility/disable_half_float=true
+<<<<<<<HEADgles2/compatibility/disable_half_float=true

@@ -53,14 +53,14 @@ func set_equipment(_equipment: Equipment) -> void:
 		$ScrollContainer/VBoxContainer/StatList.add_child(label)
 
 	if EquipmentManager.is_equipped(equipment):
-		$EquipButton.hide()
+		$ButtonCont/EquipButton.hide()
 	else:
-		$EquipButton.show()
+		$ButtonCont/EquipButton.show()
 		
 	if EquipmentManager.is_sellable(equipment):
-		$SellButton.show()
+		$ButtonCont/SellButton.show()
 	else:
-		$SellButton.hide()
+		$ButtonCont/SellButton.hide()
 
 func _ready():
 	pass
@@ -68,7 +68,7 @@ func _ready():
 
 func _on_EquipButton_pressed():
 	EquipmentManager.equip(equipment)
-	$EquipButton.hide()
+	$ButtonCont/EquipButton.hide()
 
 func _on_SellButton_pressed():
 	ScreenManager.show_sell_item_dialog(ScreenManager.DIALOG_SELL_ITEM, equipment)
