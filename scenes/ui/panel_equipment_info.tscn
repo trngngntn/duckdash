@@ -52,26 +52,60 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -200.0
+margin_left = -300.0
 margin_top = -110.0
-margin_right = 200.0
+margin_right = 300.0
 margin_bottom = -30.0
 custom_constants/separation = 24
 
+[node name="SpacingLeft" type="Control" parent="ButtonCont"]
+margin_right = 78.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+
 [node name="EquipButton" type="Button" parent="ButtonCont"]
-margin_right = 199.0
+margin_left = 102.0
+margin_right = 301.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 0, 80 )
 size_flags_horizontal = 3
 text = "Equip"
 
 [node name="SellButton" type="Button" parent="ButtonCont"]
-margin_left = 223.0
-margin_right = 400.0
+margin_left = 325.0
+margin_right = 497.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 0, 80 )
 size_flags_horizontal = 3
 text = "Sell"
+
+[node name="BuyButton" type="Button" parent="ButtonCont"]
+visible = false
+margin_left = 443.0
+margin_right = 606.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+text = "Buy"
+
+[node name="EditButton" type="Button" parent="ButtonCont"]
+visible = false
+margin_left = 443.0
+margin_right = 618.0
+margin_bottom = 80.0
+text = "Edit"
+
+[node name="CancelButton" type="Button" parent="ButtonCont"]
+visible = false
+margin_left = 459.0
+margin_right = 559.0
+margin_bottom = 80.0
+text = "Cancel"
+
+[node name="SpacingRight" type="Control" parent="ButtonCont"]
+margin_left = 521.0
+margin_right = 600.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
 
 [connection signal="pressed" from="ButtonCont/EquipButton" to="." method="_on_EquipButton_pressed"]
 [connection signal="pressed" from="ButtonCont/SellButton" to="." method="_on_SellButton_pressed"]

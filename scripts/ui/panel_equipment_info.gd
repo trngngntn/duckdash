@@ -20,11 +20,25 @@ const FONT_TIER_LEGENDARY = {
 	"res": preload("res://resources/font/ui_font_tier_5.tres"), "color": Color("ffcb00")
 }
 
+const  FONT_TIER_LIST = {
+	"BASIC": FONT_TIER_BASIC,
+	"COMMON": FONT_TIER_COMMON,
+	"UNCOMMON": FONT_TIER_UNCOMMON,
+	"RARE": FONT_TIER_RARE,
+	"EPIC": FONT_TIER_EPIC,
+	"LEGENDARY": FONT_TIER_LEGENDARY,
+}
+
+export var listing_mode: bool = false
+var self_listing: bool = false setget _set_self_listing
 var equipment: Equipment setget set_equipment
 var font = preload("res://resources/font/ui_font_small.tres")
 
 onready var eq_name = $ScrollContainer/VBoxContainer/Name
 
+func _ready():
+	if listing_mode:
+		_listing_mode()
 
 func set_equipment(_equipment: Equipment) -> void:
 	for child in $ScrollContainer/VBoxContainer/StatList.get_children():
@@ -51,7 +65,9 @@ func set_equipment(_equipment: Equipment) -> void:
 		label.set("custom_fonts/font", font)
 		label.text = StatManager.stat_info_list[stat.stat_id]["format"] % stat.value
 		$ScrollContainer/VBoxContainer/StatList.add_child(label)
-
+	
+	if listing_mode:
+		return 
 	if EquipmentManager.is_equipped(equipment):
 		$ButtonCont/EquipButton.hide()
 	else:
@@ -62,9 +78,22 @@ func set_equipment(_equipment: Equipment) -> void:
 	else:
 		$ButtonCont/SellButton.hide()
 
-func _ready():
-	pass
 
+func _listing_mode():
+	$ButtonCont/EquipButton.hide()
+	$ButtonCont/SellButton.hide()
+	$ButtonCont/BuyButton.show()
+
+func _set_self_listing(state: bool):
+	self_listing = state
+	if state:
+		$ButtonCont/BuyButton.hide()
+		$ButtonCont/EditButton.show()
+		$ButtonCont/CancelButton.show()
+	else:
+		$ButtonCont/BuyButton.show()
+		$ButtonCont/EditButton.hide()
+		$ButtonCont/CancelButton.hide()
 
 func _on_EquipButton_pressed():
 	EquipmentManager.equip(equipment)

@@ -24,17 +24,17 @@ func add_item(item: Equipment) -> void:
 	var new_item = item_res.instance()
 	new_item.equipment = item
 	new_item.connect("selected", self, "_on_item_selected")
-	$GridContainer.add_child(new_item)
+	$Margin/GridContainer.add_child(new_item)
 
 
 func _update_sizing() -> void:
 	yield(get_tree(), "idle_frame")
-	var item_col = floor((rect_size.x - 20) / (min_gap + item_size))
-	var gap = ((rect_size.x - 20) - item_col * item_size) / (item_col - 1)
-	$GridContainer.columns = item_col
+	var item_col = floor((rect_size.x - 40) / (min_gap + item_size))
+	var gap = ((rect_size.x - 40) - item_col * item_size) / (item_col - 1)
+	$Margin/GridContainer.columns = item_col
 	# print("COLL: " + str(rect_size))
-	$GridContainer.add_constant_override("hseparation", gap)
-	$GridContainer.add_constant_override("vseparation", gap)
+	$Margin/GridContainer.add_constant_override("hseparation", gap)
+	$Margin/GridContainer.add_constant_override("vseparation", gap)
 
 
 func _on_squeezed() -> void:

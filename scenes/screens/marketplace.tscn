@@ -24,9 +24,8 @@ margin_bottom = -35.0
 rect_pivot_offset = Vector2( 968, 281 )
 
 [node name="TabContainer" type="TabContainer" parent="."]
-anchor_right = 0.7
+anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -32.0
 tab_align = 0
 
 [node name="For sale" parent="TabContainer" instance=ExtResource( 4 )]
@@ -35,7 +34,9 @@ tab_align = 0
 visible = false
 
 [node name="InfoPanel" parent="." instance=ExtResource( 2 )]
+visible = false
 anchor_left = 0.7
+listing_mode = true
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
 anchor_left = 0.5
@@ -59,6 +60,11 @@ margin_right = 300.5
 margin_bottom = 85.0
 dialog_text = "Confirm to delete this listing ?"
 
-[connection signal="tab_selected" from="TabContainer" to="." method="_on_TabContainer_tab_selected"]
+[connection signal="tab_changed" from="TabContainer" to="." method="_on_TabContainer_tab_changed"]
+[connection signal="pressed" from="InfoPanel/ButtonCont/BuyButton" to="." method="_on_BuyButton_pressed"]
+[connection signal="pressed" from="InfoPanel/ButtonCont/EditButton" to="." method="_on_EditButton_pressed"]
+[connection signal="pressed" from="InfoPanel/ButtonCont/CancelButton" to="." method="_on_CancelButton_pressed"]
 [connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_ConfirmationDialog_confirmed"]
 [connection signal="confirmed" from="DeleteListingItemDialog" to="." method="_on_DeleteListingItemDialog_confirmed"]
+
+[editable path="InfoPanel"]

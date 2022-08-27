@@ -10,7 +10,7 @@ signal squeezed
 func _ready() -> void:
 	EquipmentManager.connect("equipment_added", self, "_on_equipment_added")
 	for container in $TabContainer.get_children():
-		var _d := connect("squeezed", container, "_on_squeezed")
+		connect("squeezed", container, "_on_squeezed")
 	$TabContainer/Weapon.update_item(EquipmentManager.equipment_list["skill_caster"])
 	$TabContainer/Weapon.connect("item_selected", self, "_on_item_selected")
 	pass
@@ -29,7 +29,6 @@ func _on_item_selected(item: InventoryItem) -> void:
 	squeeze()
 	$InfoPanel.show()
 	$InfoPanel.set_equipment(item.equipment)
-	pass
 
 
 func _on_equipment_added(equipment: Equipment) -> void:

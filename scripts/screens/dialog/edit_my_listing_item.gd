@@ -6,7 +6,7 @@ var listing
 
 func set_lising(_listing: Listing):
 	listing= _listing
-	$VBoxContainer/PriceInput.text = listing.price
+	$VBoxContainer/PriceInput.text = str(listing.price)
 
 func _ready():
 	pass # Replace with function body.

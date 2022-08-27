@@ -1,12 +1,12 @@
 class_name Listing
 
 var id: int 
-var item_raw: String 
+var equipment: Equipment
 var price: int 
 var seller: String 
 
 func _init(item):
 	id = item["id"]
-	item_raw = item["equipment_hash"]
+	equipment = EquipmentManager.dict2equipment(item["equipment"])
 	price = item["price"]
 	seller = item["user_id"]

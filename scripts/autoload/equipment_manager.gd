@@ -32,8 +32,10 @@ func _init() -> void:
 func is_equipped(equipment: Equipment) -> bool:
 	return EquipmentManager.equipped[equipment.type_name].has(equipment)
 
+
 func is_sellable(equipment: Equipment) -> bool:
 	return equipment.tier != "BASIC"
+
 
 func equip(equipment: Equipment) -> void:
 	match equipment.type_name:
@@ -81,6 +83,11 @@ func dict2equipment(result: Dictionary) -> Equipment:
 		else:
 			stat = Stat.new(raw_stat["name"], raw_stat["value"])
 		equipment.stat.push_back(stat)
+
+	match equipment.type_name:
+		"skill_caster":
+			equipment = SkillCaster.new(equipment)
+
 	return equipment
 
 
@@ -144,7 +151,7 @@ func GetEquipmentDetail(raw: String) -> Equipment:
 			NotificationManager.show_custom_notification("Error", "Session error!")
 			ScreenManager.change_screen(ScreenManager.SCREEN_LOGIN, false)
 			return
-			
+
 	var payload = {"raw": raw}
 	var response: NakamaAPI.ApiRpc = yield(
 		Conn.nkm_client.rpc_async(Conn.nkm_session, "get_equipment_by_raw", JSON.print(payload)),
@@ -155,12 +162,8 @@ func GetEquipmentDetail(raw: String) -> Equipment:
 		return null
 	else:
 		var equipment = parse_equipment(response.payload)
-		match equipment.type_name:
-			"skill_caster":
-				equipment = SkillCaster.new(equipment)
-	
-		emit_signal("got_equipment_detail", equipment)
 		return equipment
+
 
 func reload_inventory():
 	equipment_list = {
@@ -168,6 +171,7 @@ func reload_inventory():
 		"enhancer": [],
 	}
 	get_inventory()
+
 
 # CALLBACKS
 func _on_session_created(_d) -> void:

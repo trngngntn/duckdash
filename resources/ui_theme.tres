@@ -1,10 +1,12 @@
-[gd_resource type="Theme" load_steps=14 format=2]
+[gd_resource type="Theme" load_steps=16 format=2]
 
 [ext_resource path="res://resources/ui/ui_textbox.tres" type="StyleBox" id=1]
 [ext_resource path="res://resources/font/ui_font.tres" type="DynamicFont" id=2]
 [ext_resource path="res://resources/ui/ui_button_normal.tres" type="StyleBox" id=3]
 [ext_resource path="res://resources/ui/ui_button_hover.tres" type="StyleBox" id=4]
 [ext_resource path="res://resources/font/ui_font_bold.tres" type="DynamicFont" id=5]
+[ext_resource path="res://resources/ui/ui_scroll_bg.tres" type="StyleBox" id=6]
+[ext_resource path="res://resources/ui/ui_scroll_handle_normal.tres" type="StyleBox" id=7]
 [ext_resource path="res://resources/ui/ui_button_pressed.tres" type="StyleBox" id=8]
 [ext_resource path="res://resources/ui/ui_button_focus.tres" type="StyleBox" id=9]
 [ext_resource path="res://resources/ui/ui_textbox_focus.tres" type="StyleBox" id=10]
@@ -45,3 +47,5 @@ TabContainer/styles/tab_fg = ExtResource( 12 )
 TextEdit/fonts/font = ExtResource( 2 )
 TextEdit/styles/focus = ExtResource( 10 )
 TextEdit/styles/normal = ExtResource( 1 )
+VScrollBar/styles/grabber = ExtResource( 7 )
+VScrollBar/styles/scroll = ExtResource( 6 )

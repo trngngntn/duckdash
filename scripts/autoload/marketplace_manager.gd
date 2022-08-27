@@ -35,7 +35,7 @@ func list_equipment_to_market(equipment: Equipment, price: int) -> void:
 	reload_marketplace()
 
 
-func get_all_listing_item():
+func fetch_listings():
 	if Conn.nkm_session == null or Conn.nkm_session.is_expired():
 		Conn.renew_session()
 		yield(Conn, "session_changed")
@@ -108,7 +108,7 @@ func edit_listing(listing_item: Listing, price: int):
 	reload_marketplace()
 	emit_signal("update_marketplace")
 
-func deleteListingItem(listing_item: Listing):
+func delete_listing(listing_item: Listing):
 	if Conn.nkm_session == null or Conn.nkm_session.is_expired():
 		Conn.renew_session()
 		yield(Conn, "session_changed")
@@ -130,7 +130,7 @@ func deleteListingItem(listing_item: Listing):
 
 # CALLBACKS
 func _on_session_created(_d) -> void:
-	get_all_listing_item()
+	fetch_listings()
 
 func _on_session_changed(_d) -> void:
 	listing_items = {
@@ -143,4 +143,4 @@ func reload_marketplace():
 		"market": [],
 		"listing": []
 	}
-	get_all_listing_item()
+	fetch_listings()
