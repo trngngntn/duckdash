@@ -26,8 +26,9 @@ func _on_CraftButton_pressed():
 	EquipmentManager.craft_equipment(EquipmentManager.TYPE_SKILL_CASTER)
 	var e = yield(EquipmentManager.self_instance, "equipment_crafted")
 	var info = panel_equipment.instance()
-	info.equipment = e
 	add_child(info)
+	info.equipment = e
+	
 
 
 func _on_change_type(added: bool):

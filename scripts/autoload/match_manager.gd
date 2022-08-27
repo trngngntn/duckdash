@@ -128,6 +128,7 @@ func leave_current_match(close_socket: bool = false) -> void:
 	self.current_match = null
 	match_state = MatchState.LOBBY
 	match_mode = MatchMode.NONE
+	emit_signal("disconnected")
 
 
 ####-----------------------------------------------------------------------------------------------
@@ -250,8 +251,8 @@ func _on_nakama_match_presence(data: NakamaRTAPI.MatchPresenceEvent) -> void:
 		return
 
 	print("[LOG][MATCH_MAN]Presence received: " + str(data))
-	if MatchMode.SINGLE:
-		return
+	# if MatchMode.SINGLE:
+	# 	return
 	for user in data.joins:
 		if user.session_id == current_match.self_session_id:
 			continue
@@ -277,8 +278,10 @@ func _on_nakama_match_presence(data: NakamaRTAPI.MatchPresenceEvent) -> void:
 
 		for user in data.leaves:
 			if user.session_id == current_match.self_session_id:
+				print("[LOG][MATCH_MAN]Self leave")
 				continue
 			if not current_match.players.has(user.session_id):
+				print("[LOG][MATCH_MAN]Player not present")
 				continue
 
 			var player = current_match.players[user.session_id]
@@ -286,21 +289,34 @@ func _on_nakama_match_presence(data: NakamaRTAPI.MatchPresenceEvent) -> void:
 			# If the host disconnects, this is the end!
 			emit_signal("player_left", player)
 			print("[LOG][MATCH_MAN]Emitting player left signal")
-			if player.peer_id == 1:
+
+			if match_state != MatchState.PLAYING:
+				print("[LOG][MATCH_MAN]Re-matchmaking")
+				emit_signal("match_not_ready")
 				leave_current_match()
-				if match_state != MatchState.PLAYING:
-					match_state = MatchState.LOBBY
-					start_matchmaking(nkm_socket, cached_data)
-				emit_signal("host_disconnected")
+				yield(self ,"disconnected")
+				match_state = MatchState.LOBBY
+				start_matchmaking(nkm_socket, cached_data)
+				
 
-			else:
-				current_match.players.erase(user.session_id)
+			# if player.peer_id == 1:
+			# 	leave_current_match()
+			# 	yield(self ,"disconnected")
+			# 	if match_state != MatchState.PLAYING:
+			# 		print("[LOG][MATCH_MAN]Re-matchmaking")
+			# 		match_state = MatchState.LOBBY
+			# 		start_matchmaking(nkm_socket, cached_data)
+			# 	emit_signal("host_disconnected")
+			# 	emit_signal("match_not_ready")
 
-				if current_match.players.size() < min_player:
-					# If state was previously ready, but this brings us below the minimum players,
-					# then we aren't ready anymore.
-					if match_state == MatchState.READY || match_state == MatchState.PLAYING:
-						emit_signal("match_not_ready")
+			# else:
+			# 	current_match.players.erase(user.session_id)
+
+			# 	if current_match.players.size() < min_player:
+			# 		# If state was previously ready, but this brings us below the minimum players,
+			# 		# then we aren't ready anymore.
+			# 		if match_state == MatchState.READY || match_state == MatchState.PLAYING:
+			# 			emit_signal("match_not_ready")
 
 
 func _on_match_state_received(data: NakamaRTAPI.MatchData) -> void:
@@ -317,7 +333,8 @@ func _on_match_state_received(data: NakamaRTAPI.MatchData) -> void:
 		if not rpc_data.has("peer_id") || rpc_data["peer_id"] == current_match.self_peer_id:
 			var node = get_node(rpc_data["node_path"])
 			if not node || not is_instance_valid(node) || node.is_queued_for_deletion():
-				push_warning("CUSTOM_RPC_ERR: node is not valid")
+				# get_tree().paused = true
+				push_warning("CUSTOM_RPC_ERR: node is not valid, CALLING:" + rpc_data["method"])
 				return
 			if (
 				not node.has_method("_get_custom_rpc_methods")
@@ -359,6 +376,10 @@ func _on_match_state_received(data: NakamaRTAPI.MatchData) -> void:
 		if rpc_data["target"] == current_match.self_session_id:
 			leave_current_match()
 			emit_signal("error", rpc_data["reason"])
+
+
+####-----------------------------------------------------------------------------------------------
+## Node related functions
 
 
 func get_network_unique_id() -> int:
@@ -425,8 +446,9 @@ func custom_rpc_id(node: Node, id: int, method: String, args: Array = []) -> voi
 
 
 func custom_rpc_sync(node: Node, method: String, args: Array = []) -> void:
-	node.callv(method, args)
+	# print("RPC_SYNC " + str(node.get_path()) + " : " + str(node.is_inside_tree()))
 	custom_rpc(node, method, args)
+	node.callv(method, args)
 
 
 func custom_rpc_id_sync(node: Node, id: int, method: String, args: Array = []) -> void:

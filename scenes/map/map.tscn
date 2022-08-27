@@ -57,7 +57,7 @@ format = 1
 
 [node name="EnemySpawner" type="Node" parent="."]
 script = ExtResource( 4 )
-enabled = false
+enemy_limit = 100
 
 [node name="Timer" type="Timer" parent="EnemySpawner"]
 wait_time = 5.0

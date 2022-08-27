@@ -10,7 +10,7 @@ const ITEM_EMERALD = {
 const ITEM_SAPPHIRE = {
 	"id": "SAPPHIRE", "res": preload("res://scenes/items/auto_pickup/sapphire.tscn")
 }
-
+const ITEM_RUBY = {"id": "RUBY", "res": preload("res://scenes/items/auto_pickup/ruby.tscn")}
 const DIST_LIMIT_SQ = 1000000
 const FLASH_MAT: ShaderMaterial = preload("res://resources/material/hurt_shader_material.tres")
 
@@ -18,6 +18,9 @@ var attack_ai: EnemyAttackAI
 var movement_ai: EnemyMovementAI
 
 var target: Node2D
+var eid: int
+
+var spawner
 
 var atk_timer: Timer
 var flash_timer: Timer
@@ -29,6 +32,7 @@ var mul_mv_speed: float = 1
 var atk_dmg: float = 5
 var atk_speed: float = 1
 var col_dmg: float = 5
+var scaling: float = 1
 
 var loot_tbl := {
 	ITEM_COIN.id: [0.4, 0.1, 0.05],
@@ -36,6 +40,7 @@ var loot_tbl := {
 	ITEM_HEART.id: [0.10, 0.025],
 	ITEM_SAPPHIRE.id: [0.025],
 	ITEM_EMERALD.id: [0.075],
+	ITEM_RUBY.id: [0.025],
 }
 
 var last_position: Vector2
@@ -51,40 +56,43 @@ func _get_custom_rpc_methods() -> Array:
 
 func _init() -> void:
 	mode = RigidBody2D.MODE_CHARACTER
-	if MatchManager.is_network_server():
-		Updater.connect("timeout", self, "_force_update")
+
+
+func init(_spawner, _target, _name: String, _position: Vector2, _eid: int):
+	spawner = _spawner
+	target = _target
+	name = _name
+	position = _position
+	eid = _eid
 
 
 func _set_movement_ai(_ai: EnemyMovementAI) -> void:
 	movement_ai = _ai
+	add_child(movement_ai)
+	# movement_ai.name ="MovementAI"
 
 
 func _ready() -> void:
 	last_position = position
+	sprite.material = FLASH_MAT.duplicate()
 
 	mv_speed *= mul_mv_speed
-	hp *= hp_mul
-
-	flash_timer = Timer.new()
-	flash_timer.wait_time = .2
-	flash_timer.one_shot = true
-	flash_timer.connect("timeout", self, "_flash_timer_timeout")
-	add_child(flash_timer)
+	hp *= hp_mul * scaling
+	atk_dmg *= scaling
 
 	$CollisionAtkTimer.wait_time = 0.5
 	$DirectAtkTimer.wait_time = 1 / atk_speed
 
-	if movement_ai:
-		add_child(movement_ai)
-		if MatchManager.is_network_server():
-			movement_ai.move_to_target()
-
 	if MatchManager.is_network_server():
+		Updater.connect("ptimeout", self, "_force_update")
+		Updater.connect("timeout_slow", self, "_force_check")
 		atk_timer = Timer.new()
 		atk_timer.wait_time = 1 / atk_speed
 		atk_timer.one_shot = false
 		atk_timer.connect("timeout", self, "_on_atk_timer_timeout")
 		add_child(atk_timer)
+		if movement_ai:
+			movement_ai.move_to_target()
 	else:
 		$EnemyHitboxArea/CollisionPolygon2D.disabled = true
 
@@ -94,7 +102,8 @@ func _physics_process(_delta) -> void:
 		if not is_instance_valid(target) || target.is_queued_for_deletion():
 			var players = get_tree().get_nodes_in_group("player")
 			if players.size() == 0:
-				queue_free()
+				# queue_free()
+				spawner.free_enemy(self)
 				return
 
 			var min_dist_player = players[0]
@@ -106,9 +115,7 @@ func _physics_process(_delta) -> void:
 						min_dist_player = player
 						min_dist = dist
 			target = min_dist_player
-		if position.distance_squared_to(target.position) > DIST_LIMIT_SQ:
-			MatchManager.custom_rpc_sync(self, "frees")
-			return
+
 	if movement_ai:
 		movement_ai.move()
 
@@ -141,40 +148,66 @@ func kills(pos: Vector2, info_list: Array) -> void:
 		item.fdir = info["dir"]
 		# get_parent().add_child(item)
 		get_parent().call_deferred("add_child", item)
-	queue_free()
+	# queue_free()
+	spawner.free_enemy(self)
 
 
 func frees() -> void:
-	queue_free()
+	# queue_free()
+	spawner.free_enemy(self)
 
 
 func hurt(raw_info: Dictionary) -> void:
 	var info: AtkInfo = AtkInfo.new().from_dict(raw_info)
-	sprite.material = FLASH_MAT.duplicate()
 	sprite.material.set_shader_param("hurt", true)
 	hp -= info.dmg
 	if hp <= 0:
 		$EnemyHitboxArea/CollisionPolygon2D.set_deferred("disabled", true)
 		damageble = false
 		movement_ai = null
-		pre_kill()
+		if MatchManager.is_network_server():
+			pre_kill()
 		set_physics_process(false)
-	flash_timer.start()
+	else:
+		$FlashTimer.start()
 
 
 func get_atk_info(peer_id: int) -> AtkInfo:
 	return AtkInfo.new().create(-1, peer_id, atk_dmg, [])
 
 
-func _flash_timer_timeout() -> void:
-	sprite.material.set_shader_param("hurt", false)
-
-
 #### Update states functions
-func _force_update() -> void:
+var updated: bool = false
+func _force_update(seq: int) -> void:
+	if eid % Updater.PTIME != seq:
+		# if not updated:
+		# 	print("[LOG][ENEMY]Seq not match " + str(eid) + ":" + str(seq))
+		return
+	# if not updated:
+	# 	updated  = true
+	# 	print("[LOG][ENEMY]Updated EID:" + str(eid))
 	if position.distance_squared_to(last_position) > 4:
 		MatchManager.custom_rpc(self, "_update", [position])
 		last_position = position
+
+
+func _force_check() -> void:
+	if position.distance_squared_to(target.position) > DIST_LIMIT_SQ:
+		var players = get_tree().get_nodes_in_group("player")
+		var valid: bool = false
+		for player in players:
+			if (
+				is_instance_valid(player)
+				&& not player.is_queued_for_deletion()
+				&& player != target
+				&& position.distance_squared_to(player.position) <= DIST_LIMIT_SQ
+			):
+				valid = true
+				target = player
+				break
+		if not valid:
+			MatchManager.custom_rpc_sync(self, "frees")
+			return
 
 
 func _update(pos: Vector2) -> void:
@@ -204,3 +237,11 @@ func _on_HitboxArea_area_exited(area: Area2D):
 func _on_atk_timer_timeout():
 	for node in colliding:
 		node.hurt(get_atk_info(node.get_network_master()))
+
+
+func _on_FlashTimer_timeout():
+	sprite.material.set_shader_param("hurt", false)
+
+
+func _on_Node2D_tree_exiting():
+	pass

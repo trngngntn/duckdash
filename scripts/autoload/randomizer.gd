@@ -1,5 +1,6 @@
 extends Node
 
+
 func rand_loot_table(loot_tbl: Dictionary) -> Array:
 	randomize()
 	var offset: float = randf()
@@ -15,3 +16,19 @@ func rand_loot_table(loot_tbl: Dictionary) -> Array:
 				break
 	return result
 
+
+func rand_with_int_chance_arr(arr: Array) -> int:
+	var cumulative_arr: Array = []
+	var temp: int = 0
+	for val in arr:
+		temp += val
+		cumulative_arr.append(val)
+
+	var offset: int = randi() % temp
+	var rand_val = (randi() % temp + temp - offset) % temp
+
+	for i in range(0, cumulative_arr.size()):
+		if cumulative_arr[i] > rand_val:
+			return i
+
+	return -1

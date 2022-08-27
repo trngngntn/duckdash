@@ -121,18 +121,19 @@ func _start() -> void:
 func _on_game_over(reason: String) -> void:
 	Updater.stop()
 	game_over = true
-	print("ENDGAMAE")
+	if not is_instance_valid(map) || map.is_queued_for_deletion():
+		remove_child(map)
+		map.queue_free()
 	$CanvasLayer/GameOver.set_reason(reason)
 	$CanvasLayer/GameOver.show()
-	if not is_instance_valid(map) || map.is_queued_for_deletion():
-		map.queue_free()
+	
 	get_tree().paused = false
 
 
 func _on_player_dead(player_id) -> void:
 	emit_signal("player_dead", player_id)
-
 	if player_id == my_id:
+		# MatchManager.custom_rpc_sync(self, "_rpc_player_dead", [REAS])
 		MatchManager.current_match.stop_game(REASON_YOU_DIED)
 	else:
 		MatchManager.current_match.stop_game(REASON_PLAYER_DIED)
@@ -141,6 +142,9 @@ func _on_player_dead(player_id) -> void:
 
 	# 	var player_keys = players_alive.keys()
 	# 	# emit_signal("game_over", player_keys[0])
+
+func _rpc_player_dead(reason: String) -> void:
+	MatchManager.current_match.stop_game(reason)
 
 func _on_MenuButton_pressed():
 	if MatchManager.match_mode == MatchManager.MatchMode.SINGLE:

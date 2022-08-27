@@ -147,6 +147,7 @@ func stop_game(reason: String) -> void:
 	MatchManager.emit_signal("game_over", reason)
 	MatchManager.leave_current_match()
 
+	
 # func _on_Game_game_started() -> void:
 # 	#ui_layer.hide_screen()
 # 	#ui_layer.hide_all()

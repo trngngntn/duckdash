@@ -13,17 +13,18 @@ func _ready() -> void:
 	add_child(decay_timer)
 
 
-func trigger(player: Node, _direction: Vector2, _info: AtkInfo) -> void:
+func trigger(player: Node, _direction: Vector2, _info: AtkInfo, _re_trigger: bool = false) -> void:
 	peer_id = player.get_network_master()
-	
+
 	player.get_parent().add_child(self)
 	direction = _direction.normalized()
 	position = player.position + (_direction.normalized() * Vector2(0.5, 1) * 32)
-	position.y -= 26 
+	position.y -= 26
 	$AnimatedSprite.rotation = direction.angle() + PI / 2
 	$CollisionPolygon2D.rotation = direction.angle() + PI / 2
 	$AnimatedSprite.play("move")
 	decay_timer.start()
+	.trigger(player, _direction, _info, _re_trigger)
 
 
 func _physics_process(delta) -> void:

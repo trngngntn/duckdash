@@ -3,12 +3,15 @@ extends ColorRect
 var ok: bool = false
 
 
+func _ready() -> void:
+	WalletManager.connect("error", self, "_on_wallet_update_error")
+	WalletManager.connect("updated", self, "_on_wallet_updated")
+
+
 func show() -> void:
 	.show()
 	$Panel/ResultCont/Coin.text = str(StatManager.current_stat.coin)
 	$Panel/ResultCont/Soul.text = str(StatManager.current_stat.soul)
-	WalletManager.connect("error", self, "_on_wallet_update_error")
-	WalletManager.connect("updated", self, "_on_wallet_updated")
 	update_stat_to_server()
 
 

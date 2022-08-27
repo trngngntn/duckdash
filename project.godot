@@ -77,7 +77,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "EnemySpawner",
 "language": "GDScript",
-"path": "res://scripts/enemies/enemy_spawner.gd"
+"path": "res://scripts/map/enemy_spawner.gd"
 }, {
 "base": "Reference",
 "class": "Equipment",
@@ -351,11 +351,11 @@ WalletManager="*res://scripts/autoload/wallet_manager.gd"
 ScreenManager="*res://scripts/autoload/screen_manager.gd"
 NotificationManager="*res://scripts/autoload/notification_manager.gd"
 Randomizer="*res://scripts/autoload/randomizer.gd"
-Updater="*res://scripts/autoload/updater.gd"
-StatManager="*res://scripts/autoload/stat_manager.gd"
+EquipmentManager="*res://scripts/autoload/equipment_manager.gd"
 MatchManager="*res://scripts/autoload/match_manager.gd"
 MarketplaceManager="*res://scripts/autoload/marketplace_manager.gd"
-EquipmentManager="*res://scripts/autoload/equipment_manager.gd"
+Updater="*res://scripts/autoload/updater.gd"
+StatManager="*res://scripts/autoload/stat_manager.gd"
 
 [debug]
 
@@ -455,4 +455,4 @@ quality/lightmapping/use_bicubic_sampling=false
 environment/default_clear_color=Color( 1, 1, 1, 1 )
 quality/depth/hdr.mobile=true
 environment/default_environment="res://default_env.tres"
-<<<<<<<HEADgles2/compatibility/disable_half_float=true
+gles2/compatibility/disable_half_float=true

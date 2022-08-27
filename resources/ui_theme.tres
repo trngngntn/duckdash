@@ -22,6 +22,7 @@ Button/styles/focus = ExtResource( 9 )
 Button/styles/hover = ExtResource( 4 )
 Button/styles/normal = ExtResource( 3 )
 Button/styles/pressed = ExtResource( 8 )
+ConfirmationDialog/styles/background = null
 Label/fonts/font = ExtResource( 2 )
 LineEdit/fonts/font = ExtResource( 2 )
 LineEdit/styles/focus = ExtResource( 10 )

@@ -17,6 +17,7 @@ func _get_custom_rpc_methods() -> Array:
 
 
 func _init(_enemy, _nav: Navigation2D).(_enemy):
+	name = "M_AI"
 	if MatchManager.is_network_server():
 		_nav.timer.connect("timeout", self, "on_NavTimer_timeout")
 		nav = _nav
@@ -34,6 +35,7 @@ func move() -> void:
 	# # enemy.add_central_force(dir - enemy.linear_velocity)
 	pass
 
+
 func integrate_forces(state) -> void:
 	state.linear_velocity = dir
 
@@ -46,6 +48,8 @@ func update_dir() -> void:
 
 
 func on_NavTimer_timeout() -> void:
+	if not active:
+		return
 	if enemy.target.position.distance_squared_to(last_target) > 40000:
 		last_target = enemy.target.position
 		path = nav.force_update_path(path, enemy.position, enemy.target.position)

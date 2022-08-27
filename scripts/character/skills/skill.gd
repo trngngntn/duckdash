@@ -22,8 +22,28 @@ func _ready():
 		$CollisionPolygon2D.disabled = true
 
 
-func trigger(_player: Node, _direction: Vector2, _info: AtkInfo) -> void:
-	pass
+func _atk_dir_trigger(player: Node, _direction: Vector2, _info: AtkInfo):
+	var max_dir = StatManager.players_stat[peer_id].atk_dir
+	for i in range(0, max_dir):
+		var dir = (2.0 * i * PI) / max_dir + _direction.angle()
+		_re_trigger(player, Vector2(1, 0).rotated(dir), _info)
+
+
+func _proj_num_trigger(player: Node, _direction: Vector2, _info: AtkInfo):		
+	var max_dir = StatManager.players_stat[peer_id].proj_num
+	for i in range(0, max_dir):
+		var dir = (2.0 * i * PI) / max_dir + _direction.angle()
+		_re_trigger(player, Vector2(1, 0).rotated(dir), _info)
+
+
+func _re_trigger(player: Node, dir: Vector2, info: AtkInfo) -> void:
+	var new = duplicate(Node.DUPLICATE_USE_INSTANCING)
+	new.trigger(player, dir, info, true)
+
+
+func trigger(player: Node, dir: Vector2, info: AtkInfo, re_trigger: bool = false) -> void:
+	if not re_trigger:
+		_atk_dir_trigger(player, dir, info)
 
 
 func gen_atk_info() -> AtkInfo:

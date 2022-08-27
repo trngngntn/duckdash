@@ -6,17 +6,28 @@ var bad = preload("res://assets/sprites/static/ui/ui_kinetic_bar_bad.png")
 
 onready var stat
 
-# func _ready():
-# 	tween.start()
+
+func _ready():
+	StatManager.connect("stat_change", self, "_on_stat_change")
+	StatManager.connect("stat_calculated", self, "_on_stat_calculated")
 
 
-func _process(_delta):
-	if not stat:
-		stat = StatManager.current_stat
-		return
-	var value = stat.kinetic / stat.kin_thres
-	value = clamp(value, -1, 1)
-	update_value(value)
+# func _process(_delta):
+# 	if not stat:
+# 		stat = StatManager.current_stat
+# 		return
+# 	var value = stat.kinetic / stat.kin_thres
+# 	value = clamp(value, -1, 1)
+# 	update_value(value)
+func _on_stat_calculated():
+	stat = StatManager.current_stat
+
+
+func _on_stat_change(stat_name: String, _change, new_value):
+	if stat_name == "kinetic":
+		var value = new_value / stat.kin_thres
+		value = clamp(value, -1, 1)
+		update_value(value)
 
 
 func update_value(value: float):
