@@ -56,14 +56,14 @@ func get_all_listing_item():
 	var result = JSON.parse(response.payload).result
 	for item in result:
 		if item.my_listing:
-			listing_items["listing"].append(MarketListingItem.new(item))
+			listing_items["listing"].append(Listing.new(item))
 		else:
-			listing_items["market"].append(MarketListingItem.new(item))
+			listing_items["market"].append(Listing.new(item))
 
-func getMarketListingItem():
+func get_listings():
 	return listing_items
 
-func buyEquipmentFromMarket(listing_item: MarketListingItem):
+func buy_equipment(listing_item: Listing):
 	if Conn.nkm_session == null or Conn.nkm_session.is_expired():
 		Conn.renew_session()
 		yield(Conn, "session_changed")
@@ -86,7 +86,7 @@ func buyEquipmentFromMarket(listing_item: MarketListingItem):
 	reload_marketplace()
 	WalletManager.fetch_wallet(Conn.nkm_session)
 
-func editListingItem(listing_item: MarketListingItem, price: int):
+func edit_listing(listing_item: Listing, price: int):
 	if Conn.nkm_session == null or Conn.nkm_session.is_expired():
 		Conn.renew_session()
 		yield(Conn, "session_changed")
@@ -108,7 +108,7 @@ func editListingItem(listing_item: MarketListingItem, price: int):
 	reload_marketplace()
 	emit_signal("update_marketplace")
 
-func deleteListingItem(listing_item: MarketListingItem):
+func deleteListingItem(listing_item: Listing):
 	if Conn.nkm_session == null or Conn.nkm_session.is_expired():
 		Conn.renew_session()
 		yield(Conn, "session_changed")

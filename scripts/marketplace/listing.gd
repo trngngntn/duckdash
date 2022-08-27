@@ -1,5 +1,4 @@
-extends Control
-class_name MarketListingItem
+class_name Listing
 
 var id: int 
 var item_raw: String 

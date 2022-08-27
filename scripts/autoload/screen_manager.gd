@@ -54,9 +54,9 @@ func show_sell_item_dialog(screen_res: Resource, equipment: Equipment) -> Node:
 	small_dialog.show()
 	return scrn
 	
-func show_edit_listing_item_dialog(screen_res: Resource, listing_item: MarketListingItem) -> Node:
+func show_edit_listing_dialog(screen_res: Resource, listing: Listing) -> Node:
 	var scrn = screen_res.instance()
-	scrn.setLisingItem(listing_item)
+	scrn.set_lising(listing)
 	small_dialog.append_node(scrn)
 	small_dialog.set_title(str(scrn.get("TITLE")))
 	small_dialog.show()

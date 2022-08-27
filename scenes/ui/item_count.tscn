@@ -12,19 +12,25 @@ alignment = 2
 script = ExtResource( 3 )
 
 [node name="Value" type="Label" parent="."]
-margin_left = 1422.0
+margin_left = 1410.0
 margin_top = 426.0
-margin_right = 1548.0
+margin_right = 1536.0
 margin_bottom = 474.0
 custom_fonts/font = ExtResource( 2 )
 text = "999999"
 align = 2
 
 [node name="Texture" type="TextureRect" parent="."]
-margin_left = 1552.0
-margin_right = 1600.0
+margin_left = 1540.0
+margin_right = 1588.0
 margin_bottom = 900.0
 rect_min_size = Vector2( 48, 48 )
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 6
+
+[node name="Spacing" type="Control" parent="."]
+margin_left = 1592.0
+margin_right = 1600.0
+margin_bottom = 900.0
+rect_min_size = Vector2( 8, 0 )

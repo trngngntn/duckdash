@@ -2,11 +2,11 @@ extends Control
 
 var TITLE = "Enter your price: (gold)"
 
-var listing_item
+var listing
 
-func setLisingItem(_listing_item: MarketListingItem):
-	listing_item = _listing_item
-	$VBoxContainer/PriceInput.text = listing_item.price
+func set_lising(_listing: Listing):
+	listing= _listing
+	$VBoxContainer/PriceInput.text = listing.price
 
 func _ready():
 	pass # Replace with function body.
@@ -20,4 +20,4 @@ func _on_SubmitButton_pressed():
 
 func _on_ConfirmationDialog_confirmed():
 	var price = $VBoxContainer/PriceInput.text
-	MarketplaceManager.editListingItem(listing_item, int(price))
+	MarketplaceManager.edit_listing(listing, int(price))
