@@ -1,5 +1,6 @@
 extends Skill
 
+var speed: float
 
 func _init():
 	mul_atk = 0.75
@@ -23,12 +24,14 @@ func trigger(player: Node, _direction: Vector2, _info: AtkInfo, _re_trigger: boo
 	$AnimatedSprite.rotation = direction.angle() + PI / 2
 	$CollisionPolygon2D.rotation = direction.angle() + PI / 2
 	$AnimatedSprite.play("move")
+	decay_timer.wait_time *= StatManager.players_stat[peer_id].atk_decay
 	decay_timer.start()
 	.trigger(player, _direction, _info, _re_trigger)
+	speed = base_speed * mul_speed * StatManager.players_stat[peer_id].proj_speed
 
 
 func _physics_process(delta) -> void:
-	position += direction * delta * base_speed * mul_speed
+	position += direction * delta * speed
 
 
 func _on_decay_timer_timeout() -> void:

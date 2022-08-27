@@ -1,6 +1,7 @@
 extends Skill
 
 var target_count: int = 0
+var speed: float
 
 
 func _get_custom_rpc_methods() -> Array:
@@ -11,6 +12,7 @@ func _init():
 	mul_speed = 3.25
 	mul_atk = 1.5
 	mul_atk_speed = 4
+	mul_decay = 0.6
 
 
 func _ready() -> void:
@@ -31,13 +33,14 @@ func trigger(player: Node, _direction: Vector2, _info: AtkInfo, _re_trigger := f
 	$AnimatedSprite.play("move")
 
 	player.get_parent().add_child(self)
+	decay_timer.wait_time *= StatManager.players_stat[peer_id].atk_decay
 	decay_timer.start()
 	.trigger(player, _direction, _info, _re_trigger)
+	speed = base_speed * mul_speed * StatManager.players_stat[peer_id].proj_speed
 
 
 func _physics_process(delta) -> void:
-	position += direction * delta * base_speed * mul_speed
-
+	position += direction * delta * speed
 
 func _on_decay_timer_timeout() -> void:
 	mul_speed = 0
