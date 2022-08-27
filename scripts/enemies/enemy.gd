@@ -13,6 +13,7 @@ const ITEM_SAPPHIRE = {
 const ITEM_RUBY = {"id": "RUBY", "res": preload("res://scenes/items/auto_pickup/ruby.tscn")}
 const DIST_LIMIT_SQ = 1000000
 const FLASH_MAT: ShaderMaterial = preload("res://resources/material/hurt_shader_material.tres")
+const DAMAGE_INDICATOR = preload("res://scenes/ui/damage_indicator.tscn")
 
 var attack_ai: EnemyAttackAI
 var movement_ai: EnemyMovementAI
@@ -160,6 +161,7 @@ func frees() -> void:
 func hurt(raw_info: Dictionary) -> void:
 	var info: AtkInfo = AtkInfo.new().from_dict(raw_info)
 	sprite.material.set_shader_param("hurt", true)
+	spawn_dmgIndicator(info.dmg)	
 	hp -= info.dmg
 	if hp <= 0:
 		$EnemyHitboxArea/CollisionPolygon2D.set_deferred("disabled", true)
@@ -171,6 +173,18 @@ func hurt(raw_info: Dictionary) -> void:
 	else:
 		$FlashTimer.start()
 
+func spawn_effect(EFFECT: PackedScene, effect_position: Vector2 = global_position):
+	if EFFECT:
+		var effect = EFFECT.instance()
+		get_tree().current_scene.add_child(effect)
+		effect.global_position = effect_position
+		return effect
+
+func spawn_dmgIndicator(damage: float):
+	var indicator = spawn_effect(DAMAGE_INDICATOR)
+	if indicator:
+		indicator.label.set("custom_colors/font_color", Color(1, 0, 0))
+		indicator.label.text = str(round(damage))
 
 func get_atk_info(peer_id: int) -> AtkInfo:
 	return AtkInfo.new().create(-1, peer_id, atk_dmg, [])
