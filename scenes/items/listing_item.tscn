@@ -1,0 +1,60 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://resources/ui_theme.tres" type="Theme" id=1]
+[ext_resource path="res://scenes/items/listing_item.gd" type="Script" id=2]
+[ext_resource path="res://assets/sprites/static/ui/ui_item.png" type="Texture" id=3]
+
+[node name="Node2D" type="LinkButton"]
+anchor_right = 0.382
+anchor_bottom = 0.164
+margin_left = -2.0
+margin_right = 0.799927
+margin_bottom = 0.399994
+rect_min_size = Vector2( 0, 120 )
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 120, 120 )
+size_flags_horizontal = 3
+texture = ExtResource( 3 )
+patch_margin_left = 20
+patch_margin_top = 20
+patch_margin_right = 20
+patch_margin_bottom = 20
+
+[node name="TextureRect" type="TextureRect" parent="NinePatchRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 36.0
+margin_top = 19.0
+margin_right = -289.0
+margin_bottom = -31.0
+rect_min_size = Vector2( 50, 50 )
+expand = true
+
+[node name="Price" type="Label" parent="NinePatchRect"]
+anchor_left = 0.374
+anchor_top = 0.187
+anchor_right = 0.671
+anchor_bottom = 0.5
+margin_left = 0.0499878
+margin_top = -0.0500011
+margin_right = -0.174988
+margin_bottom = 1.0
+text = "Price: "
+
+[node name="PriceValue" type="Label" parent="NinePatchRect"]
+anchor_left = 0.621
+anchor_top = 0.203
+anchor_right = 0.876
+anchor_bottom = 0.5
+margin_left = -0.294037
+margin_top = -0.0440006
+margin_right = 0.135986
+margin_bottom = 4.0
+
+[connection signal="pressed" from="." to="." method="_on_Node2D_pressed"]

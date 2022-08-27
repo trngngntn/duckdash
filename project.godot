@@ -124,6 +124,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/enemies/enemy_ai/land_enemy_movement_ai.gd"
 }, {
+"base": "Control",
+"class": "ListingItem",
+"language": "GDScript",
+"path": "res://scenes/items/listing_item.gd"
+}, {
 "base": "DropItem",
 "class": "ManualPickUpItem",
 "language": "GDScript",
@@ -143,6 +148,11 @@ _global_script_classes=[ {
 "class": "MapGenerator",
 "language": "GDScript",
 "path": "res://scripts/map/map_generator.gd"
+}, {
+"base": "Control",
+"class": "MarketListingItem",
+"language": "GDScript",
+"path": "res://scripts/items/market_listing_item.gd"
 }, {
 "base": "Stat",
 "class": "Modifier",
@@ -293,10 +303,12 @@ _global_script_class_icons={
 "ItemCount": "",
 "Joystick": "",
 "LandEnemyMovementAI": "",
+"ListingItem": "",
 "ManualPickUpItem": "",
 "Map": "",
 "MapGenStrategy": "",
 "MapGenerator": "",
+"MarketListingItem": "",
 "Modifier": "",
 "NakamaAPI": "",
 "NakamaAsyncResult": "",
@@ -341,6 +353,7 @@ NotificationManager="*res://scripts/autoload/notification_manager.gd"
 Randomizer="*res://scripts/autoload/randomizer.gd"
 EquipmentManager="*res://scripts/autoload/equipment_manager.gd"
 MatchManager="*res://scripts/autoload/match_manager.gd"
+MarketplaceManager="*res://scripts/autoload/marketplace_manager.gd"
 Updater="*res://scripts/autoload/updater.gd"
 StatManager="*res://scripts/autoload/stat_manager.gd"
 
@@ -442,4 +455,4 @@ quality/lightmapping/use_bicubic_sampling=false
 environment/default_clear_color=Color( 1, 1, 1, 1 )
 quality/depth/hdr.mobile=true
 environment/default_environment="res://default_env.tres"
-<<<<<<<HEADgles2/compatibility/disable_half_float=true
+gles2/compatibility/disable_half_float=true

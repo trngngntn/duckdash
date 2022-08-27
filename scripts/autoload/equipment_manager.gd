@@ -20,6 +20,7 @@ signal equipment_crafted(equipment)
 signal equipment_added(equipment)
 
 signal equipment_equipped(type, equipment)
+signal got_equipment_detail(equipment)
 # signal equipment_unequipped(type, equipment)
 
 
@@ -31,6 +32,8 @@ func _init() -> void:
 func is_equipped(equipment: Equipment) -> bool:
 	return EquipmentManager.equipped[equipment.type_name].has(equipment)
 
+func is_sellable(equipment: Equipment) -> bool:
+	return equipment.tier != "BASIC"
 
 func equip(equipment: Equipment) -> void:
 	match equipment.type_name:
@@ -132,6 +135,39 @@ func get_inventory():
 					"skill_caster":
 						equipment_list[type].append(SkillCaster.new(equipment))
 
+
+func GetEquipmentDetail(raw: String) -> Equipment:
+	if Conn.nkm_session == null or Conn.nkm_session.is_expired():
+		Conn.renew_session()
+		yield(Conn, "session_changed")
+		if Conn.nkm_session == null:
+			NotificationManager.show_custom_notification("Error", "Session error!")
+			ScreenManager.change_screen(ScreenManager.SCREEN_LOGIN, false)
+			return
+			
+	var payload = {"raw": raw}
+	var response: NakamaAPI.ApiRpc = yield(
+		Conn.nkm_client.rpc_async(Conn.nkm_session, "get_equipment_by_raw", JSON.print(payload)),
+		"completed"
+	)
+	if response.is_exception():
+		NotificationManager.show_custom_notification("Error", response.get_exception().message)
+		return null
+	else:
+		var equipment = parse_equipment(response.payload)
+		match equipment.type_name:
+			"skill_caster":
+				equipment = SkillCaster.new(equipment)
+	
+		emit_signal("got_equipment_detail", equipment)
+		return equipment
+
+func reload_inventory():
+	equipment_list = {
+		"skill_caster": [],
+		"enhancer": [],
+	}
+	get_inventory()
 
 # CALLBACKS
 func _on_session_created(_d) -> void:

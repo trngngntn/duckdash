@@ -12,6 +12,9 @@ const SCREEN_PROFILE = preload("res://scenes/screens/profile_screen.tscn")
 
 const SCREEN_EQUIPMENT_CRAFTING = preload("res://scenes/screens/dialog/equipment_crafting.tscn")
 const SCREEN_EQUIPMENT_SELECTOR = preload("res://scenes/screens/dialog/equipment_selector.tscn")
+const DIALOG_SELL_ITEM = preload("res://scenes/screens/dialog/sell_item_info_dialog.tscn")
+const DIALOG_EDIT_LISTING_ITEM = preload("res://scenes/screens/dialog/edit_my_listing_item.tscn")
+
 
 var screen_res_stack: Array = []
 var current_screen: Node
@@ -25,9 +28,7 @@ onready var ui: CanvasLayer = main.get_node("UI")
 onready var dialog: Dialog = main.get_node("UI/Dialog")
 onready var small_dialog: Dialog = main.get_node("UI/SmallDialog")
 
-
 onready var self_instance = self
-
 
 func _ready() -> void:
 	pause_mode = Node.PAUSE_MODE_PROCESS
@@ -38,15 +39,28 @@ func _ready() -> void:
 	_result = main.connect("go_back", self, "_on_ScreenManager_go_back_pressed")
 	Conn.device_auth()
 
-
 func show_small_dialog(screen_res: Resource) -> Node:
 	var scrn = screen_res.instance()
 	small_dialog.append_node(scrn)
 	small_dialog.set_title(str(scrn.get("TITLE")))
 	small_dialog.show()
 	return scrn
-
-
+	
+func show_sell_item_dialog(screen_res: Resource, equipment: Equipment) -> Node:
+	var scrn = screen_res.instance()
+	scrn.setEquipmentHash(equipment)
+	small_dialog.append_node(scrn)
+	small_dialog.set_title(str(scrn.get("TITLE")))
+	small_dialog.show()
+	return scrn
+	
+func show_edit_listing_item_dialog(screen_res: Resource, listing_item: MarketListingItem) -> Node:
+	var scrn = screen_res.instance()
+	scrn.setLisingItem(listing_item)
+	small_dialog.append_node(scrn)
+	small_dialog.set_title(str(scrn.get("TITLE")))
+	small_dialog.show()
+	return scrn
 
 func show_screen_dialog(screen_res: Resource) -> Node:
 	var scrn = screen_res.instance()
@@ -54,7 +68,6 @@ func show_screen_dialog(screen_res: Resource) -> Node:
 	dialog.set_title(str(scrn.get("TITLE")))
 	dialog.show()
 	return scrn
-
 
 func change_screen(screen_res: Resource, go_back := true) -> Node:
 	if not screen:
