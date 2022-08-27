@@ -27,6 +27,7 @@ func trigger(player: Node, _direction: Vector2, _info: AtkInfo, _re_trigger: boo
 	decay_timer.wait_time *= StatManager.players_stat[peer_id].atk_decay
 	decay_timer.start()
 	.trigger(player, _direction, _info, _re_trigger)
+	scale *= StatManager.players_stat[peer_id].enlargement
 	speed = base_speed * mul_speed * StatManager.players_stat[peer_id].proj_speed
 
 

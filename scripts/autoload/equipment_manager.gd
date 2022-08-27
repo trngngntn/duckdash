@@ -37,15 +37,16 @@ func is_sellable(equipment: Equipment) -> bool:
 	return equipment.tier != "BASIC"
 
 
-func equip(equipment: Equipment) -> void:
+func equip(equipment: Equipment, pos: int = 0) -> void:
 	match equipment.type_name:
 		TYPE_SKILL_CASTER:
 			equipped[TYPE_SKILL_CASTER] = [equipment]
 		TYPE_ENHANCER:
-			if equipped[TYPE_ENHANCER].size() == 3 || is_equipped(equipment):
-				return
-			equipped[TYPE_ENHANCER].append(equipment)
-	emit_signal("equipment_equipped", equipment.type_name, equipment)
+			if pos >= equipped[TYPE_ENHANCER].size():
+				equipped[TYPE_ENHANCER].append(equipment)
+			else:
+				equipped[TYPE_ENHANCER][pos] = equipment
+	emit_signal("equipment_equipped", equipment.type_name, equipment, pos)
 
 
 func unequip(equipment: Equipment) -> void:
@@ -54,7 +55,7 @@ func unequip(equipment: Equipment) -> void:
 			return
 		TYPE_ENHANCER:
 			equipped[TYPE_ENHANCER].erase(equipment)
-			emit_signal("equipment_equipped", equipment.type_name, equipment)
+			# emit_signal("equipment_equipped", equipment.type_name, equipment)
 
 
 func get_equipment_list(type_name: String) -> Array:
@@ -86,8 +87,9 @@ func dict2equipment(result: Dictionary) -> Equipment:
 
 	match equipment.type_name:
 		"skill_caster":
-			equipment = SkillCaster.new(equipment)
-
+			return SkillCaster.new(equipment)
+		"enhancer":
+			return Enhancer.new(equipment)
 	return equipment
 
 
@@ -115,6 +117,8 @@ func craft_equipment(type: String) -> Equipment:
 		match type:
 			"skill_caster":
 				equipment = SkillCaster.new(equipment)
+			"enhancer":
+				equipment = Enhancer.new(equipment)
 
 		equipment_list[type].append(equipment)
 		emit_signal("equipment_crafted", equipment)
@@ -141,7 +145,8 @@ func get_inventory():
 				match type:
 					"skill_caster":
 						equipment_list[type].append(SkillCaster.new(equipment))
-
+					"enhancer":
+						equipment_list[type].append(Enhancer.new(equipment))
 
 func GetEquipmentDetail(raw: String) -> Equipment:
 	if Conn.nkm_session == null or Conn.nkm_session.is_expired():

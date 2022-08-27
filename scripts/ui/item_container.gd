@@ -6,6 +6,7 @@ var item_size = 120
 const item_res = preload("res://scenes/ui/inventory_item.tscn")
 
 signal item_selected(item)
+signal item_cleared
 
 var last_selected: InventoryItem
 
@@ -42,7 +43,16 @@ func _on_squeezed() -> void:
 
 
 func _on_item_selected(item: InventoryItem) -> void:
-	emit_signal("item_selected", item)
 	if last_selected:
 		last_selected.unselect()
-	last_selected = item
+	if last_selected != item:
+		emit_signal("item_selected", item)
+		last_selected = item
+	else:
+		emit_signal("item_cleared")
+		last_selected = null
+
+func unselect() -> void:
+	if last_selected:
+		emit_signal("item_cleared")
+		last_selected.unselect()

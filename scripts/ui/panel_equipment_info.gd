@@ -30,11 +30,14 @@ const  FONT_TIER_LIST = {
 }
 
 export var listing_mode: bool = false
-var self_listing: bool = false setget _set_self_listing
+export var sellable: bool = true
+export var self_listing: bool = false setget _set_self_listing
 var equipment: Equipment setget set_equipment
 var font = preload("res://resources/font/ui_font_small.tres")
 
 onready var eq_name = $ScrollContainer/VBoxContainer/Name
+
+var pos: int = 0
 
 func _ready():
 	if listing_mode:
@@ -73,7 +76,7 @@ func set_equipment(_equipment: Equipment) -> void:
 	else:
 		$ButtonCont/EquipButton.show()
 		
-	if EquipmentManager.is_sellable(equipment):
+	if EquipmentManager.is_sellable(equipment) && sellable:
 		$ButtonCont/SellButton.show()
 	else:
 		$ButtonCont/SellButton.hide()
@@ -96,7 +99,7 @@ func _set_self_listing(state: bool):
 		$ButtonCont/CancelButton.hide()
 
 func _on_EquipButton_pressed():
-	EquipmentManager.equip(equipment)
+	EquipmentManager.equip(equipment, pos)
 	$ButtonCont/EquipButton.hide()
 
 func _on_SellButton_pressed():

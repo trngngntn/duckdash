@@ -24,7 +24,7 @@ func _ready():
 
 func _atk_dir_trigger(player: Node, _direction: Vector2, _info: AtkInfo):
 	var max_dir = StatManager.players_stat[peer_id].atk_dir
-	for i in range(0, max_dir):
+	for i in range(1, max_dir):
 		var dir = (2.0 * i * PI) / max_dir + _direction.angle()
 		_re_trigger(player, Vector2(1, 0).rotated(dir), _info)
 

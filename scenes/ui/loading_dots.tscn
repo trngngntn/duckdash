@@ -93,5 +93,5 @@ position = Vector2( 2, 2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 17 )
 animation = "load"
-frame = 15
+frame = 5
 playing = true

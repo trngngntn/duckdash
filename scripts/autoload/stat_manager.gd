@@ -13,7 +13,7 @@ var proj_speed = perc_modf
 var proj_num = incr_modf
 var proj_pierce = incr_modf
 
-var enlargement = incr_modf
+var enlargement = perc_modf
 var atk_dir = incr_modf
 
 var max_hp = perc_modf

@@ -1,8 +1,7 @@
 extends Control
 const TITLE = "SELECT EQUIPMENT"
 
-# func _ready():
-# 	# $InfoPanel.rect_position.x += $InfoPanel.rect_size.x
+var pos: = 0
 
 func set_type(type: String) -> void:
 	$ItemContainer.update_item(EquipmentManager.equipment_list[type])
@@ -13,5 +12,6 @@ func _on_ItemContainer_item_selected(item):
 	$ItemContainer._update_sizing()
 	$InfoPanel.set_equipment(item.equipment)
 	
-	
-
+func set_pos(_pos: int):
+	pos = _pos
+	$InfoPanel.pos = pos

@@ -25,7 +25,7 @@ func move_to_target() -> void:
 
 
 func move() -> void:
-	if not active:
+	if not active || not is_instance_valid(enemy) || not is_instance_valid(enemy.target) :
 		return
 	if enemy.position.distance_squared_to(enemy.target.position) > 100:
 		update_dir()

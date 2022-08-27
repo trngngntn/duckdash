@@ -79,6 +79,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/map/enemy_spawner.gd"
 }, {
+"base": "Equipment",
+"class": "Enhancer",
+"language": "GDScript",
+"path": "res://scripts/items/enhancer.gd"
+}, {
 "base": "Reference",
 "class": "Equipment",
 "language": "GDScript",
@@ -294,6 +299,7 @@ _global_script_class_icons={
 "EnemyAttackAI": "",
 "EnemyMovementAI": "",
 "EnemySpawner": "",
+"Enhancer": "",
 "Equipment": "",
 "FlyEnemyMovementAI": "",
 "GlideEnemyMovementAI": "",

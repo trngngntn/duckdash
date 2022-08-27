@@ -1,7 +1,6 @@
 extends DuckState
 
 var stab_mat: ShaderMaterial = preload("res://resources/material/stabilize_material.tres")
-var norm_mat: ShaderMaterial = preload("res://resources/material/glitch_material.tres")
 var noise_tex = preload("res://assets/sprites/noise/noise.png")
 
 var material: ShaderMaterial = stab_mat.duplicate()
@@ -49,4 +48,3 @@ func physics_update(delta: float) -> void:
 
 func exit() -> void:
 	player.attackable = true
-	player.sprite.material = norm_mat.duplicate()

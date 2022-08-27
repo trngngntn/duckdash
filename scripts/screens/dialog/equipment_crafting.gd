@@ -23,7 +23,7 @@ func change_type(type_id: String):
 
 
 func _on_CraftButton_pressed():
-	EquipmentManager.craft_equipment(EquipmentManager.TYPE_SKILL_CASTER)
+	EquipmentManager.craft_equipment(type_list[current_pos])
 	var e = yield(EquipmentManager.self_instance, "equipment_crafted")
 	var info = panel_equipment.instance()
 	add_child(info)

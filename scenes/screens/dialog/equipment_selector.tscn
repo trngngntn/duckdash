@@ -10,14 +10,11 @@ anchor_bottom = 1.0
 script = ExtResource( 2 )
 
 [node name="ItemContainer" parent="." instance=ExtResource( 1 )]
-margin_left = 0.0
-margin_top = 0.0
-margin_right = 0.0
-margin_bottom = 0.0
 
 [node name="InfoPanel" parent="." instance=ExtResource( 3 )]
 visible = false
 anchor_left = 0.7
+sellable = false
 
 [node name="ScrollContainer" parent="InfoPanel" index="0"]
 margin_top = 10.0

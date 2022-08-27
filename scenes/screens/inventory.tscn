@@ -32,6 +32,10 @@ size_flags_horizontal = 3
 tab_align = 0
 
 [node name="Weapon" parent="TabContainer" instance=ExtResource( 3 )]
+margin_left = 40.0
+margin_top = 110.0
+margin_right = -40.0
+margin_bottom = -40.0
 
 [node name="Enhancer" parent="TabContainer" instance=ExtResource( 3 )]
 visible = false
@@ -64,4 +68,5 @@ margin_right = 100.0
 margin_bottom = 100.0
 texture_normal = ExtResource( 6 )
 
+[connection signal="tab_changed" from="TabContainer" to="." method="_on_TabContainer_tab_changed"]
 [connection signal="pressed" from="Panel/VBoxContainer/ButtonCraft" to="." method="_on_ButtonCraft_pressed"]

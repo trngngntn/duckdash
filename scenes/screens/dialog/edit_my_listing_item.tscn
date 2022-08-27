@@ -20,11 +20,10 @@ margin_right = 250.0
 margin_bottom = 105.0
 custom_constants/separation = 50
 
-[node name="PriceInput" type="TextEdit" parent="VBoxContainer"]
+[node name="PriceInput" type="LineEdit" parent="VBoxContainer"]
 margin_right = 500.0
 margin_bottom = 80.0
-rect_min_size = Vector2( 500, 80 )
-custom_constants/completion_max_width = 0
+rect_min_size = Vector2( 0, 80 )
 
 [node name="SubmitButton" type="Button" parent="VBoxContainer"]
 margin_top = 130.0

@@ -1,5 +1,6 @@
 extends DuckState
 
+var norm_mat: ShaderMaterial = preload("res://resources/material/glitch_material.tres")
 
 func init() -> void:
 	valid_change = [STATE_MOVE, STATE_STABILIZE]
@@ -8,6 +9,7 @@ func init() -> void:
 
 
 func enter(dat := {}) -> void:
+	player.sprite.material = norm_mat.duplicate()
 	if dat.keys().has("pos"):
 		player.position = dat["pos"]
 	player.sprite.play("idle_right")

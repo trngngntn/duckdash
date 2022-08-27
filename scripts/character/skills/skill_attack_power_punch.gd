@@ -28,6 +28,7 @@ func trigger(player: Node, _direction: Vector2, _info: AtkInfo, _re_trigger: boo
 	)
 	tween.start()
 	.trigger(player, _direction, _info, _re_trigger)
+	scale *= StatManager.players_stat[peer_id].enlargement
 
 
 func _on_AnimatedSprite_animation_finished():

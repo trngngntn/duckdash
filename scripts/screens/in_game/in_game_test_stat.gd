@@ -6,6 +6,7 @@ var stat_list = [
 	"atk_speed",
 	"fire_rate",
 	"mv_speed",
+	"dash_speed",
 	"kinetic",
 ]
 

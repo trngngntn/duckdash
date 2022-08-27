@@ -93,8 +93,6 @@ margin_left = -128.0
 margin_top = 270.0
 margin_bottom = -40.0
 
-[node name="EquipButton" parent="CharacterEquipmentCont/VBoxContainer" instance=ExtResource( 5 )]
-
 [node name="ButtonContainer" type="HBoxContainer" parent="."]
 anchor_left = 0.6
 anchor_top = 0.85
