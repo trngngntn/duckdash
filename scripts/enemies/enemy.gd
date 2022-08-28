@@ -176,14 +176,14 @@ func hurt(raw_info: Dictionary) -> void:
 func spawn_effect(EFFECT: PackedScene, effect_position: Vector2 = global_position):
 	if EFFECT:
 		var effect = EFFECT.instance()
-		get_tree().current_scene.add_child(effect)
+		get_parent().add_child(effect)
 		effect.global_position = effect_position
 		return effect
 
 func spawn_dmgIndicator(damage: float):
 	var indicator = spawn_effect(DAMAGE_INDICATOR)
 	if indicator:
-		indicator.label.set("custom_colors/font_color", Color(1, 0, 0))
+		# indicator.label.set("custom_colors/font_color", Color(1, 0, 0))
 		indicator.label.text = str(round(damage))
 
 func get_atk_info(peer_id: int) -> AtkInfo:

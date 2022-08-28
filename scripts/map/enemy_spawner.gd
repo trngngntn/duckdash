@@ -1,5 +1,7 @@
 class_name EnemySpawner extends Node
 
+const SCALING_FACTOR = 2/100
+
 const SPAWN_DISTANCE = 600
 const SPAWN_DISTANCE_SQ = SPAWN_DISTANCE * SPAWN_DISTANCE
 
@@ -48,8 +50,10 @@ func _on_host_migrating(new_host: int):
 	if MatchManager.is_master(new_host):
 		pass
 
+
 func _process(delta):
-	scaling += delta / 100
+	scaling += delta * SCALING_FACTOR
+
 
 func _on_game_started() -> void:
 	if MatchManager.is_network_server() && enabled:
@@ -99,7 +103,9 @@ func spawn_enemy_around_player(player: Duck, eid: int, times: int) -> void:
 			spawn_enemy_around_player(player, eid, times + 1)
 			return
 	var type = Randomizer.rand_with_int_chance_arr(ENEMY_DIST_LIST)
-	MatchManager.custom_rpc_sync(self, "_rpc_sync_spawn_enemy", [rand_pos, type, player.name, eid, scaling])
+	MatchManager.custom_rpc_sync(
+		self, "_rpc_sync_spawn_enemy", [rand_pos, type, player.name, eid, scaling]
+	)
 
 
 func free_enemy(enemy: Enemy):
@@ -109,7 +115,9 @@ func free_enemy(enemy: Enemy):
 	enemy.queue_free()
 
 
-func _rpc_sync_spawn_enemy(position: Vector2, type: int, username: String, eid: int, _scaling: float) -> void:
+func _rpc_sync_spawn_enemy(
+	position: Vector2, type: int, username: String, eid: int, _scaling: float
+) -> void:
 	var enemy = ENEMY_TYPE[type].instance().init(
 		self, map.player_cont.get_node(username), "E" + str(eid), position, eid
 	)

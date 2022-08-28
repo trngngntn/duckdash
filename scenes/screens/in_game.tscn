@@ -52,6 +52,14 @@ margin_bottom = 60.0
 [node name="KineticBar" parent="CanvasLayer" instance=ExtResource( 12 )]
 margin_top = 70.0
 
+[node name="PlayerMarkerCont" type="Control" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 300.0
+margin_top = 150.0
+margin_right = -300.0
+margin_bottom = -150.0
+
 [node name="MenuButton" type="TextureButton" parent="CanvasLayer"]
 anchor_left = 1.0
 anchor_right = 1.0

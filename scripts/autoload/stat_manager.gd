@@ -57,7 +57,7 @@ class StatValues:
 	var coin: int = 0
 	var soul: int = 0
 
-	var max_hp: float = 10000
+	var max_hp: float = 100
 	var hp: float
 	var armour: int = 0
 	var regen: int = 0
@@ -128,18 +128,22 @@ func _init() -> void:
 
 # Calculate new stat from equipped equipment
 func calculate_stat() -> void:
-	current_stat = base_stat.dup()
-	incr_stat = StatValues.new(false)
+	base_stat = StatValues.new()
 
 	##  Get attack skill from equipment
 	var skill_caster = EquipmentManager.equipped["skill_caster"][0]
 	var inst = SkillCaster.SUB_TYPE[skill_caster.sub_type]["res"].instance()
 
-	current_stat.skill = skill_caster.sub_type
-	current_stat.atk_damage *= inst.mul_atk
-	current_stat.atk_speed *= inst.mul_atk_speed
-	current_stat.fire_rate *= inst.mul_atk_speed
 
+	base_stat.skill = skill_caster.sub_type
+	base_stat.atk_damage *= inst.mul_atk
+	base_stat.atk_speed *= inst.mul_atk_speed
+	base_stat.fire_rate *= inst.mul_atk_speed
+
+	current_stat = base_stat.dup()
+	incr_stat = StatValues.new(false)
+
+	
 	## Calculate stats from equipment
 
 	for type in EquipmentManager.equipped.keys():
@@ -147,7 +151,7 @@ func calculate_stat() -> void:
 			for equipment in EquipmentManager.equipped[type]:
 				for stat in equipment.stat:
 					if stat is Modifier && stat.is_stacked:
-						var new_val = current_stat.get(stat.stat_id) * stat.get_multiply_value()
+						var new_val = base_stat.get(stat.stat_id) * (stat.get_multiply_value() - 1) + current_stat.get(stat.stat_id)
 						current_stat.set(stat.stat_id, new_val)
 
 				for stat in equipment.stat:
