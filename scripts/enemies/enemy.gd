@@ -206,6 +206,8 @@ func _force_update(seq: int) -> void:
 
 
 func _force_check() -> void:
+	if not is_instance_valid(target):
+		return
 	if position.distance_squared_to(target.position) > DIST_LIMIT_SQ:
 		var players = get_tree().get_nodes_in_group("player")
 		var valid: bool = false

@@ -9,10 +9,10 @@ var nkm_port: int = 7350
 var nkm_scheme: String = "http"
 
 enum NotificationCode {
+	WALLET_UPDATED = 10,
 	RESERVED = 0,
 	FRIEND_REQUEST_RECEIVED = -2,
 	FRIEND_REQUEST_ACCEPTED = -3,
-	JOINED_LOBBY = -3,
 }
 
 #Nakama client
@@ -113,11 +113,15 @@ func _on_NakamaSocket_closed() -> void:
 	nkm_socket = null
 
 
+signal notif_wallet_updated(content)
+
 # Handle notification by code
 func _on_notification(notification: NakamaAPI.ApiNotification):
 	match notification.code:
 		NotificationCode.FRIEND_REQUEST_RECEIVED:
 			emit_signal("received_friend_request_notification", notification)
+		NotificationCode.WALLET_UPDATED:
+			emit_signal("notif_wallet_updated", notification.content)
 
 
 # Called when the socket was connected.
@@ -131,6 +135,7 @@ signal nakama_login_err(err)
 signal dev_auth_finished(result)
 signal dev_auth
 signal dev_unauth
+signal not_connected
 
 
 func login_async(email: String, pwd: String) -> void:
@@ -159,9 +164,12 @@ func device_auth(renew: bool = false) -> void:
 		"completed"
 	)
 	if nkm_session.is_exception():
-		print("LOGIN_ERR: " + nkm_session.get_exception().message)
-		emit_signal("dev_auth_finished", false)
-		emit_signal("dev_unauth")
+		print("AUTH_ERR: " + nkm_session.get_exception().message)
+		if nkm_session.get_exception().message == "User account not found.":
+			emit_signal("dev_auth_finished", false)
+			emit_signal("dev_unauth")
+		else:
+			emit_signal("not_connected", nkm_session.get_exception().message)
 		nkm_session = null
 	else:
 		print("LOGIN_LOG: Logged In using UID!")

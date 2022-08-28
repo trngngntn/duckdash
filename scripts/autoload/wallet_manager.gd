@@ -12,6 +12,7 @@ var soul: int
 
 func _ready():
 	Conn.connect("session_connected", self, "fetch_wallet")
+	Conn.connect("notif_wallet_updated", self, "_on_wallet_updated")
 
 
 func fetch_wallet(_session) -> void:
@@ -50,3 +51,9 @@ func update_wallet(changeset: Dictionary) -> void:
 	emit_signal("updated")
 	emit_signal("update_result", true)
 	print("[LOG][WALLET]Updated")
+
+func _on_wallet_updated(content: String) -> void:
+	var wallet = JSON.parse(content).result
+	gold = wallet["gold"]
+	soul = wallet["soul"]
+	emit_signal("fetch")

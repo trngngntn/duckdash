@@ -1,6 +1,6 @@
 class_name EnemySpawner extends Node
 
-const SCALING_FACTOR = 2/100
+const SCALING_FACTOR = 1.0/100
 
 const SPAWN_DISTANCE = 600
 const SPAWN_DISTANCE_SQ = SPAWN_DISTANCE * SPAWN_DISTANCE
@@ -118,6 +118,7 @@ func free_enemy(enemy: Enemy):
 func _rpc_sync_spawn_enemy(
 	position: Vector2, type: int, username: String, eid: int, _scaling: float
 ) -> void:
+	print("FACTOR: " + str(scaling))
 	var enemy = ENEMY_TYPE[type].instance().init(
 		self, map.player_cont.get_node(username), "E" + str(eid), position, eid
 	)

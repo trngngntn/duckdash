@@ -35,3 +35,17 @@ func set_title(title: String) -> void:
 
 func _on_BackButton_pressed():
 	emit_signal("go_back")
+
+func init():
+	$UI/ConnectStatus.hide()
+	$UI/Titlebar.show()
+
+func try_again(reason: String = "Error"):
+	$UI/ConnectStatus/Connecting.hide()
+	$UI/ConnectStatus/Try.show()
+	$UI/ConnectStatus/Try/Reason.text = reason
+
+func _on_TryButton_pressed():
+	$UI/ConnectStatus/Connecting.show()
+	$UI/ConnectStatus/Try.hide()
+	Conn.device_auth()

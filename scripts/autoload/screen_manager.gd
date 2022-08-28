@@ -32,11 +32,14 @@ onready var self_instance = self
 
 func _ready() -> void:
 	pause_mode = Node.PAUSE_MODE_PROCESS
-	var _result := Conn.connect("dev_auth", self, "_on_NakamaConn_device_authorized")
-	_result = Conn.connect("dev_unauth", self, "_on_NakamaConn_device_unauthorized")
-	_result = Conn.connect("nakama_logged_in", self, "_on_NakamaConn_logged_in")
-	_result = Conn.connect("registered", self, "_on_NakamaConn_registered")
-	_result = main.connect("go_back", self, "_on_ScreenManager_go_back_pressed")
+	Conn.connect("dev_auth", self, "_on_NakamaConn_device_authorized")
+	Conn.connect("dev_unauth", self, "_on_NakamaConn_device_unauthorized")
+
+	Conn.connect("not_connected", self, "_on_NakamaConn_not_connected")
+
+	Conn.connect("nakama_logged_in", self, "_on_NakamaConn_logged_in")
+	Conn.connect("registered", self, "_on_NakamaConn_registered")
+	main.connect("go_back", self, "_on_ScreenManager_go_back_pressed")
 	Conn.device_auth()
 
 func show_small_dialog(screen_res: Resource) -> Node:
@@ -70,6 +73,7 @@ func show_screen_dialog(screen_res: Resource) -> Node:
 	return scrn
 
 func change_screen(screen_res: Resource, go_back := true) -> Node:
+	main.init()
 	if not screen:
 		return null
 
@@ -147,3 +151,6 @@ func _on_NakamaConn_logged_in() -> void:
 
 func _on_NakamaConn_registered() -> void:
 	var _scr := change_screen(ScreenManager.SCREEN_MENU)
+
+func _on_NakamaConn_not_connected(reason: String) -> void:
+	main.try_again(reason)
