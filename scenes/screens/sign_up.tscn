@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://resources/ui_theme.tres" type="Theme" id=1]
+[ext_resource path="res://scenes/ui/password_edit.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/screens/sign_up.gd" type="Script" id=3]
 
 [node name="SignUp" type="Control"]
@@ -21,37 +22,35 @@ custom_constants/separation = 16
 
 [node name="UsernameEdit" type="LineEdit" parent="InputFieldCont"]
 margin_right = 750.0
-margin_bottom = 88.0
-rect_min_size = Vector2( 0, 88 )
+margin_bottom = 80.0
+rect_min_size = Vector2( 0, 80 )
 rect_pivot_offset = Vector2( -1537, -253 )
 align = 1
 placeholder_text = "Username"
 
 [node name="EmailEdit" type="LineEdit" parent="InputFieldCont"]
-margin_top = 104.0
+margin_top = 96.0
 margin_right = 750.0
-margin_bottom = 192.0
-rect_min_size = Vector2( 0, 88 )
+margin_bottom = 176.0
+rect_min_size = Vector2( 0, 80 )
 align = 1
 placeholder_text = "E-mail"
 
-[node name="PasswordEdit" type="LineEdit" parent="InputFieldCont"]
-margin_top = 208.0
+[node name="PasswordEdit" parent="InputFieldCont" instance=ExtResource( 2 )]
+margin_top = 192.0
 margin_right = 750.0
-margin_bottom = 296.0
-rect_min_size = Vector2( 0, 88 )
+margin_bottom = 272.0
+rect_min_size = Vector2( 0, 80 )
 align = 1
-secret = true
 placeholder_text = "Password"
 
-[node name="ConfirmPasswordEdit" type="LineEdit" parent="InputFieldCont"]
-margin_top = 312.0
+[node name="ConfirmPasswordEdit" parent="InputFieldCont" instance=ExtResource( 2 )]
+margin_top = 288.0
 margin_right = 750.0
-margin_bottom = 400.0
-rect_min_size = Vector2( 0, 88 )
+margin_bottom = 368.0
+rect_min_size = Vector2( 0, 80 )
 align = 1
-secret = true
-placeholder_text = "Confirm Password"
+placeholder_text = "Confirm password"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 anchor_top = 0.8

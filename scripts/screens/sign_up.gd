@@ -31,4 +31,8 @@ func _on_RegisterButton_pressed():
 	var email = $InputFieldCont/EmailEdit.text
 	var usr = $InputFieldCont/UsernameEdit.text
 	var pwd = $InputFieldCont/PasswordEdit.text
+	var cf_pwd = $InputFieldCont/ConfirmPasswordEdit.text
+	if cf_pwd != pwd:
+		NotificationManager.show_custom_notification("Error", "Password doesn't match.")
+		return
 	Conn.register_async(email, usr, pwd)
