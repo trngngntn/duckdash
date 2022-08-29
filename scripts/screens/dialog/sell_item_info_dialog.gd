@@ -4,19 +4,23 @@ var TITLE = "Enter your price: (gold)"
 
 var equipment
 
-func setEquipmentHash(_equipment: Equipment):
+signal result(price)
+
+func set_equipment(_equipment: Equipment):
 	equipment = _equipment
 
-func _ready():
-	pass # Replace with function body.
 
 func _on_SubmitButton_pressed():
 	var price = $VBoxContainer/PriceInput.text
 	if !price || !price.is_valid_integer():
 		NotificationManager.show_custom_notification("Error", "Please enter valid price!")
 	else:
-		$ConfirmationDialog.visible = true
+		ScreenManager.show_confirm_dialog("Sell this equipment for %d gold?" % int(price)).connect(
+			"confirmed", self, "_on_ConfirmDialog_confirmed"
+		)
 
-func _on_ConfirmationDialog_confirmed():
+
+func _on_ConfirmDialog_confirmed():
 	var price = $VBoxContainer/PriceInput.text
-	MarketplaceManager.list_equipment_to_market(equipment, int(price))
+	emit_signal("result", int(price))
+	ScreenManager.small_dialog.hide()

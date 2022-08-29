@@ -86,7 +86,8 @@ func setup(players: Dictionary) -> void:
 
 	# setup for current player
 	StatManager.calculate_stat()
-
+	yield(StatManager, "stat_calculated")
+	
 	my_player.map_move_joystick(mv_joystick)
 	my_player.map_attack_joystick(atk_joystick)
 
@@ -116,6 +117,7 @@ func _start() -> void:
 	emit_signal("game_started")
 	get_tree().paused = false
 	Updater.start()
+	$CanvasLayer/PlayerMarkerCont.setup(my_player, get_tree().get_nodes_in_group("player"))
 
 
 func _on_game_over(reason: String) -> void:

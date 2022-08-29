@@ -12,11 +12,12 @@ onready var self_listing_cont = $"TabContainer/Your listing"
 func _ready():
 	listing_cont.connect("listing_selected", self, "_on_listing_selected", [false])
 	listing_cont.connect("listing_cleared", self, "_on_listing_cleared")
+
 	self_listing_cont.connect("listing_selected", self, "_on_listing_selected", [true])
 	self_listing_cont.connect("listing_cleared", self, "_on_listing_cleared")
-	# for container in $TabContainer.get_children():
-	# 	connect("squeezed", container, "_on_squeezed")
-	MarketplaceManager.connect("update_marketplace", self, "update_market_item")
+
+	MarketplaceManager.connect("listing_added", self, "_on_listing_added")
+	MarketplaceManager.connect("listing_added", self, "_on_listing_deleted")
 	update_market_item()
 
 
@@ -33,22 +34,19 @@ func unsqueeze() -> void:
 
 
 func update_market_item() -> void:
-	var items = MarketplaceManager.get_listings()
-	# for child in listing_cont.get_children():
-	# 	listing_cont.remove_child(child)
-	for listing in items["market"]:
-		add_item(listing)
+	for listing in MarketplaceManager.listing_items["listing"].values():
+		add_listing(listing)
 
-	for listing in items["listing"]:
-		add_self_listing_item(listing)
+	for listing in MarketplaceManager.listing_items["self_listing"].values():
+		add_self_listing(listing)
 
 
-func add_item(listing: Listing) -> void:
-	listing_cont.add_item(listing)
+func add_listing(listing: Listing) -> void:
+	listing_cont.add_listing(listing)
 
 
-func add_self_listing_item(listing: Listing) -> void:
-	self_listing_cont.add_item(listing)
+func add_self_listing(listing: Listing) -> void:
+	self_listing_cont.add_listing(listing)
 
 
 func _on_listing_cleared():
@@ -63,26 +61,46 @@ func _on_listing_selected(item: ListingItem, is_self: bool):
 	$InfoPanel.equipment = item.listing.equipment
 
 
+func _on_listing_added(type: String, listing: Listing) -> void:
+	match type:
+		"listing":
+			add_listing(listing)
+		"self_listing":
+			add_self_listing(listing)
+
+
+func _on_listing_deleted(_type, id) -> void:
+	pass
+
+
 func _on_BuyButton_pressed():
-	$ConfirmationDialog.visible = true
-
-
-func _on_ConfirmationDialog_confirmed():
-	MarketplaceManager.buy_equipment(listing_cont.last_selected.listing)
+	var dialog = ScreenManager.show_confirm_dialog("Buy this equipment?")
+	if dialog.is_connected("confirmed", self, "_on_ConfirmDialog_confirmed"):
+		dialog.disconnect("confirmed", self, "_on_ConfirmDialog_confirmed")
+	dialog.connect("confirmed", self, "_on_ConfirmDialog_confirmed", ["buy"])
 
 
 func _on_EditButton_pressed():
-	ScreenManager.show_edit_listing_dialog(
-		ScreenManager.DIALOG_EDIT_LISTING_ITEM, self_listing_cont.last_selected.listing
-	)
+	var dialog = ScreenManager.show_small_dialog(ScreenManager.DIALOG_EDIT_LISTING_ITEM)
+	dialog.set_last_price(self_listing_cont.last_selected.listing.price)
+	dialog.connect("result", self, "_on_edit_dialog_result")
 
+func _on_edit_dialog_result(price: int) -> void:
+	MarketplaceManager.edit_listing(self_listing_cont.last_selected.listing, price)
 
 func _on_CancelButton_pressed():
-	$DeleteListingItemDialog.visible = true
+	var dialog = ScreenManager.show_confirm_dialog("Cancel this listing?")
+	if dialog.is_connected("confirmed", self, "_on_ConfirmDialog_confirmed"):
+		dialog.disconnect("confirmed", self, "_on_ConfirmDialog_confirmed")
+	dialog.connect("confirmed", self, "_on_ConfirmDialog_confirmed", ["cancel"])
 
 
-func _on_delete_listingDialog_confirmed():
-	MarketplaceManager.delete_listing(self_listing_cont.last_selected.listing)
+func _on_ConfirmDialog_confirmed(type: String):
+	match type:
+		"buy":
+			MarketplaceManager.buy_equipment(listing_cont.last_selected.listing)
+		"cancel":
+			MarketplaceManager.delete_listing(self_listing_cont.last_selected.listing)
 
 
 func _on_TabContainer_tab_changed(tab: int):

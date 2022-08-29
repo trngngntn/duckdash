@@ -11,6 +11,8 @@ var sub_type: String
 var tier: String setget set_tier, get_tier
 var stat: Array
 
+signal list
+
 
 func set_type_name(_type_name: String) -> void:
 	type_name = _type_name
@@ -25,3 +27,9 @@ func get_tier() -> String:
 		return "BASIC"
 	else:
 		return tier
+
+
+func list():
+	emit_signal("list")
+	EquipmentManager.equipment_list[type_name].erase(self)
+	EquipmentManager.equipped[type_name].erase(self)

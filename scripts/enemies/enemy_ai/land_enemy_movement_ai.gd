@@ -48,7 +48,7 @@ func update_dir() -> void:
 
 
 func on_NavTimer_timeout() -> void:
-	if not active:
+	if not active && not is_instance_valid(enemy):
 		return
 	if enemy.target.position.distance_squared_to(last_target) > 40000:
 		last_target = enemy.target.position

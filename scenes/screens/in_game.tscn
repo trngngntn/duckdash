@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://scripts/screens/in_game.gd" type="Script" id=1]
 [ext_resource path="res://scripts/screens/in_game/game_camera.gd" type="Script" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://scripts/screens/in_game/in_game_stat_panel.gd" type="Script" id=17]
 [ext_resource path="res://scripts/screens/in_game/in_game_test_stat.gd" type="Script" id=18]
 [ext_resource path="res://scripts/screens/in_game/in_game_dash_button.gd" type="Script" id=19]
+[ext_resource path="res://scripts/screens/in_game/player_marker_control.gd" type="Script" id=20]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 20.0
@@ -53,12 +54,13 @@ margin_bottom = 60.0
 margin_top = 70.0
 
 [node name="PlayerMarkerCont" type="Control" parent="CanvasLayer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 300.0
-margin_top = 150.0
-margin_right = -300.0
-margin_bottom = -150.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+script = ExtResource( 20 )
+
+[node name="Cont" type="Node2D" parent="CanvasLayer/PlayerMarkerCont"]
 
 [node name="MenuButton" type="TextureButton" parent="CanvasLayer"]
 anchor_left = 1.0

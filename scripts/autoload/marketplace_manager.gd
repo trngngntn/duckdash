@@ -1,41 +1,22 @@
 extends Node
 
-onready var self_instance = self
+var listing_items: Dictionary = {"listing": {}, "self_listing": {}}
 
-signal update_marketplace
+signal listing_updated
+signal self_listing_updated
 
-var listing_items: Dictionary = {
-	"market": [],
-	"listing": []	
-}
+signal listing_added(type, new_listing)
+signal listing_deleted(type, id)
+
 
 func _init() -> void:
-	var _d := Conn.connect("session_connected", self, "_on_session_created")
-	_d = Conn.connect("session_changed", self, "_on_session_changed")
-
-func list_equipment_to_market(equipment: Equipment, price: int) -> void:
-	if Conn.nkm_session == null or Conn.nkm_session.is_expired():
-		Conn.renew_session()
-		yield(Conn, "session_changed")
-		if Conn.nkm_session == null:
-			NotificationManager.show_custom_notification("Error", "Session error!")
-			ScreenManager.change_screen(ScreenManager.SCREEN_LOGIN, false)
-			return
-
-	var payload = {"equipmentHash": equipment.raw, "price": price}
-	var response: NakamaAPI.ApiRpc = yield(
-		Conn.nkm_client.rpc_async(Conn.nkm_session, "list_an_item_to_market", JSON.print(payload)),
-		"completed"
-	)
-	if response.is_exception():
-		NotificationManager.show_custom_notification("Error", response.get_exception().message)
-		return null
-
-	NotificationManager.show_custom_notification("Success", "Listing item to marketplace success")
-	reload_marketplace()
+	Conn.connect("session_connected", self, "_on_session_created")
+	Conn.connect("notif_listing_updated", self, "_on_listing_updated")
 
 
 func fetch_listings():
+	listing_items = {"listing": {}, "self_listing": {}}
+
 	if Conn.nkm_session == null or Conn.nkm_session.is_expired():
 		Conn.renew_session()
 		yield(Conn, "session_changed")
@@ -56,12 +37,35 @@ func fetch_listings():
 	var result = JSON.parse(response.payload).result
 	for item in result:
 		if item.my_listing:
-			listing_items["listing"].append(Listing.new(item))
+			listing_items["self_listing"][item["id"]] = Listing.new(item)
 		else:
-			listing_items["market"].append(Listing.new(item))
+			listing_items["listing"][item["id"]] = Listing.new(item)
+
 
 func get_listings():
 	return listing_items
+
+
+func list_equipment(equipment: Equipment, price: int) -> void:
+	if Conn.nkm_session == null or Conn.nkm_session.is_expired():
+		Conn.renew_session()
+		yield(Conn, "session_changed")
+		if Conn.nkm_session == null:
+			NotificationManager.show_custom_notification("Error", "Session error!")
+			ScreenManager.change_screen(ScreenManager.SCREEN_LOGIN, false)
+			return
+
+	var payload = {"equipmentHash": equipment.raw, "price": price}
+	var response: NakamaAPI.ApiRpc = yield(
+		Conn.nkm_client.rpc_async(Conn.nkm_session, "list_an_item_to_market", JSON.print(payload)),
+		"completed"
+	)
+	if response.is_exception():
+		NotificationManager.show_custom_notification("Error", response.get_exception().message)
+		return null
+	equipment.list()
+	NotificationManager.show_custom_notification("Success", "Listing item to marketplace success")
+
 
 func buy_equipment(listing_item: Listing):
 	if Conn.nkm_session == null or Conn.nkm_session.is_expired():
@@ -80,11 +84,10 @@ func buy_equipment(listing_item: Listing):
 	if response.is_exception():
 		NotificationManager.show_custom_notification("Error", response.get_exception().message)
 		return null
-
+	var equipment = listing_item.equipment
+	EquipmentManager.equipment_list[equipment.type_name].append(equipment)
 	NotificationManager.show_custom_notification("Success", "Buy item success")
-	EquipmentManager.reload_inventory()
-	reload_marketplace()
-	WalletManager.fetch_wallet(Conn.nkm_session)
+
 
 func edit_listing(listing_item: Listing, price: int):
 	if Conn.nkm_session == null or Conn.nkm_session.is_expired():
@@ -105,8 +108,7 @@ func edit_listing(listing_item: Listing, price: int):
 		return null
 
 	NotificationManager.show_custom_notification("Success", "Edit listing item success")
-	reload_marketplace()
-	emit_signal("update_marketplace")
+
 
 func delete_listing(listing_item: Listing):
 	if Conn.nkm_session == null or Conn.nkm_session.is_expired():
@@ -125,22 +127,41 @@ func delete_listing(listing_item: Listing):
 	if response.is_exception():
 		NotificationManager.show_custom_notification("Error", response.get_exception().message)
 		return null
-
+	var equipment = listing_item.equipment
+	EquipmentManager.equipment_list[equipment.type_name].append(equipment)
 	NotificationManager.show_custom_notification("Success", "Delete listing item success")
+
 
 # CALLBACKS
 func _on_session_created(_d) -> void:
 	fetch_listings()
 
-func _on_session_changed(_d) -> void:
-	listing_items = {
-		"market": [],
-		"listing": []
-	}
 
-func reload_marketplace():
-	listing_items = {
-		"market": [],
-		"listing": []
-	}
-	fetch_listings()
+func _on_listing_updated(content: String) -> void:
+	print("[LOG][MARKET_MAN]Listing updated notif from server")
+	var listing = JSON.parse(content).result
+	## new listing addeds
+	if listing.has("user_id"):
+		var new_listing = Listing.new(listing)
+		if Conn.nkm_session.user_id == listing["user_id"]:
+			listing_items["self_listing"][listing["id"]] = new_listing
+			print("[LOG][MARKET_MAN]Self isting added")
+			emit_signal("listing_added", "self_listing", new_listing)
+		else:
+			listing_items["listing"][listing["id"]] = new_listing
+			print("[LOG][MARKET_MAN]Listing added")
+			emit_signal("listing_added", "listing", new_listing)
+
+	## listing edited
+	else:
+		for key in listing_items.keys():
+			if listing_items[key].has(listing["id"]):
+				if listing["price"] == -1:
+					listing_items[key][listing["id"]].delete()
+					listing_items[key].erase(listing["id"])
+					print("[LOG][MARKET_MAN]Deleted " + key)
+					emit_signal("listing_deleted", key, listing["id"])
+				else:
+					listing_items[key][listing["id"]].price = listing["price"]
+					print("[LOG][MARKET_MAN]Update price " + key)
+				emit_signal(key + "_updated")

@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/ui/button_equip.gd"
 }, {
+"base": "Control",
+"class": "ConfirmDialog",
+"language": "GDScript",
+"path": "res://scripts/ui/confirm_dialog.gd"
+}, {
 "base": "Node",
 "class": "DDMatch",
 "language": "GDScript",
@@ -288,6 +293,7 @@ _global_script_class_icons={
 "AtkInfo": "",
 "AutoPickUpItem": "",
 "ButtonEquip": "",
+"ConfirmDialog": "",
 "DDMatch": "",
 "DashShadow": "",
 "Dialog": "",

@@ -127,18 +127,26 @@ func craft_equipment(type: String) -> Equipment:
 
 		return equipment
 
+var is_fetching: bool = false
 
 func get_inventory():
+	if is_fetching:
+		return
+	else:
+		is_fetching = true
+	equipment_list = {
+		"skill_caster": [],
+		"enhancer": [],
+	}
 	var response: NakamaAPI.ApiRpc = yield(
 		Conn.nkm_client.rpc_async(Conn.nkm_session, "get_inventory"), "completed"
 	)
 	if response.is_exception():
 		print("An error occurred: %s" % response)
-		return null
 	else:
 		# print(response.payload)
 		var result = JSON.parse(response.payload).result
-
+		print("[LOG][EQ_MAN]]Fetch inventory")
 		for type in result.keys():
 			for raw_eq in result[type]:
 				var equipment = dict2equipment(raw_eq)
@@ -147,6 +155,7 @@ func get_inventory():
 						equipment_list[type].append(SkillCaster.new(equipment))
 					"enhancer":
 						equipment_list[type].append(Enhancer.new(equipment))
+	is_fetching = false
 
 func GetEquipmentDetail(raw: String) -> Equipment:
 	if Conn.nkm_session == null or Conn.nkm_session.is_expired():
@@ -171,15 +180,13 @@ func GetEquipmentDetail(raw: String) -> Equipment:
 
 
 func reload_inventory():
-	equipment_list = {
-		"skill_caster": [],
-		"enhancer": [],
-	}
+	print("[LOG][EQ_MAN]Reload inventory")
 	get_inventory()
 
 
 # CALLBACKS
 func _on_session_created(_d) -> void:
+	print("[LOG][EQ_MAN]Reload inventory on session created")
 	get_inventory()
 
 

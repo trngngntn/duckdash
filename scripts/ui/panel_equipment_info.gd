@@ -103,4 +103,9 @@ func _on_EquipButton_pressed():
 	$ButtonCont/EquipButton.hide()
 
 func _on_SellButton_pressed():
-	ScreenManager.show_sell_item_dialog(ScreenManager.DIALOG_SELL_ITEM, equipment)
+	ScreenManager.show_small_dialog(ScreenManager.DIALOG_SELL_ITEM).connect("result", self, "_on_sell_dialog_result")
+
+func _on_sell_dialog_result(price: int) -> void:
+	MarketplaceManager.list_equipment(equipment, price)
+	# hide()
+	

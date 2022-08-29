@@ -27,6 +27,7 @@ onready var screen: Node = main.get_node("Screen")
 onready var ui: CanvasLayer = main.get_node("UI")
 onready var dialog: Dialog = main.get_node("UI/Dialog")
 onready var small_dialog: Dialog = main.get_node("UI/SmallDialog")
+onready var confirm_dialog: ConfirmDialog = main.get_node("UI/ConfirmDialog")
 
 onready var self_instance = self
 
@@ -48,22 +49,6 @@ func show_small_dialog(screen_res: Resource) -> Node:
 	small_dialog.set_title(str(scrn.get("TITLE")))
 	small_dialog.show()
 	return scrn
-	
-func show_sell_item_dialog(screen_res: Resource, equipment: Equipment) -> Node:
-	var scrn = screen_res.instance()
-	scrn.setEquipmentHash(equipment)
-	small_dialog.append_node(scrn)
-	small_dialog.set_title(str(scrn.get("TITLE")))
-	small_dialog.show()
-	return scrn
-	
-func show_edit_listing_dialog(screen_res: Resource, listing: Listing) -> Node:
-	var scrn = screen_res.instance()
-	scrn.set_lising(listing)
-	small_dialog.append_node(scrn)
-	small_dialog.set_title(str(scrn.get("TITLE")))
-	small_dialog.show()
-	return scrn
 
 func show_screen_dialog(screen_res: Resource) -> Node:
 	var scrn = screen_res.instance()
@@ -71,6 +56,11 @@ func show_screen_dialog(screen_res: Resource) -> Node:
 	dialog.set_title(str(scrn.get("TITLE")))
 	dialog.show()
 	return scrn
+
+func show_confirm_dialog(message: String) -> ConfirmDialog:
+	confirm_dialog.message = message
+	confirm_dialog.show()
+	return confirm_dialog
 
 func change_screen(screen_res: Resource, go_back := true) -> Node:
 	main.init()

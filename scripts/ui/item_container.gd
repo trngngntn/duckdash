@@ -25,6 +25,7 @@ func add_item(item: Equipment) -> void:
 	var new_item = item_res.instance()
 	new_item.equipment = item
 	new_item.connect("selected", self, "_on_item_selected")
+	item.connect("list", self, "unselect")
 	$Margin/GridContainer.add_child(new_item)
 
 
@@ -51,6 +52,7 @@ func _on_item_selected(item: InventoryItem) -> void:
 	else:
 		emit_signal("item_cleared")
 		last_selected = null
+
 
 func unselect() -> void:
 	if last_selected:

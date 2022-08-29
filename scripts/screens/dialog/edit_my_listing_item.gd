@@ -4,20 +4,23 @@ var TITLE = "Enter your price: (gold)"
 
 var listing
 
-func set_lising(_listing: Listing):
-	listing= _listing
-	$VBoxContainer/PriceInput.text = str(listing.price)
+signal result(price)
 
-func _ready():
-	pass # Replace with function body.
+func set_last_price(price: int):
+	$VBoxContainer/PriceInput.text = str(price)
+
 
 func _on_SubmitButton_pressed():
 	var price = $VBoxContainer/PriceInput.text
 	if !price || !price.is_valid_integer():
 		NotificationManager.show_custom_notification("Error", "Please enter valid price!")
 	else:
-		$ConfirmationDialog.visible = true
+		ScreenManager.show_confirm_dialog("Change listing price to %d gold?" % int(price)).connect(
+			"confirmed", self, "_on_ConfirmDialog_confirmed"
+		)
 
-func _on_ConfirmationDialog_confirmed():
+
+func _on_ConfirmDialog_confirmed():
 	var price = $VBoxContainer/PriceInput.text
-	MarketplaceManager.edit_listing(listing, int(price))
+	emit_signal("result", int(price))
+	ScreenManager.small_dialog.hide()

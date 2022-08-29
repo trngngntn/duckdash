@@ -4,11 +4,12 @@ onready var self_instance = self
 
 var nkm_server_key: String = "duckdash_nakama"
 # var nkm_host: String = "10.144.0.2"
-var nkm_host: String = "minorcircus.duckdns.org"
+var nkm_host: String = "duckdash.duckdns.org"
 var nkm_port: int = 7350
 var nkm_scheme: String = "http"
 
 enum NotificationCode {
+	LISTING_UPDATED = 11,
 	WALLET_UPDATED = 10,
 	RESERVED = 0,
 	FRIEND_REQUEST_RECEIVED = -2,
@@ -114,6 +115,7 @@ func _on_NakamaSocket_closed() -> void:
 
 
 signal notif_wallet_updated(content)
+signal notif_listing_updated(content)
 
 # Handle notification by code
 func _on_notification(notification: NakamaAPI.ApiNotification):
@@ -122,6 +124,8 @@ func _on_notification(notification: NakamaAPI.ApiNotification):
 			emit_signal("received_friend_request_notification", notification)
 		NotificationCode.WALLET_UPDATED:
 			emit_signal("notif_wallet_updated", notification.content)
+		NotificationCode.LISTING_UPDATED:
+			emit_signal("notif_listing_updated", notification.content)
 
 
 # Called when the socket was connected.

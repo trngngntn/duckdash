@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://resources/ui_theme.tres" type="Theme" id=1]
 [ext_resource path="res://scripts/screens/dialog/edit_my_listing_item.gd" type="Script" id=2]
+[ext_resource path="res://assets/sprites/static/ui/ui_icon_coin.png" type="Texture" id=3]
 
 [node name="Dialog" type="Control"]
 anchor_right = 1.0
@@ -25,6 +26,17 @@ margin_right = 500.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 0, 80 )
 
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/PriceInput"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -72.0
+margin_top = -24.0
+margin_right = -24.0
+margin_bottom = 24.0
+texture = ExtResource( 3 )
+
 [node name="SubmitButton" type="Button" parent="VBoxContainer"]
 margin_top = 130.0
 margin_right = 500.0
@@ -32,16 +44,4 @@ margin_bottom = 210.0
 rect_min_size = Vector2( 0, 80 )
 text = "Submit"
 
-[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -197.0
-margin_top = -65.0
-margin_right = 197.0
-margin_bottom = 65.0
-dialog_text = "Confirm to edit your listing price?"
-
 [connection signal="pressed" from="VBoxContainer/SubmitButton" to="." method="_on_SubmitButton_pressed"]
-[connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_ConfirmationDialog_confirmed"]

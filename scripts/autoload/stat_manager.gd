@@ -125,15 +125,33 @@ func _init() -> void:
 	Conn.connect("session_connected", self, "_on_session_created")
 	Updater.connect("timeout", self, "_on_update_timeout")
 
+signal base_stat_fetched
+func fetch_player_base_stat() -> void:
+	if Conn.nkm_session == null or Conn.nkm_session.is_expired():
+		Conn.renew_session()
+		yield(Conn, "session_changed")
+		if Conn.nkm_session == null:
+			NotificationManager.show_custom_notification("Error", "Session error!")
+			ScreenManager.change_screen(ScreenManager.SCREEN_LOGIN, false)
+			return
+	var response: NakamaAPI.ApiRpc = yield(
+		Conn.nkm_client.rpc_async(Conn.nkm_session, "fetch_player_base_stat"), "completed"
+	)
+	if response.is_exception():
+		NotificationManager.show_custom_notification("Error", response.get_exception().message)
+		return null
+	else:
+		base_stat = StatValues.new().from_dict(JSON.parse(response.payload).result)
+	emit_signal("base_stat_fetched")
 
 # Calculate new stat from equipped equipment
 func calculate_stat() -> void:
-	base_stat = StatValues.new()
+	fetch_player_base_stat()
+	yield(self, "base_stat_fetched")
 
 	##  Get attack skill from equipment
 	var skill_caster = EquipmentManager.equipped["skill_caster"][0]
 	var inst = SkillCaster.SUB_TYPE[skill_caster.sub_type]["res"].instance()
-
 
 	base_stat.skill = skill_caster.sub_type
 	base_stat.atk_damage *= inst.mul_atk
@@ -143,7 +161,6 @@ func calculate_stat() -> void:
 	current_stat = base_stat.dup()
 	incr_stat = StatValues.new(false)
 
-	
 	## Calculate stats from equipment
 
 	for type in EquipmentManager.equipped.keys():
@@ -151,7 +168,10 @@ func calculate_stat() -> void:
 			for equipment in EquipmentManager.equipped[type]:
 				for stat in equipment.stat:
 					if stat is Modifier && stat.is_stacked:
-						var new_val = base_stat.get(stat.stat_id) * (stat.get_multiply_value() - 1) + current_stat.get(stat.stat_id)
+						var new_val = (
+							base_stat.get(stat.stat_id) * (stat.get_multiply_value() - 1)
+							+ current_stat.get(stat.stat_id)
+						)
 						current_stat.set(stat.stat_id, new_val)
 
 				for stat in equipment.stat:
