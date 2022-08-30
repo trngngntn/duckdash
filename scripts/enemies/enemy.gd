@@ -161,7 +161,7 @@ func frees() -> void:
 func hurt(raw_info: Dictionary) -> void:
 	var info: AtkInfo = AtkInfo.new().from_dict(raw_info)
 	sprite.material.set_shader_param("hurt", true)
-	spawn_dmgIndicator(info.dmg)	
+	spawn_dmgIndicator(info)	
 	hp -= info.dmg
 	if hp <= 0:
 		$EnemyHitboxArea/CollisionPolygon2D.set_deferred("disabled", true)
@@ -180,16 +180,29 @@ func spawn_effect(EFFECT: PackedScene, effect_position: Vector2 = global_positio
 		effect.global_position = effect_position
 		return effect
 
-func spawn_dmgIndicator(damage: float):
+func spawn_dmgIndicator(dame_info: AtkInfo):
 	var indicator = spawn_effect(DAMAGE_INDICATOR)
 	if indicator:
-		# indicator.label.set("custom_colors/font_color", Color(1, 0, 0))
-		indicator.label.text = str(round(damage))
+		var color = get_damage_color(dame_info.crit_tier)
+		indicator.label.set("custom_colors/font_color", color)
+		indicator.label.text = str(round(dame_info.dmg))
 
 func get_atk_info(peer_id: int) -> AtkInfo:
-	return AtkInfo.new().create(-1, peer_id, atk_dmg, [])
+	return AtkInfo.new().create(-1, peer_id, atk_dmg, [], {"mul": 1})
 
-
+func get_damage_color(tier: int) -> Color:
+	if tier >= 3:
+		return Color(1, 0, 0)
+	
+	match tier:
+		0:
+			return Color(1, 1, 1)
+		1:
+			return Color(1, 1, 0)
+		2:
+			return Color(1, 0.5, 0)
+		
+	return Color(1, 1, 1)
 #### Update states functions
 var updated: bool = false
 func _force_update(seq: int) -> void:

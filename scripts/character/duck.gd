@@ -99,7 +99,7 @@ func _physics_process(delta):
 
 
 func get_atk_info() -> AtkInfo:
-	return AtkInfo.new().create(get_network_master(), -1, stat.atk_damage, [])
+	return AtkInfo.new().create(get_network_master(), -1, stat.atk_damage, [], {"mul": 1})
 
 
 func attack() -> void:

@@ -47,7 +47,8 @@ func trigger(player: Node, dir: Vector2, info: AtkInfo, re_trigger: bool = false
 
 
 func gen_atk_info() -> AtkInfo:
-	return AtkInfo.new().create(peer_id, -1, StatManager.current_stat.atk_damage, [])
+	var crit_dict = Randomizer.get_crit_tier(StatManager.players_stat[peer_id].crit_chance, StatManager.players_stat[peer_id].crit_mul)
+	return AtkInfo.new().create(peer_id, -1, StatManager.current_stat.atk_damage, [], crit_dict)
 
 
 func _on_Area2D_area_entered(area: Area2D):
